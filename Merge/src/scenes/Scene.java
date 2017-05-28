@@ -8,7 +8,6 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import celestial.Asteroid;
-import celestial.CelestialBody;
 import celestial.CollisionDetector;
 import celestial.Force;
 import celestial.HostileShip;
@@ -20,10 +19,8 @@ import entities.Player;
 import fontMeshCreator.FontType;
 import game.Game;
 import gui.UI;
-import language.Language;
 import models.TexturedModel;
 import renderEngine.ResourceCache;
-import terrain.Terrain;
 import textures.ModelTexture;
 import utils.MousePicker;
 import utils.Timer;
@@ -37,11 +34,9 @@ public class Scene {
 	private List<Asteroid> allAsteroids;
 	private List<Planet> allPlanets;
 	private List<HostileShip> allHostile;
-	private List<Terrain> allTerrains;
 	private SceneLoader sceneLoader;
 	private List<Entity> allEntities;
-	private List<CelestialBody> allCelestialBodies;
-	private CollisionDetector cDetect;
+	public CollisionDetector cDetect;
 	private int mainLayerID;
 	private Force force;
 	private String currentLevel;
@@ -57,7 +52,6 @@ public class Scene {
 		isFinished = false;
 		allAsteroids = new ArrayList<Asteroid>();
 		allEntities = new ArrayList<Entity>();
-		allTerrains = new ArrayList<Terrain>();
 		allHostile = new  ArrayList<HostileShip>();
 		currentLevel = level;
 		init();
@@ -94,23 +88,17 @@ public class Scene {
 			
 		}
 		
-		for(int i=0;i<10;i++){
+		for(int i=0;i<10;i++){// float health, float speedMultiplier, int fireRate, float cash
 			allHostile.add(new HostileShip(new TexturedModel(ResourceCache.loadOBJ("planet", Game.loader),
 					new ModelTexture(ResourceCache.loadTexture("2", Game.loader))),
-			new Vector3f(-30000 + generator.nextInt(60000), 0, -30000 + generator.nextInt(60000)),
-			0, 0, 0, 100f, new Vector3f()));
+			new Vector3f(-15000 + generator.nextInt(30000), 0, -15000 + generator.nextInt(30000)),
+			0, 0, 0, 10f, new Vector3f(), 800f + (float)generator.nextInt(500), generator.nextInt(2) + generator.nextFloat(), 1, (float)generator.nextInt(500)));
 		}
-		 
+		 player.setModel(new TexturedModel(ResourceCache.loadOBJ("skybox", Game.loader),
+					new ModelTexture(ResourceCache.loadTexture("skyboxTex", Game.loader))));
 		
-		allCelestialBodies = new ArrayList<CelestialBody>(allPlanets.size() + allAsteroids.size() + lights.size() + 1);
 
-		allCelestialBodies.addAll(allPlanets);
-		allCelestialBodies.addAll(allAsteroids);
-		allCelestialBodies.addAll(lights);
-		allCelestialBodies.addAll(allHostile);
-		allCelestialBodies.add(player);
-
-		cDetect = new CollisionDetector(allCelestialBodies, allCelestialBodies.indexOf(player));
+		cDetect = new CollisionDetector(allPlanets, allAsteroids, lights, allHostile, player);
 		cDetect.start();
 		force = new Force(allPlanets, allAsteroids, lights);
 		force.start();
@@ -164,17 +152,14 @@ public class Scene {
 		if (isAboutEnd == 0) {
 
 			player.move();
-			camera.move();
+			
 		}
-
+		camera.move();
 		picker.update();
 		for (Planet planet : allPlanets) {
 			//planet.move();
 			//planet.rotateAround();
 			Game.renderer.proccessEntity(planet.getEntity());
-		}
-		for (Terrain terrain : allTerrains) {
-			Game.renderer.proccessTerrain(terrain);
 		}
 
 		for (Asteroid asteroid : allAsteroids) {
@@ -211,7 +196,7 @@ public class Scene {
 			isAboutEnd = -1;
 			System.out.println("aa");
 			endTime = (float) Timer.getCurrentFakeTime();
-		} else if (isAboutEnd == -1 && Timer.getCurrentFakeTime() - endTime > 2) {
+		} else if (isAboutEnd == -1 && Timer.getCurrentFakeTime() - endTime > 5) {
 			isFinished = true;
 		}
 

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.joml.Vector3f;
 
+import entities.Player;
 import scenes.Scene;
 
 public class CollisionDetector implements Runnable {
@@ -13,10 +14,24 @@ public class CollisionDetector implements Runnable {
 	private List<CelestialBody> bodies;
 	private boolean isRunning =false;
 	private int playerID;
-
-	public CollisionDetector(List<CelestialBody> bodies, int playerID) {
-		this.bodies = bodies;
-		this.playerID = playerID;
+	List<Planet> planets;
+	List<Asteroid> asteroids;
+	List<Light> lights;
+	List<HostileShip> hostile;
+	
+	public CollisionDetector(List<Planet> planets, List<Asteroid> asteroids,List<Light> lights,List<HostileShip> hostile , Player player) {
+		bodies = new ArrayList<CelestialBody>(planets.size()  + asteroids.size() + lights.size() + hostile.size() + 1);
+		this.planets = planets;
+		this .asteroids = asteroids;
+		this.lights = lights;
+		this.hostile = hostile;
+		
+		bodies.addAll(planets);
+		bodies.addAll(asteroids);
+		bodies.addAll(lights);
+		bodies.addAll(hostile);
+		bodies.add(player);
+		
 	}
 
 	public boolean checkCollision(CelestialBody a, CelestialBody b) {
@@ -37,6 +52,20 @@ public class CollisionDetector implements Runnable {
 		t1.setDaemon(true);
 		t1.start();
 	}
+	public boolean removeBody(CelestialBody body){
+		if(asteroids.indexOf(body) != -1){
+			asteroids.remove(asteroids.indexOf(body));
+			bodies.remove(bodies.indexOf(body));
+			return true;
+		}else if(hostile.indexOf(body) != -1){
+			hostile.remove(hostile.indexOf(body));
+			bodies.remove(bodies.indexOf(body));
+			return true;
+		}else{
+			return false;
+		}
+		
+	}
 	
 	public synchronized void checkCollisions(){
 		while (isRunning) {
@@ -47,7 +76,11 @@ public class CollisionDetector implements Runnable {
 							isRunning = false;
 							Scene.isAboutEnd = 1;
 						}else{
-
+							if(!removeBody(bodies.get(i))){
+								removeBody(bodies.get(j));
+							}else{
+								
+							}
 						}
 					}
 				}
@@ -55,15 +88,7 @@ public class CollisionDetector implements Runnable {
 		}
 	}
 	
-	
-	public void sleep(){
-		try {
-			t1.wait();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+
 	
 	public void wakeup(){
 		t1.notify();

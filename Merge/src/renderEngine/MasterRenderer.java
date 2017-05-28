@@ -19,26 +19,20 @@ import game.Game;
 import models.TexturedModel;
 import scenes.SceneLoader;
 import shaders.StaticShader;
-import terrain.Terrain;
-import terrain.TerrainShader;
 
 public class MasterRenderer {
 
 	private static final float FOV = 60; // I see a great potential here :D
 	private static final float NEAR_PLANE = 0.1f;
 	private static final float FAR_PLANE = 900000000f; // sorry :(
-	private static final float RED = 0.2f;
-	private static final float GREEN = 0.2f;
-	private static final float BLUE = 0.5f;
+	
+	
 	private Matrix4f projectionMatrix;
 
 	private boolean instanceRendererPrepared = false;
 
 	// main shader
 	private StaticShader shader = new StaticShader();
-
-	// terrain shader - currently not used
-	private TerrainShader terrainShader = new TerrainShader();
 
 	// skybox shader - gets cube texture and produces sky (or stars)
 	private SkyboxRenderer skyboxRenderer;
@@ -48,18 +42,13 @@ public class MasterRenderer {
 
 	private InstanceRenderer instanceRenderer;
 
-	// renderer for terrains
-	private TerrainRenderer terrainRenderer;
-
 	// Map of all entities of all kindMap<TexturedModel, List<Entity>> entities
 	private Map<TexturedModel, List<Entity>> entities = new HashMap<TexturedModel, List<Entity>>();
-	private List<Terrain> terrains = new ArrayList<Terrain>();
 
 	public MasterRenderer(Loader loader, SceneLoader sceneLoader) {
 		createProjectionMatrix();
 		enableCulling();
 		renderer = new EntityRenderer(shader, projectionMatrix);
-		terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
 		skyboxRenderer = new SkyboxRenderer(loader, projectionMatrix, sceneLoader.getSkyboxTextureNames());
 		instanceRenderer = new InstanceRenderer(loader, projectionMatrix);
 	}
@@ -80,7 +69,6 @@ public class MasterRenderer {
 		shader.start();
 		// load data into shader
 		shader.loadLights(lights);
-		shader.loadSkyColor(RED, GREEN, BLUE);
 		shader.loadViewMatrix(camera);
 		renderer.render(entities);
 		shader.stop();
@@ -88,24 +76,12 @@ public class MasterRenderer {
 
 		instanceRenderer.render(camera, lights);
 
-		terrainShader.start();
-		// load data into shader
-		terrainShader.loadSkyColor(RED, GREEN, BLUE);
-		terrainShader.loadLights(lights);
-		terrainShader.loadViewMatrix(camera);
-		terrainRenderer.render(terrains);
-		terrainShader.stop();
-		terrains.clear();
 		skyboxRenderer.render(camera);
 
 	}
 
 	public void render(Camera camera) {
 		prepare();
-	}
-
-	public void proccessTerrain(Terrain terrain) {
-		terrains.add(terrain);
 	}
 
 	public void proccessEntity(Entity entity) {
@@ -136,15 +112,12 @@ public class MasterRenderer {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		// disable this if you are high
 		glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-		// isn't needed whilst entire screen is used as render target. Let it
-		// be!
-		GL11.glClearColor(RED, GREEN, BLUE, 1.0f);
+
 
 	}
 
 	public void cleanUp() {
 		shader.cleanUp();
-		terrainShader.cleanUp();
 	}
 
 	private void createProjectionMatrix() {

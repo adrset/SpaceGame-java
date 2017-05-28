@@ -21,11 +21,10 @@ public class StaticShader extends ShaderProgram{
 	private int location_shineDamper;
 	private int location_reflectivity;
 	private int location_useFakeLight;
-	private int location_skyColor;
 	
-	private static final String VERTEX_FILE = "/shaders/vertexShader.txt";
-	private static final String FRAGMENT_FILE = "/shaders/fragmentShader.txt";
-	public StaticShader(/*String vertexFilePath, String fragmentFilePath*/){
+	private static final String VERTEX_FILE = "/shaders/mainShader.vert";
+	private static final String FRAGMENT_FILE = "/shaders/mainShader.frag";
+	public StaticShader(){
 		super(VERTEX_FILE, FRAGMENT_FILE);
 		
 	}
@@ -45,7 +44,6 @@ public class StaticShader extends ShaderProgram{
 	  location_shineDamper = super.getUniformLocation("shineDamper");
 	  location_reflectivity = super.getUniformLocation("reflectivity");
 	  location_useFakeLight = super.getUniformLocation("useFakeLight");
-	  location_skyColor = super.getUniformLocation("skyColor");
 
 	  location_lightPosition = new int[MAX_LIGHTS];
 	  location_lightColor = new int[MAX_LIGHTS];
@@ -63,10 +61,6 @@ public class StaticShader extends ShaderProgram{
         super.loadMatrix(location_transformationMatrix, matrix);
         
     }
-	
-	public void loadSkyColor(float r, float g, float b){
-		super.loadVector(location_skyColor, new Vector3f(r,g,b));
-	}
 	
 	public void loadFakeLight(boolean use){
 		super.loadBoolean(location_useFakeLight, use);
