@@ -18,7 +18,7 @@ public class Player extends CelestialBody {
 	float val = 0;
 	float val2 = 0;
 	private static final float RUN_SPEED = 20;
-	private static final float MAX_SPEED = 3000f;
+	private static final float MAX_SPEED = 30000f;
 	private static final float ROTATE_SPEED = 30;
 
 	public Player(TexturedModel model, Vector3f position, float rotationX, float rotationY, float rotationZ, Vector3f velocity,float speed,

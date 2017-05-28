@@ -13,11 +13,11 @@ public class CollisionDetector implements Runnable {
 	private Thread t1;
 	private List<CelestialBody> bodies;
 	private boolean isRunning =false;
-	private int playerID;
 	List<Planet> planets;
 	List<Asteroid> asteroids;
 	List<Light> lights;
 	List<HostileShip> hostile;
+	Player player;
 	
 	public CollisionDetector(List<Planet> planets, List<Asteroid> asteroids,List<Light> lights,List<HostileShip> hostile , Player player) {
 		bodies = new ArrayList<CelestialBody>(planets.size()  + asteroids.size() + lights.size() + hostile.size() + 1);
@@ -25,7 +25,7 @@ public class CollisionDetector implements Runnable {
 		this .asteroids = asteroids;
 		this.lights = lights;
 		this.hostile = hostile;
-		
+		this.player = player;
 		bodies.addAll(planets);
 		bodies.addAll(asteroids);
 		bodies.addAll(lights);
@@ -72,7 +72,8 @@ public class CollisionDetector implements Runnable {
 			for (int i = 0; i < bodies.size(); i++) {
 				for (int j = i+1; j < bodies.size(); j++) {
 					if( i !=j && checkCollision(bodies.get(i), bodies.get(j))){
-						if(i == playerID || j == playerID){
+						System.out.println(i + ": " + j);
+						if(i == bodies.indexOf(player) || j == bodies.indexOf(player)){
 							isRunning = false;
 							Scene.isAboutEnd = 1;
 						}else{

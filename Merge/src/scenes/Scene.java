@@ -93,10 +93,7 @@ public class Scene {
 					new ModelTexture(ResourceCache.loadTexture("2", Game.loader))),
 			new Vector3f(-15000 + generator.nextInt(30000), 0, -15000 + generator.nextInt(30000)),
 			0, 0, 0, 10f, new Vector3f(), 800f + (float)generator.nextInt(500), generator.nextInt(2) + generator.nextFloat(), 1, (float)generator.nextInt(500)));
-		}
-		 player.setModel(new TexturedModel(ResourceCache.loadOBJ("skybox", Game.loader),
-					new ModelTexture(ResourceCache.loadTexture("skyboxTex", Game.loader))));
-		
+		}	
 
 		cDetect = new CollisionDetector(allPlanets, allAsteroids, lights, allHostile, player);
 		cDetect.start();
