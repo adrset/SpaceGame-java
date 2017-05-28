@@ -1,0 +1,11 @@
+{
+  "supportedVersion" : "1.0",
+  "language" : "polish",
+  "sentences" : {
+    "menu_play" : "Graj",
+    "menu_preferences" : "Ustawienia",
+    "menu_exit" : "WyjdŸ",
+	"glfw_init_failed" : "Nie mo¿na zainicjalizowaæ GLFW!",
+	"glfw_version" : "Wersja LWJGL:"
+  }
+}
