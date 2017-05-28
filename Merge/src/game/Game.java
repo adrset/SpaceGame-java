@@ -17,6 +17,7 @@ import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
+import audio.AudioManager;
 import gui.Menu;
 import input.Keyboard;
 import input.Mouse;
@@ -35,6 +36,8 @@ public class Game implements Runnable {
 	public static MasterRenderer renderer;
 	private static boolean vSync;
 	private static int multiSampling;
+	private Scene scene;
+	private SceneLoader sceneLoader;
 
 	public Game(String name, int desiredWidth, int desiredHeight, boolean mode) {
 		this.mode = mode;
@@ -93,6 +96,8 @@ public class Game implements Runnable {
 		glfwSetScrollCallback(window, Mouse.mouseScroll);
 		glfwSetMouseButtonCallback(window, Mouse.mouseButtons);
 		// SceneLoader sceneLoader = new SceneLoader();
+		
+		AudioManager.init();
 	}
 
 	public static void setMultiSampling(int amount) {
@@ -141,8 +146,8 @@ public class Game implements Runnable {
 		loader = new Loader();
 
 		// loads levels
-		SceneLoader sceneLoader = new SceneLoader();
-		Scene scene = new Scene(sceneLoader, "level1");
+		sceneLoader = new SceneLoader();
+		scene = new Scene(sceneLoader, "level1");
 
 		// A master that grabs all its renderers and rules them
 		renderer = new MasterRenderer(loader, sceneLoader);
@@ -169,15 +174,15 @@ public class Game implements Runnable {
 			glfwSwapBuffers(window);
 
 		}
-
-		// cleanup the scene
-		scene.cleanUp();
+		
 		cleanUp();
 	}
 
 	private void cleanUp() {
+		scene.cleanUp();
 		renderer.cleanUp();
 		loader.cleanUp();
+		AudioManager.cleanUp();
 	}
 
 	private void close() {

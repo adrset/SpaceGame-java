@@ -4,6 +4,8 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
+import audio.AudioManager;
+import audio.AudioSource;
 import fontMeshCreator.FontType;
 import fontMeshCreator.GUIText;
 import fontRendering.Text;
@@ -32,6 +34,8 @@ public class Button {
 	private GUIText guiText;
 	private Text textPrint;
 	private ButtonClick obj;
+	private static AudioSource source =new AudioSource(new Vector3f());
+	private static int sound =  AudioManager.loadSound("res/audio/click.wav");
 
 	public Button(int textureID, int textureID2, Vector2f position, Vector2f scale, String text, FontType font,
 			Text textPrint, int menuID) {
@@ -76,6 +80,7 @@ public class Button {
 
 		if (isMouseOver() && Menu.getCurrentLayerID() == menuID) {
 			if (MouseButtons.getButtonPressedOnce(GLFW.GLFW_MOUSE_BUTTON_1) == 1) {
+				source.play(sound);
 				obj.buttonIsClicked();
 			}
 		}

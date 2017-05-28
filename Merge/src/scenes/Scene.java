@@ -7,6 +7,8 @@ import java.util.Random;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
+import audio.AudioManager;
+import audio.AudioSource;
 import celestial.Asteroid;
 import celestial.CollisionDetector;
 import celestial.Force;
@@ -46,7 +48,7 @@ public class Scene {
 	public static boolean isUiVisible = true;
 	public static int isAboutEnd = 0;
 	private float endTime = 0;
-
+	private AudioSource source;
 	public Scene(SceneLoader sceneLoader, String level) {
 		this.sceneLoader = sceneLoader;
 		isFinished = false;
@@ -100,6 +102,11 @@ public class Scene {
 		force = new Force(allPlanets, allAsteroids, lights);
 		force.start();
 		camera = new Camera3D(player);
+		AudioManager.setListenerData(player.getPosition(), player.getVelocity());
+		
+		int b = AudioManager.loadSound("res/audio/b.wav");
+		source = new AudioSource(new Vector3f());
+		source.play(b);
 	}
 
 	public void init() {
