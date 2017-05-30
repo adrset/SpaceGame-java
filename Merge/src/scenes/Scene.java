@@ -26,6 +26,7 @@ import renderEngine.ResourceCache;
 import textures.ModelTexture;
 import utils.MousePicker;
 import utils.Timer;
+import weaponry.Weapon;
 
 public class Scene {
 
@@ -68,7 +69,9 @@ public class Scene {
 		lights = sceneLoader.getLights();
 
 		player = sceneLoader.getPlayer();
-
+		player.setWeapon(new Weapon("Gun", 1, allHostile, 120, 100, new TexturedModel(ResourceCache.loadOBJ("b2", Game.loader),
+				new ModelTexture(ResourceCache.loadTexture("tex", Game.loader))), player.getPosition(), 0.01f));
+		Game.renderer.setPlayer(player);
 
 		Random generator = new Random();
 		for (int i = 0; i < 1; i++) {
@@ -125,14 +128,19 @@ public class Scene {
 		ui.getLayer(mainLayerID).addText("fps", 1.0f, arial, new Vector2f(0, 0), 0.3f, false);
 		ui.getLayer(mainLayerID).addText("Speed", 1.0f, arial, new Vector2f(0, 0.96f), 0.5f, false);
 		ui.getLayer(mainLayerID).addText("Location", 1.0f, arial, new Vector2f(0f, 0.92f), 0.5f, false);
-		ui.getLayer(mainLayerID).addText("Time", 1.0f, arial, new Vector2f(0.9f, 0.92f), 0.5f, false);
+		ui.getLayer(mainLayerID).addText("Inertia dampeners: OFF", 1.0f, arial, new Vector2f(0f, 0.88f), 0.5f, false);
+		ui.getLayer(mainLayerID).addText("Ammo: ", 1.0f, arial, new Vector2f(0.9f, 0.92f), 0.5f, false);
 		ui.getLayer(mainLayerID).getGuiText(0).setColor(1, 1, 1);
 		ui.getLayer(mainLayerID).getGuiText(1).setColor(1, 1, 1);
 		ui.getLayer(mainLayerID).getGuiText(2).setColor(1, 1, 1);
 		ui.getLayer(mainLayerID).getGuiText(3).setColor(1, 1, 1);
+		ui.getLayer(mainLayerID).getGuiText(4).setColor(1, 1, 1);
 		ui.getLayer(mainLayerID).addButton(Game.loader.loadTexture("GUI3"), Game.loader.loadTexture("GUI3"),
-				new Vector2f(-0.85f, -0.9f), new Vector2f(0.15f, 0.1f),"", arial);
+				new Vector2f(-0.82f, -0.87f), new Vector2f(0.18f, 0.13f),"", arial);
+		
+	
 	}
+	
 	
 	public void justBeforeLoop(){
 		picker = new MousePicker(camera, Game.renderer.getProjectionMatrix());
@@ -156,13 +164,14 @@ public class Scene {
 		if (isAboutEnd == 0) {
 
 			player.move();
+			player.getWeapon().refreshBullets();
 			
 		}
 		camera.move();
 		picker.update();
 		for (Planet planet : allPlanets) {
-			//planet.move();
-			//planet.rotateAround();
+			planet.move();
+			planet.rotateAround();
 			Game.renderer.proccessEntity(planet.getEntity());
 		}
 
@@ -196,7 +205,7 @@ public class Scene {
 	private void checkEnd() {
 		if (isAboutEnd == 1) {
 			ui.getLayer(mainLayerID).addText("You died", 3.0f, arial, new Vector2f(0.4f, 0.4f), 0.3f, false);
-			ui.getLayer(mainLayerID).getGuiText(4).setColor(1, 0, 0);
+			ui.getLayer(mainLayerID).getGuiText(5).setColor(1, 0, 0);
 			isAboutEnd = -1;
 			System.out.println("aa");
 			endTime = (float) Timer.getCurrentFakeTime();
@@ -216,7 +225,8 @@ public class Scene {
 				.changeText(new String("[" + String.format("%.0f", player.getPosition().x) + ", "
 						+ String.format("%.0f", player.getPosition().y) + ", "
 						+ String.format("%.0f", player.getPosition().z) + "] m"));
-		ui.getLayer(mainLayerID).getGuiText(3).changeText(String.valueOf(Timer.getCurrentFakeTime()));
+		ui.getLayer(mainLayerID).getGuiText(3).changeText(player.isInertiaDampenerOn() ? "Inertia dampeners: OFF" :  "Inertia dampeners: ON");
+		ui.getLayer(mainLayerID).getGuiText(4).changeText("Bullets: " + (player.getWeapon().getCurrentAmmunition()) + "/" + (player.getWeapon().getStartAmmo()));
 
 	}
 

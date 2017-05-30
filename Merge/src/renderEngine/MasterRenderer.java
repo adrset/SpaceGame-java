@@ -15,6 +15,7 @@ import celestial.Light;
 import entities.Camera;
 import entities.Camera3D;
 import entities.Entity;
+import entities.Player;
 import game.Game;
 import models.TexturedModel;
 import scenes.SceneLoader;
@@ -24,9 +25,10 @@ public class MasterRenderer {
 
 	private static final float FOV = 60; // I see a great potential here :D
 	private static final float NEAR_PLANE = 0.1f;
-	private static final float FAR_PLANE = 900000000f; // sorry :(
+	private static final float FAR_PLANE = 1000000000f; // sorry :(
+	private Player player;
 	
-	
+	private Loader loader;
 	private Matrix4f projectionMatrix;
 
 	private boolean instanceRendererPrepared = false;
@@ -39,18 +41,26 @@ public class MasterRenderer {
 
 	// renderer for all entities
 	private EntityRenderer renderer;
+	
+	private BulletRenderer bulletRenderer;
 
 	private InstanceRenderer instanceRenderer;
 
 	// Map of all entities of all kindMap<TexturedModel, List<Entity>> entities
 	private Map<TexturedModel, List<Entity>> entities = new HashMap<TexturedModel, List<Entity>>();
 
-	public MasterRenderer(Loader loader, SceneLoader sceneLoader) {
+	public MasterRenderer(Loader loader) {
+		this.loader = loader;
 		createProjectionMatrix();
 		enableCulling();
 		renderer = new EntityRenderer(shader, projectionMatrix);
-		skyboxRenderer = new SkyboxRenderer(loader, projectionMatrix, sceneLoader.getSkyboxTextureNames());
+		bulletRenderer = new BulletRenderer(shader, projectionMatrix);
 		instanceRenderer = new InstanceRenderer(loader, projectionMatrix);
+	
+	}
+	
+	public void setSkybox(SceneLoader sceneLoader){
+		skyboxRenderer = new SkyboxRenderer(loader, projectionMatrix, sceneLoader.getSkyboxTextureNames());
 	}
 
 	public static void enableCulling() {
@@ -71,6 +81,7 @@ public class MasterRenderer {
 		shader.loadLights(lights);
 		shader.loadViewMatrix(camera);
 		renderer.render(entities);
+		bulletRenderer.render(player.getWeapon().getBullets());
 		shader.stop();
 		entities.clear();
 
@@ -82,6 +93,10 @@ public class MasterRenderer {
 
 	public void render(Camera camera) {
 		prepare();
+	}
+	
+	public void setPlayer(Player p){
+		this.player = p;
 	}
 
 	public void proccessEntity(Entity entity) {

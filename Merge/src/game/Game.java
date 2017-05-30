@@ -144,13 +144,14 @@ public class Game implements Runnable {
 
 		// loads stuff
 		loader = new Loader();
-
+		
+		renderer = new MasterRenderer(loader);
 		// loads levels
 		sceneLoader = new SceneLoader();
 		scene = new Scene(sceneLoader, "level1");
-
+		renderer.setSkybox(sceneLoader);
 		// A master that grabs all its renderers and rules them
-		renderer = new MasterRenderer(loader, sceneLoader);
+	
 		// Main menu
 		Menu menu = new Menu();
 

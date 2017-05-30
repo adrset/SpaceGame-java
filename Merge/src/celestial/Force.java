@@ -103,6 +103,7 @@ public class Force implements Runnable {
 		float dt = 0.00166f;
 		while (isRunning) {
 			dt = (float) Timer.getLastLoopTime();
+			//buggy when it starts and the object is deleted on another thread
 			for (Asteroid asteroid : asteroids) {
 				currentAsteroid = asteroids.indexOf(asteroid);
 
