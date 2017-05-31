@@ -6,6 +6,7 @@ import models.TexturedModel;
 import utils.Timer;
 
 public class Bullet {
+	@SuppressWarnings("unused")
 	private float damage;
 	private float existTime;
 	private float shotTime;
@@ -14,6 +15,7 @@ public class Bullet {
 	private Vector3f velocity;
 	public static TexturedModel bulletModel;
 	public static float scale;
+	public static float collisionSphereRadius;
 
 	public Vector3f getRotation(){
 		return rotation;

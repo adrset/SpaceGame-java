@@ -22,6 +22,7 @@ public class Player extends CelestialBody {
 	private static final float MAX_SPEED = 30000f;
 	private static final float ROTATE_SPEED = 30;
 	private static boolean inertiaDampener = false;
+	public static int score = 0;
 	private Weapon weapon;
 	
 	public boolean isInertiaDampenerOn(){

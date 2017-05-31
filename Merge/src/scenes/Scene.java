@@ -50,6 +50,7 @@ public class Scene {
 	public static int isAboutEnd = 0;
 	private float endTime = 0;
 	private AudioSource source;
+	
 	public Scene(SceneLoader sceneLoader, String level) {
 		this.sceneLoader = sceneLoader;
 		isFinished = false;
@@ -69,12 +70,12 @@ public class Scene {
 		lights = sceneLoader.getLights();
 
 		player = sceneLoader.getPlayer();
-		player.setWeapon(new Weapon("Gun", 1, allHostile, 120, 100, new TexturedModel(ResourceCache.loadOBJ("b2", Game.loader),
+		player.setWeapon(new Weapon("Gun", 12, allHostile, 120, 100, new TexturedModel(ResourceCache.loadOBJ("b2", Game.loader),
 				new ModelTexture(ResourceCache.loadTexture("tex", Game.loader))), player.getPosition(), 0.01f));
 		Game.renderer.setPlayer(player);
 
 		Random generator = new Random();
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < 100; i++) {
 
 			allAsteroids.add(new Asteroid(
 					new TexturedModel(ResourceCache.loadOBJ("planet", Game.loader),
@@ -84,7 +85,7 @@ public class Scene {
 					0, 0, 0, generator.nextInt(600), (float) generator.nextInt(30000000) * 1000));
 		}
 		
-		for(int i=0;i<1;i++){
+		for(int i=0;i<1000;i++){
 			
 			allEntities.add(new Entity(new TexturedModel(ResourceCache.loadOBJ("untitled", Game.loader),
 					new ModelTexture(ResourceCache.loadTexture("2", Game.loader))),
@@ -93,10 +94,10 @@ public class Scene {
 			
 		}
 		
-		for(int i=0;i<10;i++){// float health, float speedMultiplier, int fireRate, float cash
+		for(int i=0;i<20;i++){// float health, float speedMultiplier, int fireRate, float cash
 			allHostile.add(new HostileShip(new TexturedModel(ResourceCache.loadOBJ("planet", Game.loader),
 					new ModelTexture(ResourceCache.loadTexture("2", Game.loader))),
-			new Vector3f(-15000 + generator.nextInt(30000), 0, -15000 + generator.nextInt(30000)),
+			new Vector3f(player.getPosition().x +  generator.nextInt(30000), 0, player.getPosition().y + generator.nextInt(30000)),
 			0, 0, 0, 10f, new Vector3f(), 800f + (float)generator.nextInt(500), generator.nextInt(2) + generator.nextFloat(), 1, (float)generator.nextInt(500)));
 		}	
 
@@ -130,11 +131,14 @@ public class Scene {
 		ui.getLayer(mainLayerID).addText("Location", 1.0f, arial, new Vector2f(0f, 0.92f), 0.5f, false);
 		ui.getLayer(mainLayerID).addText("Inertia dampeners: OFF", 1.0f, arial, new Vector2f(0f, 0.88f), 0.5f, false);
 		ui.getLayer(mainLayerID).addText("Ammo: ", 1.0f, arial, new Vector2f(0.9f, 0.92f), 0.5f, false);
+		ui.getLayer(mainLayerID).addText("Score:" , 1.0f, arial, new Vector2f(0.90f, 0.0f), 0.5f, false);
 		ui.getLayer(mainLayerID).getGuiText(0).setColor(1, 1, 1);
 		ui.getLayer(mainLayerID).getGuiText(1).setColor(1, 1, 1);
 		ui.getLayer(mainLayerID).getGuiText(2).setColor(1, 1, 1);
 		ui.getLayer(mainLayerID).getGuiText(3).setColor(1, 1, 1);
 		ui.getLayer(mainLayerID).getGuiText(4).setColor(1, 1, 1);
+		ui.getLayer(mainLayerID).getGuiText(5).setColor(1, 1, 1);
+	
 		ui.getLayer(mainLayerID).addButton(Game.loader.loadTexture("GUI3"), Game.loader.loadTexture("GUI3"),
 				new Vector2f(-0.82f, -0.87f), new Vector2f(0.18f, 0.13f),"", arial);
 		
@@ -155,10 +159,18 @@ public class Scene {
 		Game.renderer.setInstanceEntities(allEntities);
 		// needs to be repaired, cause it doesn't support vsync
 		Timer.begin();
-
+		ArrayList<Integer> a = new ArrayList<Integer>();
 		for (HostileShip hostile : allHostile) {
-			hostile.chasePlayer(player);
-			Game.renderer.proccessEntity(hostile);
+			if(hostile.isAlive()){
+				hostile.chasePlayer(player);
+				Game.renderer.proccessEntity(hostile);
+			}else{
+				System.out.println("removing");
+				a.add(allHostile.indexOf(hostile));
+			}
+		}
+		for(int b : a){
+			allHostile.remove(b);
 		}
 		
 		if (isAboutEnd == 0) {
@@ -205,9 +217,11 @@ public class Scene {
 	private void checkEnd() {
 		if (isAboutEnd == 1) {
 			ui.getLayer(mainLayerID).addText("You died", 3.0f, arial, new Vector2f(0.4f, 0.4f), 0.3f, false);
-			ui.getLayer(mainLayerID).getGuiText(5).setColor(1, 0, 0);
+			ui.getLayer(mainLayerID).getGuiText(6).setColor(1, 0, 0);
 			isAboutEnd = -1;
-			System.out.println("aa");
+			source.stop();
+			int b = AudioManager.loadSound("res/audio/gameover.wav");
+			source.play(b);
 			endTime = (float) Timer.getCurrentFakeTime();
 		} else if (isAboutEnd == -1 && Timer.getCurrentFakeTime() - endTime > 5) {
 			isFinished = true;
@@ -227,7 +241,7 @@ public class Scene {
 						+ String.format("%.0f", player.getPosition().z) + "] m"));
 		ui.getLayer(mainLayerID).getGuiText(3).changeText(player.isInertiaDampenerOn() ? "Inertia dampeners: OFF" :  "Inertia dampeners: ON");
 		ui.getLayer(mainLayerID).getGuiText(4).changeText("Bullets: " + (player.getWeapon().getCurrentAmmunition()) + "/" + (player.getWeapon().getStartAmmo()));
-
+		ui.getLayer(mainLayerID).getGuiText(5).changeText("Score: " + Player.score);
 	}
 
 }

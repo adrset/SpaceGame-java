@@ -9,8 +9,11 @@ import utils.Timer;
 public class HostileShip extends CelestialBody{
 	
 	private float health;
+	@SuppressWarnings("unused")
 	private float speedMultiplier;
+	@SuppressWarnings("unused")
 	private int fireRate;
+	@SuppressWarnings("unused")
 	private float cash;
 
 	public HostileShip(TexturedModel model, Vector3f position, float rotationX, float rotationY, float rotationZ,
@@ -23,12 +26,26 @@ public class HostileShip extends CelestialBody{
 				
 	}
 	
+	public boolean isAlive(){
+		if(this.health < 0) {
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
+	public boolean hitShip(float damage){ // returns true when the ship is still alive
+		this.health -= damage;
+		
+		return isAlive();
+	}
+	
 	public void chasePlayer(Player player){
 		Vector3f direction = new Vector3f(player.getPosition());
 		direction.sub(this.getPosition());
 		float length = direction.length();
 		if(length > 1000){
-			super.increasePosition(direction.normalize().x * 800f, direction.normalize().y * 800f, direction.normalize().z * 800f, Timer.getLastLoopTime());
+			super.increasePosition(direction.normalize().x * 3000f, direction.normalize().y * 3000f, direction.normalize().z * 3000f, Timer.getLastLoopTime());
 		}else {
 			
 		}
