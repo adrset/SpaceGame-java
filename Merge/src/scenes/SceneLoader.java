@@ -3,6 +3,7 @@ package scenes;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.joml.Vector3f;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import celestial.DataObject;
 import celestial.Light;
 import celestial.Planet;
 import entities.Player;
@@ -26,12 +28,12 @@ public class SceneLoader {
 	private static String[] TEXTURES;
 
 	public SceneLoader() {
-		planets = new ArrayList<Planet>();
-		lights = new ArrayList<Light>();
+		planets = Collections.synchronizedList(new ArrayList<Planet>());
+		lights =  Collections.synchronizedList(new ArrayList<Light>());
 		TEXTURES = new String[6];
 	}
 
-	public void load(String fileName) {
+	public void load(String fileName, DataObject dataObject) {
 		JSONParser parser = new JSONParser();
 
 		try {
@@ -128,6 +130,10 @@ public class SceneLoader {
 			TEXTURES[4] = (String) skybox.get("back");
 			TEXTURES[5] = (String) skybox.get("front");
 			
+			dataObject.setPlanets(this.planets);
+			dataObject.setLights(this.lights);
+			dataObject.setPlayer(this.player);
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -135,21 +141,8 @@ public class SceneLoader {
 		}
 	}
 
-	// new object maybe? NAH
-	public List<Planet> getPlanets() {
-		return planets;
-	}
-
 	public String[] getSkyboxTextureNames(){
 		return TEXTURES;
 	}
 	
-	public List<Light> getLights() {
-		return lights;
-	}
-	
-	public Player getPlayer(){
-		return player;
-	}
-
 }

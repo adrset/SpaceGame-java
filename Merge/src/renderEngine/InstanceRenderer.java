@@ -2,8 +2,6 @@ package renderEngine;
 
 import java.nio.FloatBuffer;
 import java.util.List;
-import java.util.Map;
-
 import org.joml.Matrix4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;

@@ -1,7 +1,6 @@
 package celestial;
 
-import java.util.List;
-
+import java.util.Iterator;
 import org.joml.Vector3f;
 
 import celestial.Planet;
@@ -29,15 +28,14 @@ public class Force implements Runnable {
 	private boolean isRunning = false;
 	Vector3f position;
 	Vector3f velocity;
-	List<Planet> planets;
+	/*List<Planet> planets;
 	List<Asteroid> asteroids;
-	List<Light> lights;
+	List<Light> lights;*/
+	private DataObject dataObject;
 	int currentAsteroid;
 
-	public Force(List<Planet> planets, List<Asteroid> asteroids, List<Light> lights) {
-		this.lights = lights;
-		this.planets = planets;
-		this.asteroids = asteroids;
+	public Force(DataObject dataObject) {
+		this.dataObject = dataObject;
 		for (int ii = 0; ii < 2; ii++) {
 			k1[ii] = new Vector3f();
 			k2[ii] = new Vector3f();
@@ -53,8 +51,7 @@ public class Force implements Runnable {
 	public Vector3f secondMethod(float dt) { // from second equation
 												// dv/dt=G*m*x/r^3
 		Vector3f tmp = new Vector3f();
-
-		for (Planet p : planets) {
+		for (Planet p : dataObject.getPlanets()) {
 			tmp.add(((position).sub(p.getPosition()))
 					.mul((float) (G * dt * p.getMass() / (Math.pow(((position).sub(p.getPosition())).length(), 3)))));
 		}
@@ -65,11 +62,12 @@ public class Force implements Runnable {
 		 * (Math.pow(((position).sub(l.getPosition())).length(), 3))))); }
 		 */
 
-		for (int i = 0; i < asteroids.size(); i++) {
+		for (int i = dataObject.getAsteroids().size() - 1; i >= 0 ; i--) {
+			if(!dataObject.getAsteroids().get(i).isAlive()) continue;
 			if (i != currentAsteroid) {
-				tmp.add(((position).sub(asteroids.get(i).getPosition()))
-						.mul((float) (G * dt * asteroids.get(i).getMass()
-								/ (Math.pow(((position).sub(asteroids.get(i).getPosition())).length(), 3)))));
+				tmp.add(((position).sub(dataObject.getAsteroids().get(i).getPosition()))
+						.mul((float) (G * dt * dataObject.getAsteroids().get(i).getMass()
+								/ (Math.pow(((position).sub(dataObject.getAsteroids().get(i).getPosition())).length(), 3)))));
 
 			}
 		}
@@ -104,8 +102,12 @@ public class Force implements Runnable {
 		while (isRunning) {
 			dt = (float) Timer.getLastLoopTime();
 			//buggy when it starts and the object is deleted on another thread
-			for (Asteroid asteroid : asteroids) {
-				currentAsteroid = asteroids.indexOf(asteroid);
+			Iterator<Asteroid> it = dataObject.getAsteroids().iterator();
+			while(it.hasNext()) {
+				
+			  Asteroid asteroid = it.next();	 
+			  if(!asteroid.isAlive()) continue;
+				currentAsteroid = dataObject.getAsteroids().indexOf(asteroid);
 
 				velocity = new Vector3f(asteroid.getVelocity());
 				position = new Vector3f(asteroid.getPosition());
@@ -134,8 +136,8 @@ public class Force implements Runnable {
 
 				fourthUpdate();
 
-				asteroid.setVelocity(
-						velocity.add((k1[1].add(k2[1]).add(k2[1]).add(k3[1]).add(k3[1]).add(k4[1])).div(6)));
+				//asteroid.setVelocity(
+			//			velocity.add((k1[1].add(k2[1]).add(k2[1]).add(k3[1]).add(k3[1]).add(k4[1])).div(6)));
 				Vector3f a = new Vector3f((k1[0].add(k2[0]).add(k2[0]).add(k3[0]).add(k3[0]).add(k4[0])).div(6));
 				asteroid.increasePosition(a);
 			}

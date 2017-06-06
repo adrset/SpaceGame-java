@@ -8,6 +8,14 @@ import models.TexturedModel;
 public class CelestialBody extends Entity {
 	private float mass;
 	private float radius;
+	private boolean isAlive = true;
+	
+	public boolean isAlive(){
+		return this.isAlive;
+	}
+	public void setDead(){
+		isAlive = false;
+	}
 	
 	public float getMass(){
 		return mass;

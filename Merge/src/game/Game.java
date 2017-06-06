@@ -18,6 +18,7 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
 import audio.AudioManager;
+import celestial.DataObject;
 import gui.Menu;
 import input.Keyboard;
 import input.Mouse;
@@ -38,6 +39,8 @@ public class Game implements Runnable {
 	private static int multiSampling;
 	private Scene scene;
 	private SceneLoader sceneLoader;
+	
+	private DataObject dataObject = new DataObject();
 
 	public Game(String name, int desiredWidth, int desiredHeight, boolean mode) {
 		this.mode = mode;
@@ -148,7 +151,7 @@ public class Game implements Runnable {
 		renderer = new MasterRenderer(loader);
 		// loads levels
 		sceneLoader = new SceneLoader();
-		scene = new Scene(sceneLoader, "level1");
+		scene = new Scene(sceneLoader, "level1", dataObject);
 		renderer.setSkybox(sceneLoader);
 		// A master that grabs all its renderers and rules them
 	

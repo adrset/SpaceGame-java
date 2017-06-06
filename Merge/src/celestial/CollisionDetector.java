@@ -2,35 +2,26 @@ package celestial;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.joml.Vector3f;
-
-import entities.Player;
 import scenes.Scene;
 
 public class CollisionDetector implements Runnable {
 
 	private Thread t1;
+	private DataObject dataObject;
 	private List<CelestialBody> bodies;
 	private boolean isRunning =false;
-	List<Planet> planets;
-	List<Asteroid> asteroids;
-	List<Light> lights;
-	List<HostileShip> hostile;
-	Player player;
-	
-	public CollisionDetector(List<Planet> planets, List<Asteroid> asteroids,List<Light> lights,List<HostileShip> hostile , Player player) {
-		bodies = new ArrayList<CelestialBody>(planets.size()  + asteroids.size() + lights.size() + hostile.size() + 1);
-		this.planets = planets;
-		this .asteroids = asteroids;
-		this.lights = lights;
-		this.hostile = hostile;
-		this.player = player;
-		bodies.addAll(planets);
-		bodies.addAll(asteroids);
-		bodies.addAll(lights);
-		bodies.addAll(hostile);
-		bodies.add(player);
+
+	public CollisionDetector(DataObject dataObject) {
+		this.dataObject = dataObject;
+		
+		bodies = new ArrayList<CelestialBody>(dataObject.getPlanets().size()  + dataObject.getAsteroids().size() + dataObject.getLights().size() + dataObject.getHostileShips().size() + 1);
+		//make a list of all bodies
+		bodies.addAll(dataObject.getPlanets());
+		bodies.addAll(dataObject.getAsteroids());
+		bodies.addAll(dataObject.getLights());
+		bodies.addAll(dataObject.getHostileShips());
+		bodies.add(dataObject.getPlayer());
 		
 	}
 
@@ -53,12 +44,12 @@ public class CollisionDetector implements Runnable {
 		t1.start();
 	}
 	public boolean removeBody(CelestialBody body){
-		if(asteroids.indexOf(body) != -1){
-			asteroids.remove(asteroids.indexOf(body));
+		if(dataObject.getAsteroids().indexOf(body) != -1){
+			dataObject.getAsteroids().get(dataObject.getAsteroids().indexOf(body)).setDead();
 			bodies.remove(bodies.indexOf(body));
 			return true;
-		}else if(hostile.indexOf(body) != -1){
-			hostile.remove(hostile.indexOf(body));
+		}else if(dataObject.getHostileShips().indexOf(body) != -1){
+			dataObject.getHostileShips().get(dataObject.getHostileShips().indexOf(body)).setDead();
 			bodies.remove(bodies.indexOf(body));
 			return true;
 		}else{
@@ -72,8 +63,8 @@ public class CollisionDetector implements Runnable {
 			for (int i = 0; i < bodies.size(); i++) {
 				for (int j = i+1; j < bodies.size(); j++) {
 					if( i !=j && checkCollision(bodies.get(i), bodies.get(j))){
-						System.out.println(i + ": " + j);
-						if(i == bodies.indexOf(player) || j == bodies.indexOf(player)){
+						if(i == bodies.indexOf(dataObject.getPlayer()) || j == bodies.indexOf(dataObject.getPlayer())){
+							System.out.println("Cd : " + i);
 							isRunning = false;
 							Scene.isAboutEnd = 1;
 						}else{

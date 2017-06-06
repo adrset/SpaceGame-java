@@ -7,7 +7,7 @@ import org.joml.Vector4f;
 
 import entities.Camera3D;
 import game.Game;
-import input.Mouse;
+import input.MouseCursor;
 
 public class MousePicker {
 
@@ -37,8 +37,8 @@ public class MousePicker {
 	}
 	
 	private Vector3f calculateRay(){
-		float mouseX = (float) Mouse.mouseCursor.getPosX();
-		float mouseY = (float) Mouse.mouseCursor.getPosY();
+		float mouseX = (float) MouseCursor.getPosX();
+		float mouseY = (float) MouseCursor.getPosY();
 		//convert to openGL coordinate system (-1,-1) : (1,1)
 		Vector2f glCursorPos = getGlCursor(mouseX, mouseY);
 		//-1f to make it point into the screen

@@ -7,6 +7,7 @@ import org.joml.Vector3f;
 
 import audio.AudioManager;
 import audio.AudioSource;
+import celestial.DataObject;
 import celestial.HostileShip;
 import entities.Player;
 import models.TexturedModel;
@@ -17,11 +18,11 @@ public class Weapon {
 	@SuppressWarnings("unused")
 	private String name;
 	private int fireRate;
-	private List<HostileShip> targets;
 	private List<Bullet> bullets;
 	private float damage;
 	private int startAmmo;
 	private int currentAmmunition;
+	private DataObject dataObject;
 	private int currentSource = 0;
 	private List<AudioSource> sources = new ArrayList<AudioSource>();
 	private static int sound = AudioManager.loadSound("res/audio/rifle.wav");
@@ -39,14 +40,14 @@ public class Weapon {
 		return bullets;
 	}
 
-	public Weapon(String name, int fireRate, List<HostileShip> targets, int startAmmo, int damage,
+	public Weapon(String name, int fireRate, DataObject dataObject, int startAmmo, int damage,
 			TexturedModel bulletModel, Vector3f position, float scale) {
+		this.dataObject = dataObject;
 		Bullet.scale = scale;
 		Bullet.bulletModel = bulletModel;
 		Bullet.collisionSphereRadius = 43f * scale;
 		this.name = name;
 		this.fireRate = fireRate;
-		this.targets = targets;
 		this.damage = damage;
 		this.startAmmo = startAmmo;
 		this.currentAmmunition = startAmmo;
@@ -76,7 +77,7 @@ public class Weapon {
 
 	private boolean checkCollision(Bullet b) { // will be moved to collision
 											// detector
-		for (HostileShip ship : targets) {
+		for (HostileShip ship : dataObject.getHostileShips()) {
 			float distance = (float) Math.sqrt(
 					Math.pow(ship.getPosition().x - b.getPosition().x, 2) + Math.pow(ship.getPosition().y - b.getPosition().y, 2)
 							+ Math.pow(ship.getPosition().z - b.getPosition().z, 2));
