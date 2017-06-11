@@ -1,8 +1,11 @@
-package celestial;
+package threads;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.joml.Vector3f;
+
+import celestial.CelestialBody;
+import celestial.DataObject;
 import scenes.Scene;
 
 public class CollisionDetector implements Runnable {

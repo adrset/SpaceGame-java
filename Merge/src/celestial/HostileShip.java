@@ -27,7 +27,7 @@ public class HostileShip extends CelestialBody{
 	}
 	
 	public boolean isAlive(){
-		if(this.health < 0) {
+		if(this.health < 0 || !super.isAlive()) {
 			return false;
 		}else{
 			return true;

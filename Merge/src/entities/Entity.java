@@ -6,7 +6,7 @@ import models.TexturedModel;
 
 /**
  * Entity class that contains basic info about an entity, like it's position,
- * scale and model
+ * scale and model. Currently it is used directly for objects without mass.
  * 
  * @author Adrian Setniewski
  *
@@ -18,7 +18,6 @@ public class Entity {
 	private float rotationX, rotationY, rotationZ;
 	private float scale;
 	private TexturedModel model;
-
 
 	public Entity(Entity a) {
 		this.position = new Vector3f(a.getPosition());
@@ -39,8 +38,7 @@ public class Entity {
 		this.rotationY = rotationY;
 		this.rotationZ = rotationZ;
 		this.scale = scale;
-		this.velocity=velocity;
-//xD		velocity = new Vector3f();
+		this.velocity = velocity;
 	}
 
 	// setters
@@ -97,75 +95,57 @@ public class Entity {
 		this.position.x = dx;
 		this.position.y = dy;
 		this.position.z = dz;
-//		setVelocity(dx, dy, dz);
-
 	}
-	
-	
-	
-	// methods
+
+	// other methods
 	public void increasePosition(float dx, float dy, float dz) {
 		this.position.x += dx;
 		this.position.y += dy;
 		this.position.z += dz;
-//		setVelocity(dx, dy, dz);
-
 	}
+
 	public void increasePosition(Vector3f dr) {
 		this.position.x += dr.x;
 		this.position.y += dr.y;
 		this.position.z += dr.z;
-//		setVelocity(dr.x, dr.y, dr.z);
-
 	}
 
-	
 	public void increasePosition(float dx, float dy, float dz, double time) {
-		this.position.x += (dx*time);
-		this.position.y += (dy*time);
-		this.position.z += (dz*time);
-//		setVelocity(dx, dy, dz);
-
+		this.position.x += (dx * time);
+		this.position.y += (dy * time);
+		this.position.z += (dz * time);
 	}
+
 	public void increasePosition(Vector3f dr, double time) {
-		this.position.x += (dr.x*time);
-		this.position.y += (dr.y*time);
-		this.position.z += (dr.z*time);
-//		setVelocity(dr.x, dr.y, dr.z);
-
+		this.position.x += (dr.x * time);
+		this.position.y += (dr.y * time);
+		this.position.z += (dr.z * time);
 	}
-	
-	
-	
+
 	public void setVelocity(float dx, float dy, float dz) {
 		velocity.x = dx;
 		velocity.y = dy;
 		velocity.z = dz;
 	}
 
-	public Vector3f getVelocity(){
+	public Vector3f getVelocity() {
 		return velocity;
 	}
-	
-	public void setVelocity(Vector3f velocity){
+
+	public void setVelocity(Vector3f velocity) {
 		this.velocity = velocity;
 	}
-	
+
 	public void increaseVelocity(float dx, float dy, float dz) {
 		velocity.x += dx;
 		velocity.y += dy;
 		velocity.z += dz;
 	}
 
-	
-	public void increaseVelocity(Vector3f velocity){
-		this.velocity.add(velocity) ;
+	public void increaseVelocity(Vector3f velocity) {
+		this.velocity.add(velocity);
 	}
-	
-	
-	
-	
-	
+
 	public void increaseRotation(float rx, float ry, float rz) {
 		this.rotationX += rx;
 		this.rotationY += ry;

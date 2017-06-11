@@ -13,19 +13,23 @@ import weaponry.Weapon;
 
 public class Player extends CelestialBody {
 
-	private float currentSpeed = 0; // velocity is a vector, speed is a scalar
-	private float currentSpeedUp = 0;
-	private float currentSpeedRotateSpeed = 0;
-	float val = 0;
-	float val2 = 0;
 	private static final float RUN_SPEED = 20;
 	private static final float MAX_SPEED = 30000f;
 	private static final float ROTATE_SPEED = 30;
+
+	private float currentSpeed = 0; // velocity is a vector, speed is a scalar
+	private float currentSpeedUp = 0;
+	private float currentSpeedRotateSpeed = 0;
+
+	float val = 0;
+	float val2 = 0;
+
+	// TODO Not a neat idea. Doesn't support multiple players.
 	private static boolean inertiaDampener = false;
 	public static int score = 0;
 	private Weapon weapon;
-	
-	public boolean isInertiaDampenerOn(){
+
+	public boolean isInertiaDampenerOn() {
 		return inertiaDampener;
 	}
 
@@ -57,7 +61,6 @@ public class Player extends CelestialBody {
 	}
 
 	public void move() {
-
 		checkInput();
 		super.increaseRotation(0, (float) (currentSpeedRotateSpeed * Timer.getLastLoopTime()), 0);
 		float Vx = (float) (currentSpeed * Math.sin(Math.toRadians(super.getRotationY()))
@@ -67,15 +70,15 @@ public class Player extends CelestialBody {
 		float Vy = (float) (currentSpeedUp + currentSpeed * Math.sin(Math.toRadians(super.getRotationX())));
 		super.setVelocity(Vx, Vy, Vz);
 		super.increasePosition(Vx, Vy, Vz, Timer.getLastLoopTime());
-
 	}
 
 	public void checkInput() {
 		if (Keyboard.isKeyPressedOnce(GLFW.GLFW_KEY_Z)) {
 			inertiaDampener = inertiaDampener ? false : true;
-
 		}
+
 		float multi = 0, multi2 = 0;
+
 		if (Keyboard.isKeyDown(GLFW.GLFW_KEY_W)) {
 			if (this.currentSpeed < MAX_SPEED) {
 				multi += 50f;
@@ -181,7 +184,8 @@ public class Player extends CelestialBody {
 		}
 
 		if (Keyboard.isKeyDown(GLFW.GLFW_KEY_F)) {
-			weapon.fire(getDirection(), new Vector3f(getPosition()), getVelocity(), new Vector3f(getRotationX(), getRotationY() - 90, getRotationZ()));
+			weapon.fire(getDirection(), new Vector3f(getPosition()), getVelocity(),
+					new Vector3f(getRotationX(), getRotationY() - 90, getRotationZ()));
 		}
 		if (Keyboard.isKeyPressedOnce(GLFW.GLFW_KEY_R)) {
 			weapon.reload();

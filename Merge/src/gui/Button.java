@@ -63,13 +63,7 @@ public class Button {
 	}
 
 	public void changeTextColor(Vector3f color) {
-		guiText.setColor(color.x / color.length(), color.y / color.length(), color.z / color.length()); // in
-																										// case
-																										// color
-																										// vector
-																										// was
-																										// not
-																										// normalised
+		guiText.setColor(color.x / color.length(), color.y / color.length(), color.z / color.length()); 
 	}
 
 	public void addListener(ButtonClick obj) {

@@ -76,17 +76,21 @@ public class MasterRenderer {
 	public void render(List<Light> lights, Camera3D camera) {
 		prepare();
 
+		//use this shader
 		shader.start();
 		// load data into shader
 		shader.loadLights(lights);
+		//send updated view matrixs
 		shader.loadViewMatrix(camera);
 		renderer.render(entities);
+		//bulletRenderer shares shader with EntityRenderer
 		bulletRenderer.render(player.getWeapon().getBullets());
 		shader.stop();
 		entities.clear();
 
+		//InstanceRenderer has inbuilt shader 
 		instanceRenderer.render(camera, lights);
-
+		//So has SkyboxRenderer
 		skyboxRenderer.render(camera);
 
 	}

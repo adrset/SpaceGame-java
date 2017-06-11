@@ -29,14 +29,17 @@ public class Game implements Runnable {
 	private long window;
 	private Thread thread;
 	private String title;
+	
 	public static int width;
-	private boolean mode;
 	public static int height;
 	public static boolean windowShouldClose = false;
 	public static Loader loader;
 	public static MasterRenderer renderer;
+	
 	private static boolean vSync;
 	private static int multiSampling;
+	
+	private boolean mode;
 	private Scene scene;
 	private SceneLoader sceneLoader;
 	

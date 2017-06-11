@@ -9,7 +9,6 @@ public class Camera {
 	 * @author Adrian Setniewski
 	 *
 	 */
-
 	protected Vector3f position = new Vector3f(0.0f, 0.0f, 0.0f);
 	protected float pitch;
 	protected float yaw;
@@ -18,8 +17,6 @@ public class Camera {
 	public Camera(){
 		
 	}
-	
-	
 	public void setPitch(float pitch) {
 		this.pitch = pitch;
 	}

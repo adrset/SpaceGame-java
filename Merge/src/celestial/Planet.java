@@ -17,15 +17,15 @@ public class Planet extends CelestialBody {
 	private String name;
 
 	// constructors
-	public Planet(TexturedModel model, Vector3f rotation, float startAngle, float density, float radius, float majorAxis,
-			float minorAxis, float angularVelocity, float rotationAround) {
+	public Planet(TexturedModel model, Vector3f rotation, float startAngle, float density, float radius,
+			float majorAxis, float minorAxis, float angularVelocity, float rotationAround) {
 		// assuming that sun will always be at y = 0 and planets will loop on y
 		// = 0 surface
 		super(model,
 				new Vector3f((float) (majorAxis * Math.cos(Math.toRadians(startAngle))), 0f,
 						(float) (minorAxis * Math.sin(Math.toRadians(startAngle)))),
-				rotation.x, rotation.y, rotation.z,new Vector3f(), radius, density, false);
-		
+				rotation.x, rotation.y, rotation.z, new Vector3f(), radius, density, false);
+
 		this.angularVelocity = angularVelocity;
 		this.startAngle = startAngle;
 		this.majorAxis = majorAxis;
@@ -34,11 +34,7 @@ public class Planet extends CelestialBody {
 		this.rotationAround = rotationAround;
 	}
 
-
 	// getters
-	
-	
-
 	public float getRotationAround() {
 		return rotationAround;
 	}
@@ -72,7 +68,6 @@ public class Planet extends CelestialBody {
 		this.rotationAround = rot;
 	}
 
-
 	public void setStartAngle(float angle) {
 		this.startAngle = angle;
 	}
@@ -85,7 +80,6 @@ public class Planet extends CelestialBody {
 		this.name = name;
 	}
 
-
 	public void setMajorAxis(float majorAxis) {
 		this.majorAxis = majorAxis;
 	}
@@ -94,15 +88,16 @@ public class Planet extends CelestialBody {
 		this.minorAxis = minorAxis;
 	}
 
-	// methods
-
-	public void rotateAround(){
-		increaseRotation(0, (float) ( rotationAround * Timer.getLastLoopTime()), 0);
+	// other methods
+	public void rotateAround() {
+		increaseRotation(0, (float) (rotationAround * Timer.getLastLoopTime()), 0);
 	}
+
 	public void move() {
 		rotateAround();
 		this.currentAngle = this.startAngle + (float) (angularVelocity * Timer.getCurrentFakeTime());
 		super.setPosition(new Vector3f((float) (majorAxis * Math.cos(Math.toRadians(this.currentAngle))), 0f,
 				(float) (minorAxis * Math.sin(Math.toRadians(this.currentAngle)))));
 	}
+
 }

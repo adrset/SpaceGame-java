@@ -16,14 +16,6 @@ public class Language {
 
 	public Language() {
 
-		// needs rework for InputStream
-		/*
-		 * File folder = new File(path); fileNames = new ArrayList<String>();
-		 * File[] listOfFiles = folder.listFiles();
-		 * 
-		 * for (File file : listOfFiles) { if (file.isFile()) {
-		 * fileNames.add(file.getName().replaceAll(".json", "")); } }
-		 */
 	}
 
 	public boolean loadLanguage(String language) {

@@ -8,7 +8,8 @@ import input.MouseButtons;
 import input.MouseScroll;
 
 /**
- * Extended camera class for 3D environment
+ * Extended camera class for 3D environment.
+ * Contains functionality allowing to change cameras position according to player.
  * 
  * @author Adrian Setniewski
  *

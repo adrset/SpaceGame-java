@@ -11,9 +11,7 @@ import org.joml.Vector3f;
 import audio.AudioManager;
 import audio.AudioSource;
 import celestial.Asteroid;
-import celestial.CollisionDetector;
 import celestial.DataObject;
-import celestial.Force;
 import celestial.HostileShip;
 import celestial.Light;
 import celestial.Planet;
@@ -26,6 +24,9 @@ import gui.UI;
 import models.TexturedModel;
 import renderEngine.ResourceCache;
 import textures.ModelTexture;
+import threads.CollisionDetector;
+import threads.Force;
+import utils.Logs;
 import utils.MousePicker;
 import utils.Timer;
 import weaponry.Weapon;
@@ -99,11 +100,11 @@ public class Scene {
 
 		for (int i = 0; i < 20; i++) {
 			allHostile.add(new HostileShip(
-					new TexturedModel(ResourceCache.loadOBJ("planet", Game.loader),
-							new ModelTexture(ResourceCache.loadTexture("2", Game.loader))),
+					new TexturedModel(ResourceCache.loadOBJ("shipMapped", Game.loader),
+							new ModelTexture(ResourceCache.loadTexture("ship", Game.loader))),
 					new Vector3f(dataObject.getPlayer().getPosition().x + generator.nextInt(30000), 0,
 							dataObject.getPlayer().getPosition().y + generator.nextInt(30000)),
-					0, 0, 0, 10f, new Vector3f(), 800f + (float) generator.nextInt(500),
+					0, 0, 0, 1000f, new Vector3f(), 800f + (float) generator.nextInt(500),
 					generator.nextInt(2) + generator.nextFloat(), 1, (float) generator.nextInt(500)));
 		}
 
@@ -134,6 +135,8 @@ public class Scene {
 		source = new AudioSource(new Vector3f());
 		source.play(b);
 		
+		picker = new MousePicker(camera, Game.renderer.getProjectionMatrix());
+		
 	}
 
 	public void init() {
@@ -154,7 +157,7 @@ public class Scene {
 	
 
 	public void justBeforeLoop() {
-		picker = new MousePicker(camera, Game.renderer.getProjectionMatrix());
+		
 	}
 
 	public void cleanUp() {
@@ -173,11 +176,12 @@ public class Scene {
 				hostile.chasePlayer(dataObject.getPlayer());
 				Game.renderer.proccessEntity(hostile);
 			} else {
-				System.out.println("removing");
+				Logs.printLog("Removing HostileShip #" + dataObject.getHostileShips().indexOf(hostile));
 				a.add(dataObject.getHostileShips().indexOf(hostile));
 			}
 		}
 		for (int b : a) {
+			//dangerous
 			dataObject.getHostileShips().remove(b);
 		}
 

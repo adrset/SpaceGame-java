@@ -1,8 +1,10 @@
-package celestial;
+package threads;
 
 import java.util.Iterator;
 import org.joml.Vector3f;
 
+import celestial.Asteroid;
+import celestial.DataObject;
 import celestial.Planet;
 import utils.Timer;
 
