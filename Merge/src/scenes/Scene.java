@@ -248,6 +248,7 @@ System.out.println("Health " + dataObject.getPlayer().getHealth());
 			ui.getLayer(mainLayerID).addText("You died", 3.0f, arial, new Vector2f(0.4f, 0.4f), 0.3f, false);
 			ui.getLayer(mainLayerID).getGuiText(7).setColor(1, 0, 0);
 			isAboutEnd = -1;
+			dataObject.getPlayer().setHealth(0);
 			source.stop();
 			int b = AudioManager.loadSound("res/audio/gameover.wav");
 			source.play(b);
