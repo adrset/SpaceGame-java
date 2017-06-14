@@ -160,18 +160,16 @@ public class Game implements Runnable {
 	
 		// Main menu
 		Menu menu = new Menu();
-
-		scene.justBeforeLoop();
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		// game loop
 		while (!glfwWindowShouldClose(window) && !windowShouldClose) {
 
 			if (!Menu.play) {
-				glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			
 				menu.loop();
 			} else {
 				// 3d scene loop
 				if (!Scene.isFinished) {
-					glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 					scene.loop();
 				}else {
 					windowShouldClose = true;

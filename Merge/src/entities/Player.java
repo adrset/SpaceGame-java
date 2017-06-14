@@ -4,10 +4,12 @@ import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
 import celestial.CelestialBody;
+import game.Game;
 import gui.Menu;
 import input.Keyboard;
 import models.TexturedModel;
 import scenes.Scene;
+import utils.MousePicker;
 import utils.Timer;
 import weaponry.Weapon;
 
@@ -23,6 +25,8 @@ public class Player extends CelestialBody {
 
 	float val = 0;
 	float val2 = 0;
+	
+	private MousePicker picker;
 
 	// TODO Not a neat idea. Doesn't support multiple players.
 	private static boolean inertiaDampener = false;
@@ -56,6 +60,9 @@ public class Player extends CelestialBody {
 		return currentSpeed;
 	}
 
+	public void passPicker(MousePicker p){
+		this.picker = p;
+	}
 	public void setWeapon(Weapon w) {
 		weapon = w;
 	}

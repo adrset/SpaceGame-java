@@ -78,6 +78,7 @@ public class Weapon {
 	private boolean checkCollision(Bullet b) { // will be moved to collision
 											// detector
 		for (HostileShip ship : dataObject.getHostileShips()) {
+			if(!ship.isAlive())	continue;
 			float distance = (float) Math.sqrt(
 					Math.pow(ship.getPosition().x - b.getPosition().x, 2) + Math.pow(ship.getPosition().y - b.getPosition().y, 2)
 							+ Math.pow(ship.getPosition().z - b.getPosition().z, 2));

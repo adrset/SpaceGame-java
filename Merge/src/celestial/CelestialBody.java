@@ -25,6 +25,10 @@ public class CelestialBody extends Entity {
 		return radius;
 	}
 	
+	public void setRadius(float r){
+		this.radius = r;
+	}
+	
 	public CelestialBody(TexturedModel model, Vector3f position, float rotationX, float rotationY, float rotationZ,Vector3f velocity,
 			float radius, float density, boolean isSun) {
 		

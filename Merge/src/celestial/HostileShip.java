@@ -19,6 +19,7 @@ public class HostileShip extends CelestialBody{
 	public HostileShip(TexturedModel model, Vector3f position, float rotationX, float rotationY, float rotationZ,
 			float scale, Vector3f velocity, float health, float speedMultiplier, int fireRate, float cash) {
 		super(model, position, rotationX, rotationY, rotationZ, velocity, scale, 1, false);
+		super.setRadius(scale/28.57f); //temp xd
 		this.health = health;
 		this.speedMultiplier = speedMultiplier;
 		this.fireRate = fireRate;
@@ -26,18 +27,13 @@ public class HostileShip extends CelestialBody{
 				
 	}
 	
-	public boolean isAlive(){
-		if(this.health < 0 || !super.isAlive()) {
-			return false;
-		}else{
-			return true;
-		}
-	}
-	
 	public boolean hitShip(float damage){ // returns true when the ship is still alive
 		this.health -= damage;
-		
-		return isAlive();
+		if(this.health<=0) {
+			setDead();
+			return false;
+		}
+		return true;
 	}
 	
 	public void chasePlayer(Player player){

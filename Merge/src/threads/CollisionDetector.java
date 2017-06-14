@@ -48,12 +48,10 @@ public class CollisionDetector implements Runnable {
 	}
 	public boolean removeBody(CelestialBody body){
 		if(dataObject.getAsteroids().indexOf(body) != -1){
-			dataObject.getAsteroids().get(dataObject.getAsteroids().indexOf(body)).setDead();
-			bodies.remove(bodies.indexOf(body));
+			body.setDead();
 			return true;
 		}else if(dataObject.getHostileShips().indexOf(body) != -1){
-			dataObject.getHostileShips().get(dataObject.getHostileShips().indexOf(body)).setDead();
-			bodies.remove(bodies.indexOf(body));
+			body.setDead();
 			return true;
 		}else{
 			return false;
@@ -64,10 +62,11 @@ public class CollisionDetector implements Runnable {
 	public synchronized void checkCollisions(){
 		while (isRunning) {
 			for (int i = 0; i < bodies.size(); i++) {
+				if(!bodies.get(i).isAlive()) continue;
 				for (int j = i+1; j < bodies.size(); j++) {
+					if(!bodies.get(j).isAlive()) continue;
 					if( i !=j && checkCollision(bodies.get(i), bodies.get(j))){
 						if(i == bodies.indexOf(dataObject.getPlayer()) || j == bodies.indexOf(dataObject.getPlayer())){
-							System.out.println("Cd : " + i);
 							isRunning = false;
 							Scene.isAboutEnd = 1;
 						}else{

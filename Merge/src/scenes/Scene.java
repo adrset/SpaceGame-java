@@ -136,7 +136,7 @@ public class Scene {
 		source.play(b);
 		
 		picker = new MousePicker(camera, Game.renderer.getProjectionMatrix());
-		
+		dataObject.getPlayer().passPicker(picker);
 	}
 
 	public void init() {
@@ -170,19 +170,14 @@ public class Scene {
 		Game.renderer.setInstanceEntities(dataObject.getEntities());
 		// needs to be repaired, cause it doesn't support vsync
 		Timer.begin();
-		ArrayList<Integer> a = new ArrayList<Integer>();
 		for (HostileShip hostile : dataObject.getHostileShips()) {
 			if (hostile.isAlive()) {
 				hostile.chasePlayer(dataObject.getPlayer());
 				Game.renderer.proccessEntity(hostile);
 			} else {
 				Logs.printLog("Removing HostileShip #" + dataObject.getHostileShips().indexOf(hostile));
-				a.add(dataObject.getHostileShips().indexOf(hostile));
+				hostile.setDead();
 			}
-		}
-		for (int b : a) {
-			//dangerous
-			dataObject.getHostileShips().remove(b);
 		}
 
 		if (isAboutEnd == 0) {
