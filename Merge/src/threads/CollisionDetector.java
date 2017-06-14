@@ -1,6 +1,7 @@
 package threads;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.joml.Vector3f;
 
@@ -46,12 +47,18 @@ public class CollisionDetector implements Runnable {
 		t1.setDaemon(true);
 		t1.start();
 	}
-	public boolean removeBody(CelestialBody body){
+	public boolean removeBody(CelestialBody body, CelestialBody win){
 		if(dataObject.getAsteroids().indexOf(body) != -1){
 			body.setDead();
+			win.setHealth(win.getHealth() + body.getHealth());
+			win.setScale(win.getScale() + win.getScale()/100);
+			win.setRadius(win.getRadius() + win.getRadius()/100);
 			return true;
 		}else if(dataObject.getHostileShips().indexOf(body) != -1){
 			body.setDead();
+			win.setHealth(win.getHealth() + body.getHealth());
+			win.setScale(win.getScale() + win.getScale()/100);
+			win.setRadius(win.getRadius() + win.getRadius()/100);
 			return true;
 		}else{
 			return false;
@@ -70,13 +77,20 @@ public class CollisionDetector implements Runnable {
 							isRunning = false;
 							Scene.isAboutEnd = 1;
 						}else{
-							if(!removeBody(bodies.get(i))){
-								removeBody(bodies.get(j));
+							if(!removeBody(bodies.get(i),bodies.get(j))){
+								removeBody(bodies.get(j),bodies.get(i));
 							}else{
 								
 							}
 						}
 					}
+				}
+			}
+			int kk=0;
+			for(Iterator<CelestialBody> it = bodies.iterator(); it.hasNext();kk++){
+				if(!it.next().isAlive()){
+					System.out.println("Removing body - it crashed.");
+					it.remove();
 				}
 			}
 		}

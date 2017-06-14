@@ -9,7 +9,13 @@ public class CelestialBody extends Entity {
 	private float mass;
 	private float radius;
 	private boolean isAlive = true;
-	
+	protected float health = 0;
+	public float getHealth() {
+		return health;
+	}
+	public void setHealth(float health) {
+		this.health = health;
+	}
 	public boolean isAlive(){
 		return this.isAlive;
 	}
@@ -30,9 +36,10 @@ public class CelestialBody extends Entity {
 	}
 	
 	public CelestialBody(TexturedModel model, Vector3f position, float rotationX, float rotationY, float rotationZ,Vector3f velocity,
-			float radius, float density, boolean isSun) {
+			float radius, float density, boolean isSun, float health) {
 		
 		super(model, position, rotationX, rotationY, rotationZ, (float) (radius/model.getRawModel().getDistance()), velocity);//xD
+		this.health = health;
 		this.radius = radius;
 		mass = (float) (density *4/3 * Math.PI * Math.pow(radius,3));
 	}

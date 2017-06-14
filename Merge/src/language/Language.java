@@ -13,7 +13,7 @@ import utils.Logs;
 public class Language {
 	// private List<String> fileNames;
 	private static JSONObject languageData;
-
+	public static String currentLanguage;
 	public Language() {
 
 	}
@@ -47,7 +47,7 @@ public class Language {
 			Logs.printLog(e.getMessage());
 			return false;
 		}
-
+		currentLanguage = language;
 		return true;
 
 	}

@@ -2,6 +2,7 @@ package scenes;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -21,6 +22,7 @@ import entities.Player;
 import fontMeshCreator.FontType;
 import game.Game;
 import gui.UI;
+import language.Language;
 import models.TexturedModel;
 import renderEngine.ResourceCache;
 import textures.ModelTexture;
@@ -125,16 +127,16 @@ public class Scene {
 		cDetect.start();
 		force = new Force(dataObject);
 		force.start();
-		
-		//Camera stuff
+
+		// Camera stuff
 		camera = new Camera3D(dataObject.getPlayer());
-	
-		//Audio stuff
+
+		// Audio stuff
 		AudioManager.setListenerData(dataObject.getPlayer().getPosition(), dataObject.getPlayer().getVelocity());
 		int b = AudioManager.loadSound("res/audio/b.wav");
 		source = new AudioSource(new Vector3f());
 		source.play(b);
-		
+
 		picker = new MousePicker(camera, Game.renderer.getProjectionMatrix());
 		dataObject.getPlayer().passPicker(picker);
 	}
@@ -154,10 +156,9 @@ public class Scene {
 
 		createUserInterface();
 	}
-	
 
 	public void justBeforeLoop() {
-		
+
 	}
 
 	public void cleanUp() {
@@ -179,6 +180,27 @@ public class Scene {
 				hostile.setDead();
 			}
 		}
+		for (Iterator<HostileShip> it = dataObject.getHostileShips().iterator(); it.hasNext();) {
+
+			if (!it.next().isAlive())
+				it.remove();
+		}
+		Random generator = new Random();
+		if (dataObject.getHostileShips().size() < 5) {
+			System.out.println("Adding some enemies...");
+			for (int i = 0; i < 10; i++) {
+				dataObject.getHostileShips()
+						.add(new HostileShip(
+								new TexturedModel(ResourceCache.loadOBJ("shipMapped", Game.loader),
+										new ModelTexture(ResourceCache.loadTexture("ship", Game.loader))),
+								new Vector3f(dataObject.getPlayer().getPosition().x + generator.nextInt(5000),
+										dataObject.getPlayer().getPosition().y
+												+ generator.nextInt(5000),
+										dataObject.getPlayer().getPosition().y + generator.nextInt(9000)),
+								0, 0, 0, 1000f, new Vector3f(), 800f + (float) generator.nextInt(500),
+								generator.nextInt(2) + generator.nextFloat(), 1, (float) generator.nextInt(500)));
+			}
+		}
 
 		if (isAboutEnd == 0) {
 
@@ -186,6 +208,7 @@ public class Scene {
 			dataObject.getPlayer().getWeapon().refreshBullets();
 
 		}
+
 		camera.move();
 		picker.update();
 		for (Planet planet : dataObject.getPlanets()) {
@@ -204,7 +227,7 @@ public class Scene {
 		for (Light light : dataObject.getLights()) {
 			Game.renderer.proccessEntity(light);
 		}
-
+System.out.println("Health " + dataObject.getPlayer().getHealth());
 		Game.renderer.render(dataObject.getLights(), camera);
 
 		if (isUiVisible) {
@@ -223,7 +246,7 @@ public class Scene {
 	private void checkEnd() {
 		if (isAboutEnd == 1) {
 			ui.getLayer(mainLayerID).addText("You died", 3.0f, arial, new Vector2f(0.4f, 0.4f), 0.3f, false);
-			ui.getLayer(mainLayerID).getGuiText(6).setColor(1, 0, 0);
+			ui.getLayer(mainLayerID).getGuiText(7).setColor(1, 0, 0);
 			isAboutEnd = -1;
 			source.stop();
 			int b = AudioManager.loadSound("res/audio/gameover.wav");
@@ -234,21 +257,23 @@ public class Scene {
 		}
 
 	}
-	
-	//User interface methods
-	private void createUserInterface(){
-		ui.getLayer(mainLayerID).addText("fps", 1.0f, arial, new Vector2f(0, 0), 0.3f, false);
-		ui.getLayer(mainLayerID).addText("Speed", 1.0f, arial, new Vector2f(0, 0.96f), 0.5f, false);
-		ui.getLayer(mainLayerID).addText("Location", 1.0f, arial, new Vector2f(0f, 0.92f), 0.5f, false);
-		ui.getLayer(mainLayerID).addText("Inertia dampeners: OFF", 1.0f, arial, new Vector2f(0f, 0.88f), 0.5f, false);
-		ui.getLayer(mainLayerID).addText("Ammo: ", 1.0f, arial, new Vector2f(0.9f, 0.92f), 0.5f, false);
-		ui.getLayer(mainLayerID).addText("Score:", 1.0f, arial, new Vector2f(0.90f, 0.0f), 0.5f, false);
+
+	// User interface methods
+	private void createUserInterface() {
+		ui.getLayer(mainLayerID).addText("", 1.0f, arial, new Vector2f(0, 0), 0.3f, false);
+		ui.getLayer(mainLayerID).addText("", 1.0f, arial, new Vector2f(0, 0.96f), 0.5f, false);
+		ui.getLayer(mainLayerID).addText("", 1.0f, arial, new Vector2f(0f, 0.92f), 0.5f, false);
+		ui.getLayer(mainLayerID).addText("", 1.0f, arial, new Vector2f(0f, 0.88f), 0.5f, false);
+		ui.getLayer(mainLayerID).addText("", 1.0f, arial, new Vector2f(0.88f, 0.92f), 0.5f, false);
+		ui.getLayer(mainLayerID).addText("", 1.0f, arial, new Vector2f(0.90f, 0.0f), 0.5f, false);
+		ui.getLayer(mainLayerID).addText("", 1.4f, arial, new Vector2f(0.45f, 0.0f), 0.5f, false);
 		ui.getLayer(mainLayerID).getGuiText(0).setColor(1, 1, 1);
 		ui.getLayer(mainLayerID).getGuiText(1).setColor(1, 1, 1);
 		ui.getLayer(mainLayerID).getGuiText(2).setColor(1, 1, 1);
 		ui.getLayer(mainLayerID).getGuiText(3).setColor(1, 1, 1);
 		ui.getLayer(mainLayerID).getGuiText(4).setColor(1, 1, 1);
 		ui.getLayer(mainLayerID).getGuiText(5).setColor(1, 1, 1);
+		ui.getLayer(mainLayerID).getGuiText(6).setColor(1, 0, 0);
 
 		ui.getLayer(mainLayerID).addButton(Game.loader.loadTexture("GUI3"), Game.loader.loadTexture("GUI3"),
 				new Vector2f(-0.82f, -0.87f), new Vector2f(0.18f, 0.13f), "", arial);
@@ -266,11 +291,12 @@ public class Scene {
 						+ String.format("%.0f", dataObject.getPlayer().getPosition().y) + ", "
 						+ String.format("%.0f", dataObject.getPlayer().getPosition().z) + "] m"));
 		ui.getLayer(mainLayerID).getGuiText(3).changeText(
-				dataObject.getPlayer().isInertiaDampenerOn() ? "Inertia dampeners: OFF" : "Inertia dampeners: ON");
+				dataObject.getPlayer().isInertiaDampenerOn() ?Language.getLanguageData("ui_dampeners") + ": OFF" : Language.getLanguageData("ui_dampeners") + ": ON");
 		ui.getLayer(mainLayerID).getGuiText(4)
-				.changeText("Bullets: " + (dataObject.getPlayer().getWeapon().getCurrentAmmunition()) + "/"
+				.changeText(Language.getLanguageData("ui_bullets") + ": " + (dataObject.getPlayer().getWeapon().getCurrentAmmunition()) + "/"
 						+ (dataObject.getPlayer().getWeapon().getStartAmmo()));
-		ui.getLayer(mainLayerID).getGuiText(5).changeText("Score: " + Player.score);
+		ui.getLayer(mainLayerID).getGuiText(5).changeText(Language.getLanguageData("ui_score") + ": " + Player.score);
+		ui.getLayer(mainLayerID).getGuiText(6).changeText(Language.getLanguageData("ui_health") + ": " + dataObject.getPlayer().getHealth());
 	}
 
 }

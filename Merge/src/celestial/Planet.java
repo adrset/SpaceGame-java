@@ -24,7 +24,7 @@ public class Planet extends CelestialBody {
 		super(model,
 				new Vector3f((float) (majorAxis * Math.cos(Math.toRadians(startAngle))), 0f,
 						(float) (minorAxis * Math.sin(Math.toRadians(startAngle)))),
-				rotation.x, rotation.y, rotation.z, new Vector3f(), radius, density, false);
+				rotation.x, rotation.y, rotation.z, new Vector3f(), radius, density, false, 10000);
 
 		this.angularVelocity = angularVelocity;
 		this.startAngle = startAngle;

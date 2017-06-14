@@ -11,7 +11,7 @@ public class Light extends CelestialBody {
 	public Light(TexturedModel model, Vector3f position, Vector3f color, Vector3f attenuation, float radius,
 			float density) {
 
-		super(model, position, 0, 0, 0, new Vector3f(), radius, density, true);
+		super(model, position, 0, 0, 0, new Vector3f(), radius, density, true, 100000);
 		this.color = color;
 		this.attenuation = attenuation;
 		super.getModel().getModelTexture().setFakeLight(true);
@@ -22,7 +22,7 @@ public class Light extends CelestialBody {
 	}
 
 	public Light(TexturedModel model, Vector3f position, Vector3f color, float radius, float density) {
-		super(model, position, 0, 0, 0, new Vector3f(), radius, density, true);
+		super(model, position, 0, 0, 0, new Vector3f(), radius, density, true, 10000);
 
 		this.color = color;
 	}

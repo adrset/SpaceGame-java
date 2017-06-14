@@ -52,7 +52,7 @@ public class Player extends CelestialBody {
 
 	public Player(TexturedModel model, Vector3f position, float rotationX, float rotationY, float rotationZ,
 			Vector3f velocity, float speed, float radius, float density) {
-		super(model, position, rotationX, rotationY, rotationZ, velocity, radius, density, false);
+		super(model, position, rotationX, rotationY, rotationZ, velocity, radius, density, false, 10000);
 		this.currentSpeed = speed;
 	}
 
