@@ -16,8 +16,6 @@ import utils.Timer;
  */
 public class Force {
 
-	private Thread t1;
-
 	final float G = (float) -6.67E-15;
 	Vector3f[] k1r = new Vector3f[120]; // first increment for every
 	Vector3f[] k1v = new Vector3f[120]; // variable
@@ -27,7 +25,6 @@ public class Force {
 	Vector3f[] k3v = new Vector3f[120]; // variable
 	Vector3f[] k4r = new Vector3f[120]; // fourth increment for every
 	Vector3f[] k4v = new Vector3f[120]; // variable
-	private boolean isRunning = false;
 	Vector3f[] position = new Vector3f[120];
 	Vector3f[] velocity = new Vector3f[120];
 	private DataObject dataObject;
