@@ -33,6 +33,5 @@
 	<classpathentry kind="lib" path="javalib/PNGDecoder.jar"/>
 	<classpathentry kind="lib" path="C:/javalib/lwjgl-openal.jar"/>
 	<classpathentry kind="lib" path="C:/javalib/lwjgl-openal-natives-windows.jar"/>
-	<classpathentry kind="lib" path="H:/git/Merge/javalib/vorbis-java-core-0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
