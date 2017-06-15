@@ -259,26 +259,26 @@ public class Force {
 				tmp.div(6);
 				dataObject.getAsteroids().get(ii).increaseVelocity(tmp);
 			} else if (ii == dataObject.getAsteroids().size()) {
-				if (dataObject.getPlayer().force) {
-					Vector3f tmp = new Vector3f(k1r[ii]);
-					tmp.add(k2r[ii]);
-					tmp.add(k2r[ii]);
-					tmp.add(k3r[ii]);
-					tmp.add(k3r[ii]);
-					tmp.add(k4r[ii]);
-					tmp.div(6);
-					dataObject.getPlayer().increasePosition(tmp);
 
-					tmp = new Vector3f(k1v[ii]);
-					tmp.add(k2v[ii]);
-					tmp.add(k2v[ii]);
-					tmp.add(k3v[ii]);
-					tmp.add(k3v[ii]);
-					tmp.add(k4v[ii]);
-					tmp.div(6);
-					dataObject.getPlayer().increaseVelocity(tmp);
-				}
+				Vector3f tmp = new Vector3f(k1r[ii]);
+				tmp.add(k2r[ii]);
+				tmp.add(k2r[ii]);
+				tmp.add(k3r[ii]);
+				tmp.add(k3r[ii]);
+				tmp.add(k4r[ii]);
+				tmp.div(6);
+				dataObject.getPlayer().increasePosition(tmp);
+
+				tmp = new Vector3f(k1v[ii]);
+				tmp.add(k2v[ii]);
+				tmp.add(k2v[ii]);
+				tmp.add(k3v[ii]);
+				tmp.add(k3v[ii]);
+				tmp.add(k4v[ii]);
+				tmp.div(6);
+				dataObject.getPlayer().increaseVelocity(tmp);
 			}
+
 		}
 		cleanSteps();
 
