@@ -14,7 +14,6 @@ import utils.Timer;
  *
  */
 public class Force {
-
 	final float G = (float) -6.67E-15;
 	Vector3f[] k1r = new Vector3f[120]; // first increment for every
 	Vector3f[] k1v = new Vector3f[120]; // variable
@@ -26,6 +25,7 @@ public class Force {
 	Vector3f[] k4v = new Vector3f[120]; // variable
 	Vector3f[] position = new Vector3f[120];
 	Vector3f[] velocity = new Vector3f[120];
+	private float scale;
 	private DataObject dataObject;
 	int currentAsteroid;
 
@@ -47,6 +47,7 @@ public class Force {
 
 	public Force(DataObject dataObject) {
 		this.dataObject = dataObject;
+		scale = 1;
 	}
 
 	public Vector3f firstMethod(Vector3f tmp, float dt) { // from first equation
@@ -75,6 +76,7 @@ public class Force {
 			r3Scalar = 0;
 			scalar = 0;
 		}
+		
 
 		for (Light l : dataObject.getLights()) {
 			forcetmp.add(tmp);
@@ -114,14 +116,28 @@ public class Force {
 			forcetmp = new Vector3f(0f, 0f, 0f);
 
 		}
-		if (ifPlayer == 1) {
-			
-			System.out.println(force.x);
-			System.out.println(force.y);
-			System.out.println(force.z);
-			System.out.println("xD");
-		}
 		
+		if (ifPlayer == 1) {
+			if (!dataObject.getPlayer().isInertiaDampenerOn()==true) {
+				if (scale < 100) {
+					force.div(scale);
+					scale += 0.04;
+				}
+				else{
+					force=new Vector3f();
+				}
+			}
+			
+			if (!dataObject.getPlayer().isInertiaDampenerOn()==false) {
+				if (scale >1) {
+					force.div(scale);
+					scale -= 0.04;
+				}
+				
+			}
+
+
+		}
 
 		return force;
 	}

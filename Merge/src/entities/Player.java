@@ -26,7 +26,7 @@ public class Player extends CelestialBody {
     float val = 0;
     float val2 = 0;
     private static final float RUN_SPEED = 5f;
-    private static final float MAX_SPEED = 20f;
+    private static final float MAX_SPEED = 50f;
     private static final float ROTATE_SPEED = 30;
     private static boolean inertiaDampener = false;
     public boolean force = false;
