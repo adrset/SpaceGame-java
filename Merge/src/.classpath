@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path=""/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/media/adrian/5C38B0C138B09C08/javalib/joml-1.9.3-20170212.221600-11.jar"/>
+	<classpathentry kind="lib" path="/media/adrian/5C38B0C138B09C08/javalib/lwjgl.jar"/>
+	<classpathentry kind="lib" path="/media/adrian/5C38B0C138B09C08/javalib/json-simple-1.1.jar"/>
+	<classpathentry kind="lib" path="/media/adrian/5C38B0C138B09C08/javalib/lwjgl-glfw.jar"/>
+	<classpathentry kind="lib" path="/media/adrian/5C38B0C138B09C08/javalib/lwjgl-glfw-natives-linux.jar"/>
+	<classpathentry kind="lib" path="/media/adrian/5C38B0C138B09C08/javalib/lwjgl-glfw-natives-windows.jar"/>
+	<classpathentry kind="lib" path="/media/adrian/5C38B0C138B09C08/javalib/lwjgl-natives-linux.jar"/>
+	<classpathentry kind="lib" path="/media/adrian/5C38B0C138B09C08/javalib/lwjgl-natives-windows.jar"/>
+	<classpathentry kind="lib" path="/media/adrian/5C38B0C138B09C08/javalib/lwjgl-opengl.jar"/>
+	<classpathentry kind="lib" path="/media/adrian/5C38B0C138B09C08/javalib/lwjgl-opengl-natives-linux.jar"/>
+	<classpathentry kind="lib" path="/media/adrian/5C38B0C138B09C08/javalib/lwjgl-opengl-natives-windows.jar"/>
+	<classpathentry kind="lib" path="/media/adrian/5C38B0C138B09C08/javalib/PNGDecoder.jar"/>
+	<classpathentry kind="output" path=""/>
+</classpath>

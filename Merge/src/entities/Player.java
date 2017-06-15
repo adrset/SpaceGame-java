@@ -22,12 +22,21 @@ public class Player extends CelestialBody {
     private static final float MAX_SPEED = 20f;
     private static final float ROTATE_SPEED = 30;
     private static boolean inertiaDampener = false;
-    public static int score = 0;
+    public boolean force = false;
+    private int score = 0;
     private Weapon weapon;
     public Vector3f extraForce=new Vector3f();
    
     public Vector3f getExtraForce(){
         return extraForce;
+    }
+    
+    public void addScore(int number){
+    	this.score += number;
+    }
+    
+    public int getScore(){
+    	return this.score;
     }
    
     public boolean isInertiaDampenerOn(){

@@ -1,0 +1,22 @@
+{
+  "supportedVersion" : "1.0",
+  "language" : "polish",
+  "sentences" : {
+    "menu_play" : "Graj",
+	"menu_back" : "Cofnij",
+	"menu_language" : "Jêzyk: polski",
+	"menu_vsync_on" : "V-Sync on",
+	"menu_vsync_off" : "V-Sync off",
+    "menu_preferences" : "Ustawienia",
+	"menu_antialiasing" : "Antialiasing",
+    "menu_exit" : "WyjdŸ",
+	"glfw_init_failed" : "Nie mo¿na zainicjalizowaæ GLFW!",
+	"glfw_version" : "Wersja LWJGL:",
+	"ui_health" : "Zdrowie",
+	"ui_bullets" : "Naboje",
+	"ui_score" : "Wynik",
+	"ui_dampeners" : "Hamulce",
+	"ui_velocity" : "Prêdkoœæ",
+	"ui_position" : "Pozycja",
+  }
+}

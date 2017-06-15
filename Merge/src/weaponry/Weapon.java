@@ -9,7 +9,6 @@ import audio.AudioManager;
 import audio.AudioSource;
 import celestial.DataObject;
 import celestial.HostileShip;
-import entities.Player;
 import models.TexturedModel;
 import utils.Timer;
 
@@ -85,10 +84,10 @@ public class Weapon {
 			
 			if(distance < ship.getRadius() + Bullet.collisionSphereRadius){
 				if(!ship.hitShip(damage)){	
-					Player.score += 1000;
+					dataObject.getPlayer().addScore(1000);
 					return true;
 				}
-				Player.score += damage;
+				dataObject.getPlayer().addScore((int) damage);
 				return true;
 			}else{
 				continue;

@@ -239,6 +239,9 @@ public class Scene {
 		if (isAboutEnd == 1) {
 			ui.getLayer(mainLayerID).addText("You died", 3.0f, arial, new Vector2f(0.4f, 0.4f), 0.3f, false);
 			ui.getLayer(mainLayerID).getGuiText(7).setColor(1, 0, 0);
+			dataObject.getPlayer();
+			ui.getLayer(mainLayerID).addText("SCORE: " + dataObject.getPlayer().getScore(), 3.0f, arial, new Vector2f(0.4f, 0.5f), 0.2f, false);
+			ui.getLayer(mainLayerID).getGuiText(7).setColor(1, 1, 0);
 			isAboutEnd = -1;
 			dataObject.getPlayer().setHealth(0);
 			source.stop();
@@ -288,7 +291,7 @@ public class Scene {
 		ui.getLayer(mainLayerID).getGuiText(4)
 				.changeText(Language.getLanguageData("ui_bullets") + ": " + (dataObject.getPlayer().getWeapon().getCurrentAmmunition()) + "/"
 						+ (dataObject.getPlayer().getWeapon().getStartAmmo()));
-		ui.getLayer(mainLayerID).getGuiText(5).changeText(Language.getLanguageData("ui_score") + ": " + Player.score);
+		ui.getLayer(mainLayerID).getGuiText(5).changeText(Language.getLanguageData("ui_score") + ": " + dataObject.getPlayer().getScore());
 		ui.getLayer(mainLayerID).getGuiText(6).changeText(Language.getLanguageData("ui_health") + ": " + dataObject.getPlayer().getHealth());
 	}
 

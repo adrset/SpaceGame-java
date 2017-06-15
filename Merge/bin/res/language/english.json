@@ -1,0 +1,22 @@
+{
+  "supportedVersion" : "1.0",
+  "language" : "english",
+  "sentences" : {
+    "menu_play" : "Play",
+	"menu_back" : "Back",
+	"menu_language" : "Language: english",
+	"menu_vsync_on" : "V-Sync on",
+	"menu_vsync_off" : "V-Sync off",
+    "menu_preferences" : "Preferences",
+	"menu_antialiasing" : "Antialiasing",
+    "menu_exit" : "Exit",
+	"glfw_init_failed" : "Could not init GLFW!",
+	"glfw_version" : "LWJGL version:",
+	"ui_health" : "Health",
+	"ui_bullets" : "Bullets",
+	"ui_score" : "Score",
+	"ui_dampeners" : "Inertia dampeners",
+	"ui_velocity" : "Velocity",
+	"ui_position" : "Position",
+  }
+}

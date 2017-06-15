@@ -1,0 +1,143 @@
+{
+  "supportedVersion" : "1.0",
+  "levelName": "Level1",
+  "entities": {
+    "planet":{
+      "planet1" : {
+        "radius" : 9000,
+        "rotation" : 1,
+		"mass" : 150000000000000.0,
+         "position": {
+			"angle" : 30,
+			"angularVelocity" : 0.5
+        },
+		"orbit" :{
+		"a" : 353411,
+		"b" : 411412,
+		},
+        "model" : "planet",
+        "texture" : "2"
+      },
+      "planet2" : {
+        "radius" : 7500,
+         "rotation" : 1,
+		"mass" : 2000000000000000.0,
+        "position": {
+			"angle" : 120,
+			"angularVelocity" : 0.5
+        },
+		"orbit" :{
+			"a" : 214000,
+			"b" : 215000,
+		},
+        "model" : "planet",
+        "texture" : "2"
+      },
+	  "planet3" : {
+        "radius" : 9000,
+        "rotation" : 1,
+		"mass" : 9200000000000000.0,
+        "position": {
+			"angle" : 220,
+			"angularVelocity" : 0.9
+        },
+		"orbit" :{
+			"a" : 320000,
+			"b" : 341200,
+		},
+        "model" : "planet",
+        "texture" : "2"
+      },
+	  "planet4" : {
+        "radius" : 8000,
+        "rotation" : 1,
+		"mass" : 221000778410.0,
+        "position": {
+			"angle" : 320,
+			"angularVelocity" : 1.0
+        },
+		"orbit" :{
+			"a" : 161500,
+			"b" : 179600,
+		},
+        "model" : "planet",
+        "texture" : "2"
+      },
+	  "planet5" : {
+        "radius" : 7000,
+        "rotation" : 10,
+		"mass" : 20300041.0,
+        "position": {
+			"angle" : -40,
+			"angularVelocity" : 0.97
+        },
+		"orbit" :{
+			"a" : 220000,
+			"b" : 236012,
+		},
+        "model" : "planet",
+        "texture" : "earth"
+      },
+	  "planet6" : {
+        "radius" : 5000,
+        "rotation" : 0.00,
+		"mass" : 212341213340.0,
+        "position": {
+			"angle" : 170,
+			"angularVelocity" : 0.25
+        },
+		"orbit" :{
+			"a" : 616000,
+			"b" : 676000,
+		},
+        "model" : "planet",
+        "texture" : "2"
+      }
+      
+    },
+    "player":{
+      "size" : 5,
+      "position": {
+        "x" : 200000.0,
+        "y" : 0.0,
+        "z" : 123010.0
+      },
+	  "speed" : 100.0,
+      "model" : "planet",
+      "texture" : "2"
+    },
+    "lights":{
+      "light1":{
+        "position":{
+          "x" : 0.0,
+          "y" : 0.0,
+          "z" : 0.0
+        },
+        "color":{
+          "r" : 255,
+          "g" : 255,
+          "b" : 153
+         },
+         "attentuation" : {
+           "d1" : 1.0,
+           "d2" : 0.0,
+           "d3" : 0.0
+         },
+         "model" : "planet",
+         "texture" : "sun",
+         "radius" : 25000,
+         "density" : 10000000000000.0
+      }
+    }
+
+  },
+  "skybox" : {
+	"top" : "skybox_top",
+	"bottom" : "skybox_bottom",
+	"front" : "skybox_front",
+	"back" : "skybox_back",
+	"left" : "skybox_left",
+	"right" : "skybox_right"
+  }
+
+}
