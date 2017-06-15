@@ -14,7 +14,7 @@ import utils.Logs;
 /**
  * OBJLoader class. Simple .obj parser. Loads the file, converts data and uploads the data to GPU using Loader.
  *
- * @author Adrian Setniewski
+ * @author Przemyslaw Nowak
  *
  */
 

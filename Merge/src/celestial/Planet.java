@@ -11,7 +11,7 @@ import utils.Timer;
  * are not affected by gravity - they follow predefined orbits. They only
  * produce it.
  *
- * @author Adrian Setniewski
+ * @author Przemyslaw Nowak
  *
  */
 

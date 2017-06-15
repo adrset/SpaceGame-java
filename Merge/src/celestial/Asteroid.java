@@ -7,7 +7,7 @@ import models.TexturedModel;
 /**
  * Asteroid class
  *
- * @author Adrian Setniewski
+ * @author Przemyslaw Nowak
  *
  */
 

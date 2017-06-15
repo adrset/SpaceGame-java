@@ -12,7 +12,7 @@ import scenes.Scene;
 /**
  * CollisionDetector class. Takes care of collisions.
  *
- * @author Adrian Setniewski
+ * @author Przemyslaw Nowak
  *
  */
 
@@ -100,9 +100,8 @@ public class CollisionDetector implements Runnable {
 				}
 			}
 			
-			int kk=0;
 			
-			for(Iterator<CelestialBody> it = bodies.iterator(); it.hasNext();kk++){
+			for(Iterator<CelestialBody> it = bodies.iterator(); it.hasNext();){
 				if(!it.next().isAlive()){
 					System.out.println("Removing body - it crashed.");
 					it.remove();

@@ -10,7 +10,7 @@ import utils.Timer;
  * Hostile ship class. Hostile ship will follow the player and affect it with
  * it's radiation, what causes player to lose health.
  *
- * @author Adrian Setniewski
+ * @author Przemyslaw Nowak
  *
  */
 

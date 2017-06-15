@@ -6,7 +6,7 @@ public class Camera {
 	/**
 	 * Camera class containing its position, and euler's angles
 	 * 
-	 * @author Adrian Setniewski
+	 * @author Przemyslaw Nowak
 	 *
 	 */
 	protected Vector3f position = new Vector3f(0.0f, 0.0f, 0.0f);

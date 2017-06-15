@@ -25,7 +25,8 @@ public class Force {
 	Vector3f[] k4v = new Vector3f[120]; // variable
 	Vector3f[] position = new Vector3f[120];
 	Vector3f[] velocity = new Vector3f[120];
-	private float scale;
+	private float scale, scale2;
+	
 	private DataObject dataObject;
 	int currentAsteroid;
 
@@ -48,6 +49,7 @@ public class Force {
 	public Force(DataObject dataObject) {
 		this.dataObject = dataObject;
 		scale = 1;
+		scale2=1;
 	}
 
 	public Vector3f firstMethod(Vector3f tmp, float dt) { // from first equation
@@ -108,14 +110,7 @@ public class Force {
 			}
 
 		}
-		if (ifPlayer == 1) {
-
-			forcetmp = new Vector3f(0f, 0f, 0f);
-			forcetmp.add(dataObject.getPlayer().getExtraForce());
-			force.add(forcetmp);
-			forcetmp = new Vector3f(0f, 0f, 0f);
-
-		}
+		
 		
 		if (ifPlayer == 1) {
 			if (!dataObject.getPlayer().isInertiaDampenerOn()==true) {
@@ -124,11 +119,22 @@ public class Force {
 					scale += 0.04;
 				}
 				else{
-					force=new Vector3f();
+					force=new Vector3f();	
+					if (scale2 < 100) {
+						Vector3f temporary= new Vector3f(dataObject.getPlayer().getVelocity());
+						temporary.div(scale2);
+						dataObject.getPlayer().setVelocity(temporary);
+						scale2 += 0.000002;
+					}
+					else{
+						dataObject.getPlayer().setVelocity(new Vector3f());
+					}
 				}
+				
 			}
 			
 			if (!dataObject.getPlayer().isInertiaDampenerOn()==false) {
+				scale2=1;
 				if (scale >1) {
 					force.div(scale);
 					scale -= 0.04;
@@ -136,6 +142,15 @@ public class Force {
 				
 			}
 
+
+		}
+		
+		if (ifPlayer == 1) {
+
+			forcetmp = new Vector3f(0f, 0f, 0f);
+			forcetmp.add(dataObject.getPlayer().getExtraForce());
+			force.add(forcetmp);
+			forcetmp = new Vector3f(0f, 0f, 0f);
 
 		}
 

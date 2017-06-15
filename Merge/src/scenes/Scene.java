@@ -18,7 +18,6 @@ import celestial.Light;
 import celestial.Planet;
 import entities.Camera3D;
 import entities.Entity;
-import entities.Player;
 import fontMeshCreator.FontType;
 import game.Game;
 import gui.UI;
@@ -29,7 +28,6 @@ import textures.ModelTexture;
 import threads.CollisionDetector;
 import threads.Force;
 import utils.Logs;
-import utils.MousePicker;
 import utils.Timer;
 import weaponry.Weapon;
 
@@ -110,7 +108,8 @@ public class Scene {
 			allHostile.add(new HostileShip(
 					new TexturedModel(ResourceCache.loadOBJ("shipMapped", Game.loader),
 							new ModelTexture(ResourceCache.loadTexture("ship", Game.loader))),
-					new Vector3f(dataObject.getPlayer().getPosition().x + generator.nextInt(30000)- 15000, dataObject.getPlayer().getPosition().y + generator.nextInt(30000)- 15000,
+					new Vector3f(dataObject.getPlayer().getPosition().x + generator.nextInt(30000) - 15000,
+							dataObject.getPlayer().getPosition().y + generator.nextInt(30000) - 15000,
 							dataObject.getPlayer().getPosition().y + generator.nextInt(30000) - 15000),
 					0, 0, 0, 1000f, new Vector3f(), 800f + (float) generator.nextInt(500),
 					generator.nextInt(2) + generator.nextFloat(), 1, (float) generator.nextInt(500)));
@@ -195,8 +194,7 @@ public class Scene {
 								new TexturedModel(ResourceCache.loadOBJ("shipMapped", Game.loader),
 										new ModelTexture(ResourceCache.loadTexture("ship", Game.loader))),
 								new Vector3f(dataObject.getPlayer().getPosition().x + generator.nextInt(5000),
-										dataObject.getPlayer().getPosition().y
-												+ generator.nextInt(5000),
+										dataObject.getPlayer().getPosition().y + generator.nextInt(5000),
 										dataObject.getPlayer().getPosition().y + generator.nextInt(9000)),
 								0, 0, 0, 1000f, new Vector3f(), 800f + (float) generator.nextInt(500),
 								generator.nextInt(2) + generator.nextFloat(), 1, (float) generator.nextInt(500)));
@@ -205,10 +203,18 @@ public class Scene {
 
 		if (isAboutEnd == 0) {
 
+			for (Planet p : dataObject.getPlanets()) {
+				double check = (float) Math.pow(Math.pow((dataObject.getPlayer().getPosition().x - p.getPosition().x), 2)
+						+ Math.pow((dataObject.getPlayer().getPosition().y - p.getPosition().y), 2)
+						+ Math.pow((dataObject.getPlayer().getPosition().z - p.getPosition().z), 2), 1.5);
+				if (check<2E13) dataObject.getPlayer().setHealth (dataObject.getPlayer().getHealth() + 5);
+				
+			}
+
 			dataObject.getPlayer().move();
 			dataObject.getPlayer().getWeapon().refreshBullets();
 			force.calculateDeltas();
-			if(!dataObject.getPlayer().isAlive()){
+			if (!dataObject.getPlayer().isAlive()) {
 				isAboutEnd = 1; // set dead
 			}
 		}
@@ -236,6 +242,7 @@ public class Scene {
 			updateUI();
 			ui.render();
 		}
+
 		checkEnd();
 		try {
 			Thread.sleep((long) (Timer.end() * 1000)); // bad
@@ -249,7 +256,8 @@ public class Scene {
 		if (isAboutEnd == 1) {
 			ui.getLayer(mainLayerID).addText("You died", 3.0f, arial, new Vector2f(0.4f, 0.4f), 0.3f, false);
 			ui.getLayer(mainLayerID).getGuiText(8).setColor(1, 0, 0);
-			ui.getLayer(mainLayerID).addText("SCORE: " + dataObject.getPlayer().getScore(), 3.0f, arial, new Vector2f(0.4f, 0.5f), 0.2f, false);
+			ui.getLayer(mainLayerID).addText("SCORE: " + dataObject.getPlayer().getScore(), 3.0f, arial,
+					new Vector2f(0.4f, 0.5f), 0.2f, false);
 			ui.getLayer(mainLayerID).getGuiText(9).setColor(1, 0.5f, 0);
 			isAboutEnd = -1;
 			dataObject.getPlayer().setHealth(0);
@@ -281,7 +289,7 @@ public class Scene {
 		ui.getLayer(mainLayerID).getGuiText(5).setColor(1, 1, 1);
 		ui.getLayer(mainLayerID).getGuiText(6).setColor(1, 0, 0);
 		ui.getLayer(mainLayerID).getGuiText(7).setColor(1, 0, 0);
-		ui.getLayer(mainLayerID).addButton(Game.loader.loadTexture("GUI3"), Game.loader.loadTexture("GUI3"),
+		ui.getLayer(mainLayerID).addButton(Game.loader.loadTexture("gui3"), Game.loader.loadTexture("gui3"),
 				new Vector2f(-0.82f, -0.87f), new Vector2f(0.18f, 0.13f), "", arial);
 
 	}
@@ -296,14 +304,20 @@ public class Scene {
 				.changeText(new String("[" + String.format("%.0f", dataObject.getPlayer().getPosition().x) + ", "
 						+ String.format("%.0f", dataObject.getPlayer().getPosition().y) + ", "
 						+ String.format("%.0f", dataObject.getPlayer().getPosition().z) + "] m"));
-		ui.getLayer(mainLayerID).getGuiText(3).changeText(
-				dataObject.getPlayer().isInertiaDampenerOn() ?Language.getLanguageData("ui_dampeners") + ": OFF" : Language.getLanguageData("ui_dampeners") + ": ON");
+		ui.getLayer(mainLayerID).getGuiText(3)
+				.changeText(dataObject.getPlayer().isInertiaDampenerOn()
+						? Language.getLanguageData("ui_dampeners") + ": OFF"
+						: Language.getLanguageData("ui_dampeners") + ": ON");
 		ui.getLayer(mainLayerID).getGuiText(4)
-				.changeText(Language.getLanguageData("ui_bullets") + ": " + (dataObject.getPlayer().getWeapon().getCurrentAmmunition()) + "/"
+				.changeText(Language.getLanguageData("ui_bullets") + ": "
+						+ (dataObject.getPlayer().getWeapon().getCurrentAmmunition()) + "/"
 						+ (dataObject.getPlayer().getWeapon().getStartAmmo()));
-		ui.getLayer(mainLayerID).getGuiText(5).changeText(Language.getLanguageData("ui_score") + ": " + dataObject.getPlayer().getScore());
-		ui.getLayer(mainLayerID).getGuiText(6).changeText(Language.getLanguageData("ui_health") + ": " + dataObject.getPlayer().getHealth());
-		ui.getLayer(mainLayerID).getGuiText(7).changeText(Language.getLanguageData("ui_enemies") + ": " + dataObject.getHostileShips().size());
+		ui.getLayer(mainLayerID).getGuiText(5)
+				.changeText(Language.getLanguageData("ui_score") + ": " + dataObject.getPlayer().getScore());
+		ui.getLayer(mainLayerID).getGuiText(6)
+				.changeText(Language.getLanguageData("ui_health") + ": " + dataObject.getPlayer().getHealth());
+		ui.getLayer(mainLayerID).getGuiText(7)
+				.changeText(Language.getLanguageData("ui_enemies") + ": " + dataObject.getHostileShips().size());
 	}
 
 }

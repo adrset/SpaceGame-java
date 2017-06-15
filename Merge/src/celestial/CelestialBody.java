@@ -8,7 +8,7 @@ import models.TexturedModel;
 /**
  * Celestial body class. Every celestial body has a mass and is intended to be affected by gravity.
  *
- * @author Adrian Setniewski
+ * @author Przemyslaw Nowak
  *
  */
 

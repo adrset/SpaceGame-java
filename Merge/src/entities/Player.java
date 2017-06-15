@@ -14,7 +14,7 @@ import weaponry.Weapon;
 /**
  * Player class. Currently there's only one player. This class handles player movement.
  *
- * @author Adrian Setniewski
+ * @author Przemyslaw Nowak
  *
  */
  
@@ -25,8 +25,8 @@ public class Player extends CelestialBody {
     private float currentSpeedRotateSpeed = 0;
     float val = 0;
     float val2 = 0;
-    private static final float RUN_SPEED = 5f;
-    private static final float MAX_SPEED = 50f;
+    private static final float RUN_SPEED = 20f;
+    private static final float MAX_SPEED = 100f;
     private static final float ROTATE_SPEED = 30;
     private static boolean inertiaDampener = false;
     public boolean force = false;
@@ -66,7 +66,7 @@ public class Player extends CelestialBody {
     public Player(TexturedModel model, Vector3f position, float rotationX, float rotationY, float rotationZ,
             Vector3f velocity, float speed, float radius, float density) {
         super(model, position, rotationX, rotationY, rotationZ, velocity, radius, density, false, 10000);
-        //this.currentSpeed = speed;
+        
         this.currentForce = 0f;
         extraForce=new Vector3f(0f,0f,0f);
     }
@@ -104,26 +104,26 @@ public class Player extends CelestialBody {
         float multi = 0, multi2 = 0;
         if (Keyboard.isKeyDown(GLFW.GLFW_KEY_W)) {
             if (this.currentForce < MAX_SPEED) {
-                multi += 0.0002f;
+                multi += 0.002f;
                 this.currentForce += Math.exp((multi-10) / RUN_SPEED);
             }
  
         } else if (Keyboard.isKeyDown(GLFW.GLFW_KEY_U)) {
             if (this.currentForce < MAX_SPEED) {
-                multi += 0.0002f;
+                multi += 0.002f;
                 this.currentForce += Math.exp((multi-10) / RUN_SPEED);
             }
  
         } else if (Keyboard.isKeyDown(GLFW.GLFW_KEY_S)) {
-            multi2 += 0.0002f;
+            multi2 += 0.002f;
             this.currentForce -= Math.exp((multi2-10) / RUN_SPEED);
         } else {
             if (!inertiaDampener) {
                 if (currentForce > 3) {
-                    multi2 += 0.0002f;
+                    multi2 += 0.002f;
                     this.currentForce -= Math.exp((multi2-10) / RUN_SPEED);
                 } else if (currentForce < -3) {
-                    multi2 += 0.0002f;
+                    multi2 += 0.002f;
                     this.currentForce += Math.exp((multi2-10) / RUN_SPEED);
                 } else {
                     this.currentForce = 0;
@@ -135,13 +135,13 @@ public class Player extends CelestialBody {
         float multi1 = 0;
         if (Keyboard.isKeyDown(GLFW.GLFW_KEY_SPACE)) {
             if (this.currentForceUp < MAX_SPEED / 3) {
-                multi1 += 0.0002f;
+                multi1 += 0.002f;
                 this.currentForceUp += Math.exp((multi1-10) / (RUN_SPEED * 2));
             }
         } else if (Keyboard.isKeyDown(GLFW.GLFW_KEY_C)) {
             if (this.currentForceUp < MAX_SPEED / 3) {
                 if (-this.currentForceUp < MAX_SPEED) {
-                    multi1 -= 0.0002f;
+                    multi1 -= 0.002f;
                     this.currentForceUp -= Math.exp((multi1-10) / (RUN_SPEED * 2));
                 }
  
@@ -212,6 +212,8 @@ public class Player extends CelestialBody {
         }
         if (Keyboard.isKeyPressedOnce(GLFW.GLFW_KEY_R)) {
             weapon.reload();
+            if(getHealth()>300) setHealth(getHealth() - 300);
+            else setHealth(0); 
         }
     }
  
