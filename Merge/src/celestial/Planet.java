@@ -110,9 +110,9 @@ public class Planet extends CelestialBody {
 	}
 	
 	public Vector3f predictMove(float dt) {
-		float predictAngle = this.startAngle + (float) (angularVelocity * dt);
-		Vector3f predictedMove= new Vector3f((float) (majorAxis * Math.cos(Math.toRadians(predictAngle))), 0f,
-				(float) (minorAxis * Math.sin(Math.toRadians(predictAngle))));
+		float predictedAngle = this.startAngle + (float) (angularVelocity * dt);
+		Vector3f predictedMove= new Vector3f((float) (majorAxis * Math.cos(Math.toRadians(predictedAngle))), 0f,
+				(float) (minorAxis * Math.sin(Math.toRadians(predictedAngle))));
 		return predictedMove;
 		
 	}

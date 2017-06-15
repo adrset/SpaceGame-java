@@ -2,7 +2,24 @@
 /shaders/
 /utils/
 /celestial/
+<<<<<<< HEAD
 /res/
 /scenes/
 /entities/
 /threads/
+=======
+/audio/
+/fontRendering/
+/game/
+/gui/
+/input/
+/language/
+/models/
+/renderEngine/
+/scenes/
+/shaders/
+/skybox/
+/textures/
+/utils/
+/weaponry/
+>>>>>>> refs/remotes/origin/Full
