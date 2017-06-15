@@ -99,5 +99,13 @@ public class Planet extends CelestialBody {
 		super.setPosition(new Vector3f((float) (majorAxis * Math.cos(Math.toRadians(this.currentAngle))), 0f,
 				(float) (minorAxis * Math.sin(Math.toRadians(this.currentAngle)))));
 	}
+	
+	public Vector3f predictMove(float dt) {
+		float predictAngle = this.startAngle + (float) (angularVelocity * dt);
+		Vector3f predictedMove= new Vector3f((float) (majorAxis * Math.cos(Math.toRadians(predictAngle))), 0f,
+				(float) (minorAxis * Math.sin(Math.toRadians(predictAngle))));
+		return predictedMove;
+		
+	}
 
 }

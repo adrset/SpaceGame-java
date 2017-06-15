@@ -115,6 +115,14 @@ public class Force {
 			forcetmp = new Vector3f(0f, 0f, 0f);
 
 		}
+		if (ifPlayer == 1) {
+			
+			System.out.println(force.x);
+			System.out.println(force.y);
+			System.out.println(force.z);
+			System.out.println("xD");
+		}
+		
 
 		return force;
 	}
@@ -194,7 +202,7 @@ public class Force {
 		position[dataObject.getAsteroids().size()] = new Vector3f(dataObject.getPlayer().getPosition());
 		velocity[dataObject.getAsteroids().size()] = new Vector3f(dataObject.getPlayer().getVelocity());
 		cleanSteps();
-		// System.out.print(dataObject.getAsteroids().size());
+		// System.out.println(dataObject.getAsteroids().size());
 		for (int ii = 0; ii < dataObject.getAsteroids().size(); ii++) {
 			currentAsteroid = ii;
 			k1r[ii].add(firstMethod(velocity[ii], dt));
@@ -222,7 +230,7 @@ public class Force {
 		}
 		currentAsteroid += 3;
 		k3r[dataObject.getAsteroids().size()].add(firstMethod(velocity[dataObject.getAsteroids().size()], dt));
-		k3v[dataObject.getAsteroids().size()].add(secondMethod(position[dataObject.getAsteroids().size()], dt, 1, 0));
+		k3v[dataObject.getAsteroids().size()].add(secondMethod(position[dataObject.getAsteroids().size()], dt, 1, 1));
 		thirdUpdate();
 
 		for (int ii = 0; ii < dataObject.getAsteroids().size(); ii++) {

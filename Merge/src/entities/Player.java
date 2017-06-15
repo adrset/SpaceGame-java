@@ -13,8 +13,8 @@ import weaponry.Weapon;
  
 public class Player extends CelestialBody {
  
-    private float currentSpeed = 0;
-    private float currentSpeedUp = 0;
+    private float currentForce = 0;
+    private float currentForceUp = 0;
     private float currentSpeedRotateSpeed = 0;
     float val = 0;
     float val2 = 0;
@@ -60,12 +60,12 @@ public class Player extends CelestialBody {
             Vector3f velocity, float speed, float radius, float density) {
         super(model, position, rotationX, rotationY, rotationZ, velocity, radius, density, false, 10000);
         //this.currentSpeed = speed;
-        this.currentSpeed = 0f;
+        this.currentForce = 0f;
         extraForce=new Vector3f(0f,0f,0f);
     }
  
     public float getSpeed() {
-        return currentSpeed;
+        return currentForce;
     }
  
     public void setWeapon(Weapon w) {
@@ -76,12 +76,12 @@ public class Player extends CelestialBody {
  
         checkInput();
         super.increaseRotation(0, (float) (currentSpeedRotateSpeed * Timer.getLastLoopTime()), 0);
-        float Vx = (float) (currentSpeed * Math.sin(Math.toRadians(super.getRotationY()))
+        float Fx = (float) (currentForce * Math.sin(Math.toRadians(super.getRotationY()))
                 * Math.cos(Math.toRadians(super.getRotationX())));
-        float Vz = (float) (currentSpeed * Math.cos(Math.toRadians(super.getRotationY()))
+        float Fz = (float) (currentForce * Math.cos(Math.toRadians(super.getRotationY()))
                 * Math.cos(Math.toRadians(super.getRotationX())));
-        float Vy = (float) (currentSpeedUp + currentSpeed * Math.sin(Math.toRadians(super.getRotationX())));
-        extraForce=new Vector3f(Vx,Vy,Vz);
+        float Fy = (float) (currentForceUp + currentForce * Math.sin(Math.toRadians(super.getRotationX())));
+        extraForce=new Vector3f(Fx,Fy,Fz);
         //extraForce2=new Vector3f(Vx,Vy,Vz);
         //super.setVelocity(Vx, Vy, Vz);
         //super.increasePosition(Vx, Vy, Vz, Timer.getLastLoopTime());
@@ -95,30 +95,30 @@ public class Player extends CelestialBody {
         }
         float multi = 0, multi2 = 0;
         if (Keyboard.isKeyDown(GLFW.GLFW_KEY_W)) {
-            if (this.currentSpeed < MAX_SPEED) {
+            if (this.currentForce < MAX_SPEED) {
                 multi += 0.0002f;
-                this.currentSpeed += Math.exp((multi-10) / RUN_SPEED);
+                this.currentForce += Math.exp((multi-10) / RUN_SPEED);
             }
  
         } else if (Keyboard.isKeyDown(GLFW.GLFW_KEY_U)) {
-            if (this.currentSpeed < MAX_SPEED) {
+            if (this.currentForce < MAX_SPEED) {
                 multi += 0.0002f;
-                this.currentSpeed += Math.exp((multi-10) / RUN_SPEED);
+                this.currentForce += Math.exp((multi-10) / RUN_SPEED);
             }
  
         } else if (Keyboard.isKeyDown(GLFW.GLFW_KEY_S)) {
             multi2 += 0.0002f;
-            this.currentSpeed -= Math.exp((multi2-10) / RUN_SPEED);
+            this.currentForce -= Math.exp((multi2-10) / RUN_SPEED);
         } else {
             if (!inertiaDampener) {
-                if (currentSpeed > 3) {
+                if (currentForce > 3) {
                     multi2 += 0.0002f;
-                    this.currentSpeed -= Math.exp((multi2-10) / RUN_SPEED);
-                } else if (currentSpeed < -3) {
+                    this.currentForce -= Math.exp((multi2-10) / RUN_SPEED);
+                } else if (currentForce < -3) {
                     multi2 += 0.0002f;
-                    this.currentSpeed += Math.exp((multi2-10) / RUN_SPEED);
+                    this.currentForce += Math.exp((multi2-10) / RUN_SPEED);
                 } else {
-                    this.currentSpeed = 0;
+                    this.currentForce = 0;
                 }
             }
  
@@ -126,26 +126,26 @@ public class Player extends CelestialBody {
  
         float multi1 = 0;
         if (Keyboard.isKeyDown(GLFW.GLFW_KEY_SPACE)) {
-            if (this.currentSpeedUp < MAX_SPEED / 3) {
+            if (this.currentForceUp < MAX_SPEED / 3) {
                 multi1 += 0.0002f;
-                this.currentSpeedUp += Math.exp((multi1-10) / (RUN_SPEED * 2));
+                this.currentForceUp += Math.exp((multi1-10) / (RUN_SPEED * 2));
             }
         } else if (Keyboard.isKeyDown(GLFW.GLFW_KEY_C)) {
-            if (this.currentSpeedUp < MAX_SPEED / 3) {
-                if (-this.currentSpeedUp < MAX_SPEED) {
+            if (this.currentForceUp < MAX_SPEED / 3) {
+                if (-this.currentForceUp < MAX_SPEED) {
                     multi1 -= 0.0002f;
-                    this.currentSpeedUp -= Math.exp((multi1-10) / (RUN_SPEED * 2));
+                    this.currentForceUp -= Math.exp((multi1-10) / (RUN_SPEED * 2));
                 }
  
             }
         } else {
             if (!inertiaDampener) {
-                if (currentSpeedUp > 3) {
-                    this.currentSpeedUp -= Math.exp(0.02 / RUN_SPEED);
-                } else if (currentSpeedUp < -3) {
-                    this.currentSpeedUp += Math.exp(0.02 / RUN_SPEED);
+                if (currentForceUp > 3) {
+                    this.currentForceUp -= Math.exp(0.02 / RUN_SPEED);
+                } else if (currentForceUp < -3) {
+                    this.currentForceUp += Math.exp(0.02 / RUN_SPEED);
                 } else {
-                    this.currentSpeedUp = 0;
+                    this.currentForceUp = 0;
                 }
             }
         }
@@ -195,7 +195,7 @@ public class Player extends CelestialBody {
         }
  
         if (Keyboard.isKeyDown(GLFW.GLFW_KEY_M)) {
-            this.currentSpeed = 50;
+            this.currentForce = 50;
             super.setVelocity(0f, 0f, 0f);
         }
  
