@@ -1,14 +1,7 @@
-/renderEngine/
-/shaders/
-/utils/
-/celestial/
-<<<<<<< HEAD
-/res/
-/scenes/
-/entities/
-/threads/
-=======
 /audio/
+/celestial/
+/entities/
+/fontMeshCreator/
 /fontRendering/
 /game/
 /gui/
@@ -16,10 +9,12 @@
 /language/
 /models/
 /renderEngine/
+/res/
 /scenes/
 /shaders/
 /skybox/
+/terrain/
 /textures/
+/threads/
 /utils/
 /weaponry/
->>>>>>> refs/remotes/origin/Full
