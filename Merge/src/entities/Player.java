@@ -81,6 +81,7 @@ public class Player extends CelestialBody {
  
     public void move() {
  
+    	if(health <=0) setDead();
         checkInput();
         super.increaseRotation(0, (float) (currentSpeedRotateSpeed * Timer.getLastLoopTime()), 0);
         float Fx = (float) (currentForce * Math.sin(Math.toRadians(super.getRotationY()))

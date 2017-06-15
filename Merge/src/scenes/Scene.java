@@ -208,6 +208,9 @@ public class Scene {
 			dataObject.getPlayer().move();
 			dataObject.getPlayer().getWeapon().refreshBullets();
 			force.calculateDeltas();
+			if(!dataObject.getPlayer().isAlive()){
+				isAboutEnd = 1; // set dead
+			}
 		}
 
 		camera.move();
@@ -245,10 +248,9 @@ public class Scene {
 	private void checkEnd() {
 		if (isAboutEnd == 1) {
 			ui.getLayer(mainLayerID).addText("You died", 3.0f, arial, new Vector2f(0.4f, 0.4f), 0.3f, false);
-			ui.getLayer(mainLayerID).getGuiText(7).setColor(1, 0, 0);
-			dataObject.getPlayer();
+			ui.getLayer(mainLayerID).getGuiText(8).setColor(1, 0, 0);
 			ui.getLayer(mainLayerID).addText("SCORE: " + dataObject.getPlayer().getScore(), 3.0f, arial, new Vector2f(0.4f, 0.5f), 0.2f, false);
-			ui.getLayer(mainLayerID).getGuiText(7).setColor(1, 1, 0);
+			ui.getLayer(mainLayerID).getGuiText(9).setColor(1, 0.5f, 0);
 			isAboutEnd = -1;
 			dataObject.getPlayer().setHealth(0);
 			source.stop();
@@ -270,6 +272,7 @@ public class Scene {
 		ui.getLayer(mainLayerID).addText("", 1.0f, arial, new Vector2f(0.88f, 0.92f), 0.5f, false);
 		ui.getLayer(mainLayerID).addText("", 1.0f, arial, new Vector2f(0.90f, 0.0f), 0.5f, false);
 		ui.getLayer(mainLayerID).addText("", 1.4f, arial, new Vector2f(0.45f, 0.0f), 0.5f, false);
+		ui.getLayer(mainLayerID).addText("", 1.0f, arial, new Vector2f(0.0f, 0.1f), 0.3f, false);
 		ui.getLayer(mainLayerID).getGuiText(0).setColor(1, 1, 1);
 		ui.getLayer(mainLayerID).getGuiText(1).setColor(1, 1, 1);
 		ui.getLayer(mainLayerID).getGuiText(2).setColor(1, 1, 1);
@@ -277,7 +280,7 @@ public class Scene {
 		ui.getLayer(mainLayerID).getGuiText(4).setColor(1, 1, 1);
 		ui.getLayer(mainLayerID).getGuiText(5).setColor(1, 1, 1);
 		ui.getLayer(mainLayerID).getGuiText(6).setColor(1, 0, 0);
-
+		ui.getLayer(mainLayerID).getGuiText(7).setColor(1, 0, 0);
 		ui.getLayer(mainLayerID).addButton(Game.loader.loadTexture("GUI3"), Game.loader.loadTexture("GUI3"),
 				new Vector2f(-0.82f, -0.87f), new Vector2f(0.18f, 0.13f), "", arial);
 
@@ -300,6 +303,7 @@ public class Scene {
 						+ (dataObject.getPlayer().getWeapon().getStartAmmo()));
 		ui.getLayer(mainLayerID).getGuiText(5).changeText(Language.getLanguageData("ui_score") + ": " + dataObject.getPlayer().getScore());
 		ui.getLayer(mainLayerID).getGuiText(6).changeText(Language.getLanguageData("ui_health") + ": " + dataObject.getPlayer().getHealth());
+		ui.getLayer(mainLayerID).getGuiText(7).changeText(Language.getLanguageData("ui_enemies") + ": " + dataObject.getHostileShips().size());
 	}
 
 }

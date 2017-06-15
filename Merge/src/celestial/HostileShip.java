@@ -48,10 +48,12 @@ public class HostileShip extends CelestialBody {
 		direction.sub(this.getPosition());
 		float length = direction.length();
 		if (length > 1000 && length < 1000000) {
+			Timer.returnFake = true;
 			super.increasePosition(direction.normalize().x * 3000f, direction.normalize().y * 3000f,
 					direction.normalize().z * 3000f, Timer.getLastLoopTime());
 		} else if (length <= 1000) {
 			if (player.getHealth() > 0) {
+				Timer.returnFake = false;
 				player.setHealth(player.getHealth() - 0.0001f * super.health);
 			}
 		}

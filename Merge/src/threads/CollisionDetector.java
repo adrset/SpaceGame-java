@@ -76,6 +76,11 @@ public class CollisionDetector implements Runnable {
 	
 	public synchronized void checkCollisions(){
 		while (isRunning) {
+			double len = Math.sqrt(Math.pow(dataObject.getPlayer().getPosition().x - dataObject.getLights().get(0).getPosition().x, 2) + Math.pow(dataObject.getPlayer().getPosition().y - dataObject.getLights().get(0).getPosition().y, 2) + Math.pow(dataObject.getPlayer().getPosition().z - dataObject.getLights().get(0).getPosition().z, 2));
+			if(len > 1000000){
+				isRunning = false;
+				Scene.isAboutEnd = 1;
+			}
 			for (int i = 0; i < bodies.size(); i++) {
 				if(!bodies.get(i).isAlive()) continue;
 				for (int j = i+1; j < bodies.size(); j++) {

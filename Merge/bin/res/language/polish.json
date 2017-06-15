@@ -13,6 +13,7 @@
 	"glfw_init_failed" : "Nie mo¿na zainicjalizowaæ GLFW!",
 	"glfw_version" : "Wersja LWJGL:",
 	"ui_health" : "Zdrowie",
+	"ui_enemies" : "Wrogowie",
 	"ui_bullets" : "Naboje",
 	"ui_score" : "Wynik",
 	"ui_dampeners" : "Hamulce",

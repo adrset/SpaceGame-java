@@ -15,6 +15,7 @@
 	"ui_health" : "Health",
 	"ui_bullets" : "Bullets",
 	"ui_score" : "Score",
+	"ui_enemies" : "Enemies",
 	"ui_dampeners" : "Inertia dampeners",
 	"ui_velocity" : "Velocity",
 	"ui_position" : "Position",

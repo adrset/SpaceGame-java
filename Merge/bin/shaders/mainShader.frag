@@ -15,6 +15,7 @@ uniform float shineDamper;
 uniform float reflectivity;
 uniform vec3 skyColor;
 uniform vec3 attenuation[3];
+uniform float time;
 
 void main(void){
 	vec3 unitNormal = normalize(surfaceNormal);
@@ -50,6 +51,9 @@ void main(void){
 		out_Color = vec4(totalSpecular, 0.0) +  vec4(1,1,0.15,0.0);
 	}else{
 		out_Color = vec4(totalDiffuse, 0.0) * textureColor + vec4(totalSpecular, 0.0) + vec4(0.0,0.0,0.0,0.0);
+	}
+	if(time != -1){
+		out_Color = vec4(out_Color.x * cos(time * 0.01), out_Color.y * sin(time), out_Color.z, 1);
 	}
 
 }

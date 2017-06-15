@@ -90,6 +90,7 @@ public class MasterRenderer {
 		shader.loadLights(lights);
 		// send updated view matrixs
 		shader.loadViewMatrix(camera);
+		shader.loadTime();
 		renderer.render(entities);
 		// bulletRenderer shares shader with EntityRenderer
 		bulletRenderer.render(player.getWeapon().getBullets());
