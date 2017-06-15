@@ -24,8 +24,8 @@ import shaders.StaticShader;
 public class MasterRenderer {
 
 	private static final float FOV = 60; // I see a great potential here :D
-	private static final float NEAR_PLANE = 0.1f;
-	private static final float FAR_PLANE = 1000000000f; // sorry :(
+	private static final float NEAR_PLANE = 1f;
+	private static final float FAR_PLANE = 100000000f; // sorry :(
 	private Player player;
 	
 	private Loader loader;

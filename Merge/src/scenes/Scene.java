@@ -41,7 +41,6 @@ public class Scene {
 	// Misc
 	private Camera3D camera;
 	private SceneLoader sceneLoader;
-	private MousePicker picker;
 
 	// Threads
 	public CollisionDetector cDetect;
@@ -82,7 +81,7 @@ public class Scene {
 
 		Random generator = new Random();
 
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 20; i++) {
 			allAsteroids.add(new Asteroid(
 					new TexturedModel(ResourceCache.loadOBJ("planet", Game.loader),
 							new ModelTexture(ResourceCache.loadTexture("2", Game.loader))),
@@ -91,7 +90,7 @@ public class Scene {
 					0, 0, 0, generator.nextInt(600), (float) generator.nextInt(30000000) * 1000));
 		}
 
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 10; i++) {
 			allEntities.add(new Entity(
 					new TexturedModel(ResourceCache.loadOBJ("untitled", Game.loader),
 							new ModelTexture(ResourceCache.loadTexture("2", Game.loader))),
@@ -104,8 +103,8 @@ public class Scene {
 			allHostile.add(new HostileShip(
 					new TexturedModel(ResourceCache.loadOBJ("shipMapped", Game.loader),
 							new ModelTexture(ResourceCache.loadTexture("ship", Game.loader))),
-					new Vector3f(dataObject.getPlayer().getPosition().x + generator.nextInt(30000), 0,
-							dataObject.getPlayer().getPosition().y + generator.nextInt(30000)),
+					new Vector3f(dataObject.getPlayer().getPosition().x + generator.nextInt(30000)- 15000, dataObject.getPlayer().getPosition().y + generator.nextInt(30000)- 15000,
+							dataObject.getPlayer().getPosition().y + generator.nextInt(30000) - 15000),
 					0, 0, 0, 1000f, new Vector3f(), 800f + (float) generator.nextInt(500),
 					generator.nextInt(2) + generator.nextFloat(), 1, (float) generator.nextInt(500)));
 		}
@@ -126,7 +125,6 @@ public class Scene {
 		cDetect = new CollisionDetector(dataObject);
 		cDetect.start();
 		force = new Force(dataObject);
-		force.start();
 
 		// Camera stuff
 		camera = new Camera3D(dataObject.getPlayer());
@@ -136,9 +134,6 @@ public class Scene {
 		int b = AudioManager.loadSound("res/audio/b.wav");
 		source = new AudioSource(new Vector3f());
 		source.play(b);
-
-		picker = new MousePicker(camera, Game.renderer.getProjectionMatrix());
-		dataObject.getPlayer().passPicker(picker);
 	}
 
 	public void init() {
@@ -164,7 +159,6 @@ public class Scene {
 	public void cleanUp() {
 		ui.cleanUp();
 		cDetect.finish();
-		force.finish();
 	}
 
 	public void loop() {
@@ -206,11 +200,10 @@ public class Scene {
 
 			dataObject.getPlayer().move();
 			dataObject.getPlayer().getWeapon().refreshBullets();
-
+			force.calculateDeltas();
 		}
 
 		camera.move();
-		picker.update();
 		for (Planet planet : dataObject.getPlanets()) {
 			planet.move();
 			planet.rotateAround();
@@ -227,7 +220,6 @@ public class Scene {
 		for (Light light : dataObject.getLights()) {
 			Game.renderer.proccessEntity(light);
 		}
-System.out.println("Health " + dataObject.getPlayer().getHealth());
 		Game.renderer.render(dataObject.getLights(), camera);
 
 		if (isUiVisible) {
