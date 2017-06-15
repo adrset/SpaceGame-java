@@ -10,6 +10,13 @@ import java.util.List;
 import static org.lwjgl.openal.AL10.alDeleteBuffers;
 import static org.lwjgl.openal.ALC10.*;
 
+/**
+ * Audio manager class, controlling all audio in game.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class AudioManager {
 
 	private static List<Integer> buffers = new ArrayList<>();

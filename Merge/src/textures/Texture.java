@@ -9,6 +9,14 @@ import org.lwjgl.opengl.GL13;
 
 import de.matthiasmann.twl.utils.PNGDecoder;
 import de.matthiasmann.twl.utils.PNGDecoder.Format;;
+
+/**
+ * Texture class. Contains the id of uploaded texture and it's dimensions.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class Texture {
 
 	private int textureID;

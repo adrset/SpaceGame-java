@@ -1,6 +1,5 @@
 package threads;
 
-//import java.util.Iterator;
 import org.joml.Vector3f;
 
 import celestial.DataObject;
@@ -9,9 +8,9 @@ import celestial.Planet;
 import utils.Timer;
 
 /**
+ * Force class.
  * 
- * 
- * @author Przemyslaw Nowak, Adrian Setniewski
+ * @author Przemyslaw Nowak
  *
  */
 public class Force {

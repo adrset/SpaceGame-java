@@ -3,6 +3,13 @@ package input;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWKeyCallback;
 
+/**
+ * Keyboard Class.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class Keyboard extends GLFWKeyCallback{
 
 	public static boolean[] keys = new boolean[512];

@@ -5,12 +5,11 @@ import java.util.List;
 import entities.Entity;
 import entities.Player;
 
-/*
- * DataObject is an object, that holds all shared data between threads
- * 
- * 
- * 
- * 
+/**
+ * Data object class. It holds all the data needed for various threads.
+ *
+ * @author Adrian Setniewski
+ *
  */
 public class DataObject {
 	

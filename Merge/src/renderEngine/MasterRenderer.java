@@ -21,13 +21,21 @@ import models.TexturedModel;
 import scenes.SceneLoader;
 import shaders.StaticShader;
 
+/**
+ * MasterRenderer class. Takes control over every renderer in the game. Creates
+ * projection matrix and passes them to other renderers.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class MasterRenderer {
 
 	private static final float FOV = 60; // I see a great potential here :D
 	private static final float NEAR_PLANE = 1f;
 	private static final float FAR_PLANE = 100000000f; // sorry :(
 	private Player player;
-	
+
 	private Loader loader;
 	private Matrix4f projectionMatrix;
 
@@ -41,7 +49,7 @@ public class MasterRenderer {
 
 	// renderer for all entities
 	private EntityRenderer renderer;
-	
+
 	private BulletRenderer bulletRenderer;
 
 	private InstanceRenderer instanceRenderer;
@@ -56,10 +64,10 @@ public class MasterRenderer {
 		renderer = new EntityRenderer(shader, projectionMatrix);
 		bulletRenderer = new BulletRenderer(shader, projectionMatrix);
 		instanceRenderer = new InstanceRenderer(loader, projectionMatrix);
-	
+
 	}
-	
-	public void setSkybox(SceneLoader sceneLoader){
+
+	public void setSkybox(SceneLoader sceneLoader) {
 		skyboxRenderer = new SkyboxRenderer(loader, projectionMatrix, sceneLoader.getSkyboxTextureNames());
 	}
 
@@ -76,21 +84,21 @@ public class MasterRenderer {
 	public void render(List<Light> lights, Camera3D camera) {
 		prepare();
 
-		//use this shader
+		// use this shader
 		shader.start();
 		// load data into shader
 		shader.loadLights(lights);
-		//send updated view matrixs
+		// send updated view matrixs
 		shader.loadViewMatrix(camera);
 		renderer.render(entities);
-		//bulletRenderer shares shader with EntityRenderer
+		// bulletRenderer shares shader with EntityRenderer
 		bulletRenderer.render(player.getWeapon().getBullets());
 		shader.stop();
 		entities.clear();
 
-		//InstanceRenderer has inbuilt shader 
+		// InstanceRenderer has inbuilt shader
 		instanceRenderer.render(camera, lights);
-		//So has SkyboxRenderer
+		// So has SkyboxRenderer
 		skyboxRenderer.render(camera);
 
 	}
@@ -98,8 +106,8 @@ public class MasterRenderer {
 	public void render(Camera camera) {
 		prepare();
 	}
-	
-	public void setPlayer(Player p){
+
+	public void setPlayer(Player p) {
 		this.player = p;
 	}
 
@@ -131,7 +139,6 @@ public class MasterRenderer {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		// disable this if you are high
 		glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-
 
 	}
 

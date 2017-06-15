@@ -6,6 +6,13 @@ import org.joml.Vector3f;
 
 import entities.Camera3D;
 
+/**
+ * Maths class. Creates needed matrices. Their definitions can be found e.g. on wikipedia.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class Maths {
 	
 	public static Matrix4f createTransformationMatrix(Vector3f translation, float rx, float ry, float rz, float scale ){

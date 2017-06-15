@@ -21,6 +21,13 @@ import models.TexturedModel;
 import renderEngine.ResourceCache;
 import textures.ModelTexture;
 
+/**
+ * SceneLoader class. Loads scene from json file.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class SceneLoader {
 	private List<Planet> planets;
 	private List<Light> lights;

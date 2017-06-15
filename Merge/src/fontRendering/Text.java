@@ -10,6 +10,13 @@ import fontMeshCreator.GUIText;
 import fontMeshCreator.TextMeshData;
 import renderEngine.Loader;
 
+/**
+ * Text class. Contains all guitexts to be displayed.
+ *
+ * @author Karl
+ *
+ */
+
 public class Text {
 	private Map<FontType, List<GUIText>> texts = new HashMap<FontType, List<GUIText>>();
 	private Loader loader;

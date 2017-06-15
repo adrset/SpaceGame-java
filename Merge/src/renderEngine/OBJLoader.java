@@ -11,6 +11,13 @@ import org.joml.Vector3f;
 import models.RawModel;
 import utils.Logs;
 
+/**
+ * OBJLoader class. Simple .obj parser. Loads the file, converts data and uploads the data to GPU using Loader.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class OBJLoader {
 
 	public static RawModel loadObjModel(String fileName, Loader loader) {

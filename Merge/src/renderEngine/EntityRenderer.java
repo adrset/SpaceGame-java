@@ -16,6 +16,13 @@ import shaders.StaticShader;
 import textures.ModelTexture;
 import utils.Maths;
 
+/**
+ * EntityRenderer class. Renders all entities that are not meant to be rendered using instanced rendering.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class EntityRenderer {
 	private StaticShader shader;
 	

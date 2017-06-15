@@ -33,6 +33,13 @@ import utils.MousePicker;
 import utils.Timer;
 import weaponry.Weapon;
 
+/**
+ * Scene class. Contains UI and takes care of all logic in game.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class Scene {
 
 	// Data

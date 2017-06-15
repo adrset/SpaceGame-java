@@ -2,6 +2,13 @@ package input;
 
 import org.lwjgl.glfw.GLFWScrollCallback;
 
+/**
+ * MouseScroll class
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class MouseScroll extends GLFWScrollCallback{
 	private static int xOffset=0;
 	private static int yOffset=0;

@@ -14,6 +14,13 @@ import gui.Menu;
 
 public class FontRenderer {
 
+	/**
+	 * Font renderer class
+	 *
+	 * @author Karl, Adrian Setniewski
+	 *
+	 */
+	
 	private FontShader shader;
 
 	public FontRenderer() {

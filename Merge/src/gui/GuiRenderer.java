@@ -12,6 +12,13 @@ import models.RawModel;
 import renderEngine.Loader;
 import utils.Maths;
 
+/**
+ * GuiRenderer class. Works similar to other renderers, but it doesn't need 3D transformations etc.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class GuiRenderer {
 
 	private final RawModel quad;

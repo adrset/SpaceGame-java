@@ -6,6 +6,15 @@ import entities.Entity;
 import models.TexturedModel;
 import utils.Timer;
 
+/**
+ * Planet class. Planets are celestial bodies although in our application they
+ * are not affected by gravity - they follow predefined orbits. They only
+ * produce it.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class Planet extends CelestialBody {
 
 	private float majorAxis;

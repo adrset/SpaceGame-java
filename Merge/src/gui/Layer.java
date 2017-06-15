@@ -18,6 +18,13 @@ import fontMeshCreator.FontType;
 import fontMeshCreator.GUIText;
 import fontRendering.Text;
 
+/**
+ * Layer class. Helps determining which buttons/textures should be currently displayed.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class Layer {
 
 	private int layerID;

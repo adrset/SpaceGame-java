@@ -3,6 +3,13 @@ package audio;
 import org.joml.Vector3f;
 import org.lwjgl.openal.AL10;
 
+/**
+ * Audio source class capable of playing sounds.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class AudioSource
 {
 	private int sourceID;

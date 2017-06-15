@@ -10,6 +10,13 @@ import models.TexturedModel;
 import scenes.Scene;
 import utils.Timer;
 import weaponry.Weapon;
+
+/**
+ * Player class. Currently there's only one player. This class handles player movement.
+ *
+ * @author Adrian Setniewski
+ *
+ */
  
 public class Player extends CelestialBody {
  

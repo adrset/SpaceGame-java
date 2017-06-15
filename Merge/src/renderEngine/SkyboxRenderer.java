@@ -10,6 +10,13 @@ import entities.Camera3D;
 import models.RawModel;
 import skybox.SkyboxShader;
 
+/**
+ * SkyboxRenderer class. Renders all entities that are not meant to be rendered using instanced rendering.
+ *
+ * @author ThinMatrix - Karl
+ *
+ */
+
 public class SkyboxRenderer {
 
 private static final float SIZE = 1000000f;

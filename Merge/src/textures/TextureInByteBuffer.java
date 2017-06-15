@@ -2,6 +2,13 @@ package textures;
 
 import java.nio.ByteBuffer;
 
+/**
+ * TextureInByteBuffer class. Holds texture data in a byte buffer.
+ *
+ * @author ThinMatrix - Karl
+ *
+ */
+
 public class TextureInByteBuffer {
 	private int width;
 	private int height;

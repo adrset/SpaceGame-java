@@ -6,6 +6,14 @@ import entities.Player;
 import models.TexturedModel;
 import utils.Timer;
 
+/**
+ * Hostile ship class. Hostile ship will follow the player and affect it with
+ * it's radiation, what causes player to lose health.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class HostileShip extends CelestialBody {
 
 	@SuppressWarnings("unused")

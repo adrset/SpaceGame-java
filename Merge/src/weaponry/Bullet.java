@@ -5,6 +5,13 @@ import org.joml.Vector3f;
 import models.TexturedModel;
 import utils.Timer;
 
+/**
+ * Bullet class. Bullet is not an entity, so it has own positions. velocity etc.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class Bullet {
 	@SuppressWarnings("unused")
 	private float damage;

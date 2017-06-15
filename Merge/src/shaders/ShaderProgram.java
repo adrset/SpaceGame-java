@@ -14,6 +14,13 @@ import utils.Logs;
 
 import org.joml.*;
  
+/**
+ * ShaderProgram class. Abstract class that loads and compiles GLSL shader.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public abstract class ShaderProgram {
      
     private int programID;

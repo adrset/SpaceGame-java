@@ -9,6 +9,14 @@ import celestial.CelestialBody;
 import celestial.DataObject;
 import scenes.Scene;
 
+/**
+ * CollisionDetector class. Takes care of collisions.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
+
 public class CollisionDetector implements Runnable {
 
 	private Thread t1;
@@ -86,7 +94,9 @@ public class CollisionDetector implements Runnable {
 					}
 				}
 			}
+			
 			int kk=0;
+			
 			for(Iterator<CelestialBody> it = bodies.iterator(); it.hasNext();kk++){
 				if(!it.next().isAlive()){
 					System.out.println("Removing body - it crashed.");

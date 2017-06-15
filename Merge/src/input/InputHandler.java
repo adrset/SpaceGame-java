@@ -4,6 +4,13 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 
+/**
+ * Input Handler. Uses GLFW methods to track whuch byuttons/keys were pressed and saves them into an array.
+ *
+ * @author Adrian Setniewski, GLFW examples
+ *
+ */
+
 public final class InputHandler
 {
     @SuppressWarnings("unused")

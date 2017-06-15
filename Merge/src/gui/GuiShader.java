@@ -4,6 +4,13 @@ import org.joml.Matrix4f;
 
 import shaders.ShaderProgram;
  
+/**
+ * GuiShader class
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class GuiShader extends ShaderProgram{
      
     private static final String VERTEX_FILE = "/gui/guiShader.vert";

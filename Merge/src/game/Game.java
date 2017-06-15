@@ -24,6 +24,13 @@ import input.Keyboard;
 import input.Mouse;
 import language.Language;
 
+/**
+ * Game class. Starts a new thread and handles scenes and menus.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class Game implements Runnable {
 
 	private long window;

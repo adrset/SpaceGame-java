@@ -7,6 +7,13 @@ import entities.Camera3D;
 import shaders.ShaderProgram;
 import utils.Maths;
  
+/**
+ * SkyboxShader class.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class SkyboxShader extends ShaderProgram{
  
     private static final String VERTEX_FILE = "/skybox/skyboxShader.vert";

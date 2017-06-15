@@ -2,6 +2,13 @@ package input;
 
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 
+/**
+ * MouseButtons class
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class MouseButtons extends GLFWMouseButtonCallback {
 	public static int[] keysPressed = new int[24];
 	public static int[] keysLastPressed = new int[24];

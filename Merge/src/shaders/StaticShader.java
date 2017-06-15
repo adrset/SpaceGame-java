@@ -9,6 +9,13 @@ import celestial.Light;
 import entities.Camera3D;
 import utils.Maths;
 
+/**
+ * StaticShader class. Responsible for loading data do glsl program.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class StaticShader extends ShaderProgram{
 	
 	private static final int MAX_LIGHTS = 3;

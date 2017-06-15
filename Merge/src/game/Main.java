@@ -1,8 +1,14 @@
 package game;
 
+/**
+ * Main class.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class Main {
 
-	//Everything not signed is coded by Adrian Setniewski <- I must get used to sign my code
 	public static void main(String[] args) {
 		//that simple???
 		if(args.length >=3){

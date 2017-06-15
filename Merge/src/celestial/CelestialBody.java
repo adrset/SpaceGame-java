@@ -5,6 +5,13 @@ import org.joml.Vector3f;
 import entities.Entity;
 import models.TexturedModel;
 
+/**
+ * Celestial body class. Every celestial body has a mass and is intended to be affected by gravity.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class CelestialBody extends Entity {
 	private float mass;
 	private float radius;

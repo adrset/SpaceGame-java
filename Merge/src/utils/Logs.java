@@ -6,6 +6,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 
+/**
+ * Logs class. Writes logs to a file.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class Logs {
 
 	private static boolean isDateSet = false;

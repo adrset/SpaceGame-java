@@ -1,5 +1,13 @@
 package textures;
 
+/**
+ * ModelTexture class. Contains shine, reflect variables that will be loaded to
+ * GLSL shader and will affect the way light will affect textured object.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class ModelTexture {
 
 	private int textureID;

@@ -2,6 +2,13 @@ package models;
 
 import textures.ModelTexture;
 
+/**
+ * TexturedModel class. Contains RawModel and texture.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class TexturedModel {
 
 	private RawModel rawModel;

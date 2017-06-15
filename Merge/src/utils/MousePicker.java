@@ -9,6 +9,13 @@ import entities.Camera3D;
 import game.Game;
 import input.MouseCursor;
 
+/**
+ * MousePicker class. Does reverse operations comparing to renderers. It converts 2d coordinates into 3d coords in world.
+ *
+ * @author ThinMatrix - Karl, Adrian Setniewski
+ *
+ */
+
 public class MousePicker {
 
 	private Matrix4f projectionMatrix;

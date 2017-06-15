@@ -5,6 +5,13 @@ import java.util.HashMap;
 import models.RawModel;
 import utils.Logs;
 
+/**
+ * ResourceCache class. Returns cached elements to save time and power on loading same things again.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class ResourceCache {
 	static HashMap<String, RawModel> objects = new HashMap<>();
 	static HashMap<String, Integer> textures = new HashMap<>();

@@ -22,6 +22,13 @@ import models.RawModel;
 import textures.Texture;
 import textures.TextureInByteBuffer;
 
+/**
+ * Loader class. Loads object, textures into GPU.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class Loader {
 
 	/*

@@ -9,6 +9,13 @@ import celestial.Light;
 import entities.Camera3D;
 import utils.Maths;
 
+/**
+ * InstanceShader class.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class InstanceShader extends ShaderProgram {
 
 	private static final int MAX_LIGHTS = 3;

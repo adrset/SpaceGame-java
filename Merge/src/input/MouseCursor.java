@@ -3,6 +3,13 @@ package input;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 
+/**
+ * MouseCursor class
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class MouseCursor extends GLFWCursorPosCallback{
 	private static double posX=0;
 	private static double posY=0;

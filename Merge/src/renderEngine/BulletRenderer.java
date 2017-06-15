@@ -14,6 +14,13 @@ import textures.ModelTexture;
 import utils.Maths;
 import weaponry.Bullet;
 
+/**
+ * BulletRenderer class. Takes care of rendering bullets.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class BulletRenderer {
 	private StaticShader shader;
 

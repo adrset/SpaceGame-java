@@ -12,6 +12,13 @@ import celestial.HostileShip;
 import models.TexturedModel;
 import utils.Timer;
 
+/**
+ * Weapon class. Capable of casting enemies into the gorge of eternal peril.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class Weapon {
 
 	@SuppressWarnings("unused")

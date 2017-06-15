@@ -4,6 +4,13 @@ import org.joml.Vector3f;
 
 import models.TexturedModel;
 
+/**
+ * Light class. It is passed to shaders to affect all objects in the world by the light.
+ * 
+ * @author Adrian Setniewski
+ *
+ */
+
 public class Light extends CelestialBody {
 	private Vector3f color;
 	private Vector3f attenuation = new Vector3f(1, 0, 0);// infinite distance

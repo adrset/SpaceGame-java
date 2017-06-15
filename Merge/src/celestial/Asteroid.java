@@ -4,8 +4,14 @@ import org.joml.Vector3f;
 
 import models.TexturedModel;
 
-public class Asteroid extends CelestialBody {
+/**
+ * Asteroid class
+ *
+ * @author Adrian Setniewski
+ *
+ */
 
+public class Asteroid extends CelestialBody {
 
 	public Asteroid(TexturedModel model, Vector3f position, float rotationX, float rotationY, float rotationZ,
 			float radius, float density) {

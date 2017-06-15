@@ -1,5 +1,12 @@
 package models;
 
+/**
+ * RawModel class. Contains vaoID that indicates to data that was uploaded to the GPU.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class RawModel {
 
 	private int vaoID;

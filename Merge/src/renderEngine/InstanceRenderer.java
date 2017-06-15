@@ -19,6 +19,13 @@ import shaders.InstanceShader;
 import textures.ModelTexture;
 import utils.Maths;
 
+/**
+ * InstanceRenderer class. Renders all entities that are meant to be rendered using instanced rendering.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class InstanceRenderer {
 	private static final int BUFFER_INSTANCES = 10000;
 	private static final int FLOATS_PER_INSTANCE = 16;

@@ -2,6 +2,13 @@ package gui;
 
 import org.joml.Vector2f;
 
+/**
+ * Background class. Contains texture.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class Background {
 	private int menuID;
 	private Vector2f position;

@@ -5,6 +5,13 @@ import org.joml.Vector3f;
 
 import shaders.ShaderProgram;
 
+/**
+ * FontShader class. Extends ShaderProgram.
+ *
+ * @author Karl
+ *
+ */
+
 public class FontShader extends ShaderProgram{
 
 	private static final String VERTEX_FILE = "/fontRendering/font.vert";

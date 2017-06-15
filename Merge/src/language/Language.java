@@ -10,9 +10,15 @@ import org.json.simple.parser.ParseException;
 import game.Game;
 import utils.Logs;
 
+/**
+ * Language class. An instance can load a language file. The data could be accessed statically.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class Language {
-	// private List<String> fileNames;
-	private static JSONObject languageData;
+	private static JSONObject languageData = null;
 	public static String currentLanguage;
 	public Language() {
 

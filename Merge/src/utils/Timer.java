@@ -2,6 +2,13 @@ package utils;
 
 import game.Game;
 
+/**
+ * Timer class. Helps maintaining FPS.
+ *
+ * @author Adrian Setniewski
+ *
+ */
+
 public class Timer {
 	private static double startTime;
 	private static double currentTime;
