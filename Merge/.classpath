@@ -31,7 +31,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="javalib/PNGDecoder.jar"/>
-	<classpathentry kind="lib" path="C:/javalib/lwjgl-openal.jar"/>
-	<classpathentry kind="lib" path="C:/javalib/lwjgl-openal-natives-windows.jar"/>
+	<classpathentry kind="lib" path="javalib/lwjgl-openal.jar"/>
+	<classpathentry kind="lib" path="javalib/lwjgl-openal-natives-windows.jar"/>
+	<classpathentry kind="lib" path="javalib/lwjgl-openal-natives-linux.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
