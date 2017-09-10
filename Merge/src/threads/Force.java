@@ -15,306 +15,139 @@ import utils.Timer;
  */
 public class Force {
 	final float G = (float) -6.67E-15;
-	Vector3f[] k1r = new Vector3f[120]; // first increment for every
-	Vector3f[] k1v = new Vector3f[120]; // variable
-	Vector3f[] k2r = new Vector3f[120]; // second increment for every
-	Vector3f[] k2v = new Vector3f[120]; // variable
-	Vector3f[] k3r = new Vector3f[120]; // third increment for every
-	Vector3f[] k3v = new Vector3f[120]; // variable
-	Vector3f[] k4r = new Vector3f[120]; // fourth increment for every
-	Vector3f[] k4v = new Vector3f[120]; // variable
-	Vector3f[] position = new Vector3f[120];
-	Vector3f[] velocity = new Vector3f[120];
+	Vector3f k1r = new Vector3f(); // first increment for every
+	Vector3f k1v = new Vector3f(); // variable
+	Vector3f k2r = new Vector3f(); // second increment for every
+	Vector3f k2v = new Vector3f(); // variable
+	Vector3f k3r = new Vector3f(); // third increment for every
+	Vector3f k3v = new Vector3f(); // variable
+	Vector3f k4r = new Vector3f(); // fourth increment for every
+	Vector3f k4v = new Vector3f(); // variable
+	Vector3f position = new Vector3f();
+	Vector3f velocity = new Vector3f();
 	private float scale, scale2;
-	
+
 	private DataObject dataObject;
-	int currentAsteroid;
-
-	public void setDimension(int d) {
-		for (int ii = 0; ii < d; ii++) {
-			position[0] = new Vector3f(0f, 0f, 0f);
-			velocity[0] = new Vector3f(0f, 0f, 0f);
-			k1r[0] = new Vector3f(0f, 0f, 0f);
-			k2r[0] = new Vector3f(0f, 0f, 0f);
-			k3r[0] = new Vector3f(0f, 0f, 0f);
-			k4r[0] = new Vector3f(0f, 0f, 0f);
-			k1v[0] = new Vector3f(0f, 0f, 0f);
-			k2v[0] = new Vector3f(0f, 0f, 0f);
-			k3v[0] = new Vector3f(0f, 0f, 0f);
-			k4v[0] = new Vector3f(0f, 0f, 0f);
-		}
-
-	}
 
 	public Force(DataObject dataObject) {
 		this.dataObject = dataObject;
 		scale = 1;
-		scale2=1;
+		scale2 = 1;
 	}
 
-	public Vector3f firstMethod(Vector3f tmp, float dt) { // from first equation
-															// dx/dt=V
+	public Vector3f firstMethod(Vector3f tmp, float dt) {
 		return new Vector3f((tmp.x * dt), (tmp.y * dt), (tmp.z * dt));
 	}
 
-	public Vector3f secondMethod(Vector3f tmp, float dt, int tier, int ifPlayer) { // from
-																					// second
-																					// equation
-																					// dv/dt=G*m*x/r^3
+	public Vector3f secondMethod(Vector3f tmp, float dt, int tier) {
 		Vector3f force = new Vector3f(0f, 0f, 0f);
 		Vector3f forcetmp = new Vector3f(0f, 0f, 0f);
-		float r3Scalar = 0;
-		float scalar = 0;
 
-		for (Planet p : dataObject.getPlanets()) {
-			forcetmp.add(tmp);
-			forcetmp.sub(p.getPosition());
-			r3Scalar = (float) Math.pow(Math.pow((tmp.x - p.getPosition().x), 2)
-					+ Math.pow((tmp.y - p.getPosition().y), 2) + Math.pow((tmp.z - p.getPosition().z), 2), 1.5);
-			scalar = (float) (G * dt * p.getMass() / r3Scalar);
-			forcetmp.mul(scalar);
-			force.add(forcetmp);
-			forcetmp = new Vector3f(0f, 0f, 0f);
-			r3Scalar = 0;
-			scalar = 0;
-		}
-		
-
-		for (Light l : dataObject.getLights()) {
-			forcetmp.add(tmp);
-			forcetmp.sub(l.getPosition());
-			r3Scalar = (float) Math.pow(Math.pow((tmp.x - l.getPosition().x), 2)
-					+ Math.pow((tmp.y - l.getPosition().y), 2) + Math.pow((tmp.z - l.getPosition().z), 2), 1.5);
-			scalar = (float) (G * dt * l.getMass() / r3Scalar);
-			forcetmp.mul(scalar);
-			force.add(forcetmp);
-			forcetmp = new Vector3f(0f, 0f, 0f);
-			r3Scalar = 0;
-			scalar = 0;
-
-		}
-
-		for (int ii = 0; ii < dataObject.getAsteroids().size(); ii++) {
-			if (ii != currentAsteroid) {
-				forcetmp.add(tmp);
-				forcetmp.sub(dataObject.getAsteroids().get(ii).getPosition());
-				r3Scalar = (float) Math.pow(Math.pow((tmp.x - dataObject.getAsteroids().get(ii).getPosition().x), 2)
-						+ Math.pow((tmp.y - dataObject.getAsteroids().get(ii).getPosition().y), 2)
-						+ Math.pow((tmp.z - dataObject.getAsteroids().get(ii).getPosition().z), 2), 1.5);
-				scalar = (float) (G * dt * dataObject.getAsteroids().get(ii).getMass() / r3Scalar);
-				forcetmp.mul(scalar);
-				force.add(forcetmp);
-				forcetmp = new Vector3f(0f, 0f, 0f);
-				r3Scalar = 0;
-				scalar = 0;
-			}
-
-		}
-		
-		
-		if (ifPlayer == 1) {
-			if (!dataObject.getPlayer().isInertiaDampenerOn()==true) {
-				if (scale < 100) {
-					force.div(scale);
-					scale += 0.04;
-				}
-				else{
-					force=new Vector3f();	
-					if (scale2 < 100) {
-						Vector3f temporary= new Vector3f(dataObject.getPlayer().getVelocity());
-						temporary.div(scale2);
-						dataObject.getPlayer().setVelocity(temporary);
-						scale2 += 0.000002;
-					}
-					else{
-						dataObject.getPlayer().setVelocity(new Vector3f());
-					}
-				}
-				
-			}
-			
-			if (!dataObject.getPlayer().isInertiaDampenerOn()==false) {
-				scale2=1;
-				if (scale >1) {
-					force.div(scale);
-					scale -= 0.04;
-				}
-				
-			}
-
-
-		}
-		
-		if (ifPlayer == 1) {
 
 			forcetmp = new Vector3f(0f, 0f, 0f);
 			forcetmp.add(dataObject.getPlayer().getExtraForce());
 			force.add(forcetmp);
 			forcetmp = new Vector3f(0f, 0f, 0f);
 
-		}
+		
 
 		return force;
 	}
 
 	void firstUpdate() { // Runge–Kutta method after first step etc
-		for (int ii = 0; ii < dataObject.getAsteroids().size() + 1; ii++) {
-			Vector3f tmp = new Vector3f(k1r[ii]);
-			tmp.div(2);
-			position[ii].add(tmp);
+		Vector3f tmp = new Vector3f(k1r);
+		tmp.div(2);
+		position.add(tmp);
 
-			tmp = new Vector3f(k1v[ii]);
-			tmp.div(2);
-			velocity[ii].add(tmp);
-		}
+		tmp = new Vector3f(k1v);
+		tmp.div(2);
+		velocity.add(tmp);
+
 	}
 
 	void secondUpdate() {
-		for (int ii = 0; ii < dataObject.getAsteroids().size() + 1; ii++) {
-			Vector3f tmp = new Vector3f(k1r[ii]);
-			tmp.div(2);
-			position[ii].sub(tmp);
-			tmp = new Vector3f(k2r[ii]);
-			tmp.div(2);
-			position[ii].add(tmp);
+		Vector3f tmp = new Vector3f(k1r);
+		tmp.div(2);
+		position.sub(tmp);
+		tmp = new Vector3f(k2r);
+		tmp.div(2);
+		position.add(tmp);
 
-			tmp = new Vector3f(k1v[ii]);
-			tmp.div(2);
-			velocity[ii].sub(tmp);
-			tmp = new Vector3f(k2v[ii]);
-			tmp.div(2);
-			velocity[ii].add(tmp);
-		}
+		tmp = new Vector3f(k1v);
+		tmp.div(2);
+		velocity.sub(tmp);
+		tmp = new Vector3f(k2v);
+		tmp.div(2);
+		velocity.add(tmp);
 	}
 
 	void thirdUpdate() {
-		for (int ii = 0; ii < dataObject.getAsteroids().size() + 1; ii++) {
-			Vector3f tmp = new Vector3f(k3r[ii]);
-			position[ii].sub(tmp);
+		Vector3f tmp = new Vector3f(k3r);
+		position.sub(tmp);
 
-			tmp = new Vector3f(k3v[ii]);
-			velocity[ii].add(tmp);
-		}
+		tmp = new Vector3f(k3v);
+		velocity.add(tmp);
 
 	}
 
 	void fourthUpdate() {
-		for (int ii = 0; ii < dataObject.getAsteroids().size() + 1; ii++) {
-			position[ii].sub(k3r[ii]);
-			velocity[ii].sub(k3v[ii]);
-		}
+		position.sub(k3r);
+		velocity.sub(k3v);
+
 	}
 
 	void cleanSteps() {
-		for (int ii = 0; ii < dataObject.getAsteroids().size() + 1; ii++) {
-			k1r[ii] = new Vector3f(0f, 0f, 0f);
-			k2r[ii] = new Vector3f(0f, 0f, 0f);
-			k3r[ii] = new Vector3f(0f, 0f, 0f);
-			k4r[ii] = new Vector3f(0f, 0f, 0f);
-			k1v[ii] = new Vector3f(0f, 0f, 0f);
-			k2v[ii] = new Vector3f(0f, 0f, 0f);
-			k3v[ii] = new Vector3f(0f, 0f, 0f);
-			k4v[ii] = new Vector3f(0f, 0f, 0f);
-		}
+		k1r.zero();
+		k2r.zero();
+		k3r.zero();
+		k4r.zero();
+		k1v.zero();
+		k2v.zero();
+		k3v.zero();
+		k4v.zero();
 	}
 
 	public void calculateDeltas() { // approximation
 		float dt = (float) Timer.getLastLoopTime();
-		// buggy when it starts and the object is deleted on another thread
 
-		for (int jj = 0; jj < dataObject.getAsteroids().size(); jj++) {
-			currentAsteroid = jj;
-			position[jj] = new Vector3f();
-
-			position[jj] = new Vector3f(dataObject.getAsteroids().get(jj).getPosition());
-			velocity[jj] = new Vector3f(dataObject.getAsteroids().get(jj).getVelocity());
-		}
-		position[dataObject.getAsteroids().size()] = new Vector3f(dataObject.getPlayer().getPosition());
-		velocity[dataObject.getAsteroids().size()] = new Vector3f(dataObject.getPlayer().getVelocity());
+		position = new Vector3f(dataObject.getPlayer().getPosition());
+		velocity = new Vector3f(dataObject.getPlayer().getVelocity());
 		cleanSteps();
-		// System.out.println(dataObject.getAsteroids().size());
-		for (int ii = 0; ii < dataObject.getAsteroids().size(); ii++) {
-			currentAsteroid = ii;
-			k1r[ii].add(firstMethod(velocity[ii], dt));
-			k1v[ii].add(secondMethod(position[ii], dt, 0, 0));
-		}
-		currentAsteroid += 3;
-		k1r[dataObject.getAsteroids().size()].add(firstMethod(velocity[dataObject.getAsteroids().size()], dt));
-		k1v[dataObject.getAsteroids().size()].add(secondMethod(position[dataObject.getAsteroids().size()], dt, 0, 1));
+
+		k1r.add(firstMethod(velocity, dt));
+		k1v.add(secondMethod(position, dt, 0));
 		firstUpdate();
 
-		for (int ii = 0; ii < dataObject.getAsteroids().size(); ii++) {
-			currentAsteroid = ii;
-			k2r[ii].add(firstMethod(velocity[ii], dt));
-			k2v[ii].add(secondMethod(position[ii], dt, 1, 0));
-		}
-		currentAsteroid += 3;
-		k2r[dataObject.getAsteroids().size()].add(firstMethod(velocity[dataObject.getAsteroids().size()], dt));
-		k2v[dataObject.getAsteroids().size()].add(secondMethod(position[dataObject.getAsteroids().size()], dt, 1, 1));
+		k2r.add(firstMethod(velocity, dt));
+		k2v.add(secondMethod(position, dt, 1));
 		secondUpdate();
 
-		for (int ii = 0; ii < dataObject.getAsteroids().size(); ii++) {
-			currentAsteroid = ii;
-			k3r[ii].add(firstMethod(velocity[ii], dt));
-			k3v[ii].add(secondMethod(position[ii], dt, 1, 0));
-		}
-		currentAsteroid += 3;
-		k3r[dataObject.getAsteroids().size()].add(firstMethod(velocity[dataObject.getAsteroids().size()], dt));
-		k3v[dataObject.getAsteroids().size()].add(secondMethod(position[dataObject.getAsteroids().size()], dt, 1, 1));
+		k3r.add(firstMethod(velocity, dt));
+		k3v.add(secondMethod(position, dt, 1));
 		thirdUpdate();
 
-		for (int ii = 0; ii < dataObject.getAsteroids().size(); ii++) {
-			currentAsteroid = ii;
-			k4r[ii].add(firstMethod(velocity[ii], dt));
-			k4v[ii].add(secondMethod(position[ii], dt, 2, 0));
-		}
-		currentAsteroid += 3;
-		k4r[dataObject.getAsteroids().size()].add(firstMethod(velocity[dataObject.getAsteroids().size()], dt));
-		k4v[dataObject.getAsteroids().size()].add(secondMethod(position[dataObject.getAsteroids().size()], dt, 2, 1));
+		k4r.add(firstMethod(velocity, dt));
+		k4v.add(secondMethod(position, dt, 2));
 		fourthUpdate();
 
-		for (int ii = 0; ii < dataObject.getAsteroids().size() + 1; ii++) {
-			if (ii < dataObject.getAsteroids().size()) {
-				currentAsteroid = ii;
-				Vector3f tmp = new Vector3f(k1r[ii]);
-				tmp.add(k2r[ii]);
-				tmp.add(k2r[ii]);
-				tmp.add(k3r[ii]);
-				tmp.add(k3r[ii]);
-				tmp.add(k4r[ii]);
-				tmp.div(6);
-				dataObject.getAsteroids().get(ii).increasePosition(tmp);
+		Vector3f tmp = new Vector3f(k1r);
+		tmp.add(k2r);
+		tmp.add(k2r);
+		tmp.add(k3r);
+		tmp.add(k3r);
+		tmp.add(k4r);
+		tmp.div(6);
+		dataObject.getPlayer().increasePosition(tmp);
 
-				tmp = new Vector3f(k1v[ii]);
-				tmp.add(k2v[ii]);
-				tmp.add(k2v[ii]);
-				tmp.add(k3v[ii]);
-				tmp.add(k3v[ii]);
-				tmp.add(k4v[ii]);
-				tmp.div(6);
-				dataObject.getAsteroids().get(ii).increaseVelocity(tmp);
-			} else if (ii == dataObject.getAsteroids().size()) {
+		tmp = new Vector3f(k1v);
+		tmp.add(k2v);
+		tmp.add(k2v);
+		tmp.add(k3v);
+		tmp.add(k3v);
+		tmp.add(k4v);
+		tmp.div(6);
+		dataObject.getPlayer().increaseVelocity(tmp);
 
-				Vector3f tmp = new Vector3f(k1r[ii]);
-				tmp.add(k2r[ii]);
-				tmp.add(k2r[ii]);
-				tmp.add(k3r[ii]);
-				tmp.add(k3r[ii]);
-				tmp.add(k4r[ii]);
-				tmp.div(6);
-				dataObject.getPlayer().increasePosition(tmp);
-
-				tmp = new Vector3f(k1v[ii]);
-				tmp.add(k2v[ii]);
-				tmp.add(k2v[ii]);
-				tmp.add(k3v[ii]);
-				tmp.add(k3v[ii]);
-				tmp.add(k4v[ii]);
-				tmp.div(6);
-				dataObject.getPlayer().increaseVelocity(tmp);
-			}
-
-		}
 		cleanSteps();
 
 	}

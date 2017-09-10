@@ -92,9 +92,6 @@ public class Player extends CelestialBody {
 				* Math.cos(Math.toRadians(super.getRotationX())));
 		float Fy = (float) (currentForceUp + currentForce * Math.sin(Math.toRadians(super.getRotationX())));
 		extraForce = new Vector3f(Fx, Fy, Fz);
-		// extraForce2=new Vector3f(Vx,Vy,Vz);
-		// super.setVelocity(Vx, Vy, Vz);
-		// super.increasePosition(Vx, Vy, Vz, Timer.getLastLoopTime());
 
 	}
 
@@ -106,18 +103,12 @@ public class Player extends CelestialBody {
 		float multi = 0, multi2 = 0;
 		if (Keyboard.isKeyDown(GLFW.GLFW_KEY_W)) {
 			if (this.currentForce < MAX_SPEED) {
-				multi += 0.002f;
-				this.currentForce += Math.exp((multi - 10) / RUN_SPEED);
-			}
-
-		} else if (Keyboard.isKeyDown(GLFW.GLFW_KEY_U)) {
-			if (this.currentForce < MAX_SPEED) {
-				multi += 0.002f;
-				this.currentForce += Math.exp((multi - 10) / RUN_SPEED);
+				multi += 0.001f;
+				this.currentForce += multi;
 			}
 
 		} else if (Keyboard.isKeyDown(GLFW.GLFW_KEY_S)) {
-			multi2 += 0.002f;
+			multi2 += 0.00000001f;
 			this.currentForce -= Math.exp((multi2 - 10) / RUN_SPEED);
 		} else {
 			if (!inertiaDampener) {

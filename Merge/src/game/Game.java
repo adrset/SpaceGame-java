@@ -23,6 +23,7 @@ import gui.Menu;
 import input.Keyboard;
 import input.Mouse;
 import language.Language;
+import particles.ParticleMaster;
 
 /**
  * Game class. Starts a new thread and handles scenes and menus.
@@ -164,7 +165,7 @@ public class Game implements Runnable {
 		scene = new Scene(sceneLoader, "level1", dataObject);
 		renderer.setSkybox(sceneLoader);
 		// A master that grabs all its renderers and rules them
-	
+		ParticleMaster.init(loader, renderer.getProjectionMatrix());
 		// Main menu
 		Menu menu = new Menu();
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
@@ -194,6 +195,7 @@ public class Game implements Runnable {
 		scene.cleanUp();
 		renderer.cleanUp();
 		loader.cleanUp();
+		ParticleMaster.cleanUp();
 		AudioManager.cleanUp();
 	}
 

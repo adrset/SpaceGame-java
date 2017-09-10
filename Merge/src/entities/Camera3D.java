@@ -34,7 +34,7 @@ public class Camera3D extends Camera {
 	}
 
 	private void calculateCameraPosition(float hDistance) {
-		float theta = player.getRotationY() + angleAroundPlayer;
+		float theta = player.getRotationY() - angleAroundPlayer;
 		float phi = player.getRotationX();
 		float xOffset = (float) (hDistance * Math.sin(Math.toRadians(-theta)) * Math.cos(Math.toRadians(phi)));
 		float zOffset = (float) (hDistance * Math.cos(Math.toRadians(theta + 180)) * Math.cos(Math.toRadians(phi)));

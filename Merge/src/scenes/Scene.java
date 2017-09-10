@@ -1,5 +1,8 @@
 package scenes;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -8,6 +11,8 @@ import java.util.Random;
 
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.opengl.GL11;
 
 import audio.AudioManager;
 import audio.AudioSource;
@@ -21,13 +26,16 @@ import entities.Entity;
 import fontMeshCreator.FontType;
 import game.Game;
 import gui.UI;
+import input.Keyboard;
 import language.Language;
 import models.TexturedModel;
+import particles.Particle;
+import particles.ParticleMaster;
+import particles.ParticleSystem;
+import particles.ParticleTexture;
 import renderEngine.ResourceCache;
 import textures.ModelTexture;
-import threads.CollisionDetector;
 import threads.Force;
-import utils.Logs;
 import utils.Timer;
 import weaponry.Weapon;
 
@@ -47,8 +55,6 @@ public class Scene {
 	private Camera3D camera;
 	private SceneLoader sceneLoader;
 
-	// Threads
-	public CollisionDetector cDetect;
 	private Force force;
 
 	// UI
@@ -57,6 +63,8 @@ public class Scene {
 	private FontType arial;
 	private String currentLevel;
 	public static boolean isUiVisible = true;
+	
+	ParticleSystem system;
 
 	// Finish booleans
 	public static boolean isFinished;
@@ -86,15 +94,6 @@ public class Scene {
 
 		Random generator = new Random();
 
-		for (int i = 0; i < 20; i++) {
-			allAsteroids.add(new Asteroid(
-					new TexturedModel(ResourceCache.loadOBJ("planet", Game.loader),
-							new ModelTexture(ResourceCache.loadTexture("2", Game.loader))),
-					new Vector3f(-300000 + generator.nextInt(600000), -2060 + generator.nextInt(4120),
-							-400000 + generator.nextInt(800000)),
-					0, 0, 0, generator.nextInt(600), (float) generator.nextInt(30000000) * 1000));
-		}
-
 		for (int i = 0; i < 10; i++) {
 			allEntities.add(new Entity(
 					new TexturedModel(ResourceCache.loadOBJ("untitled", Game.loader),
@@ -103,18 +102,6 @@ public class Scene {
 							(float) (-50000 + generator.nextInt(100000))),
 					0, 0, 0, 10f, new Vector3f()));
 		}
-
-		for (int i = 0; i < 20; i++) {
-			allHostile.add(new HostileShip(
-					new TexturedModel(ResourceCache.loadOBJ("shipMapped", Game.loader),
-							new ModelTexture(ResourceCache.loadTexture("ship", Game.loader))),
-					new Vector3f(dataObject.getPlayer().getPosition().x + generator.nextInt(30000) - 15000,
-							dataObject.getPlayer().getPosition().y + generator.nextInt(30000) - 15000,
-							dataObject.getPlayer().getPosition().y + generator.nextInt(30000) - 15000),
-					0, 0, 0, 1000f, new Vector3f(), 800f + (float) generator.nextInt(500),
-					generator.nextInt(2) + generator.nextFloat(), 1, (float) generator.nextInt(500)));
-		}
-
 		// Put lists above into dataObject
 		dataObject.setAsteroids(allAsteroids);
 		dataObject.setEntities(allEntities);
@@ -127,14 +114,15 @@ public class Scene {
 								new ModelTexture(ResourceCache.loadTexture("tex", Game.loader))),
 						dataObject.getPlayer().getPosition(), 0.01f));
 
-		// New threads
-		cDetect = new CollisionDetector(dataObject);
-		cDetect.start();
 		force = new Force(dataObject);
 
 		// Camera stuff
 		camera = new Camera3D(dataObject.getPlayer());
 
+		ParticleTexture tex = new ParticleTexture(Game.loader.loadTexture("star"), 1);
+		system = new ParticleSystem(tex, 500, 30, 0.1f, 5);
+		
+		
 		// Audio stuff
 		AudioManager.setListenerData(dataObject.getPlayer().getPosition(), dataObject.getPlayer().getVelocity());
 		int b = AudioManager.loadSound("res/audio/b.wav");
@@ -164,62 +152,37 @@ public class Scene {
 
 	public void cleanUp() {
 		ui.cleanUp();
-		cDetect.finish();
+
 	}
 
 	public void loop() {
 		Game.renderer.setInstanceEntities(dataObject.getEntities());
 		// needs to be repaired, cause it doesn't support vsync
 		Timer.begin();
-		for (HostileShip hostile : dataObject.getHostileShips()) {
-			if (hostile.isAlive()) {
-				hostile.chasePlayer(dataObject.getPlayer());
-				Game.renderer.proccessEntity(hostile);
-			} else {
-				Logs.printLog("Removing HostileShip #" + dataObject.getHostileShips().indexOf(hostile));
-				hostile.setDead();
-			}
-		}
-		for (Iterator<HostileShip> it = dataObject.getHostileShips().iterator(); it.hasNext();) {
-
-			if (!it.next().isAlive())
-				it.remove();
-		}
+		
+	
+		
 		Random generator = new Random();
-		if (dataObject.getHostileShips().size() < 5) {
-			System.out.println("Adding some enemies...");
-			for (int i = 0; i < 10; i++) {
-				dataObject.getHostileShips()
-						.add(new HostileShip(
-								new TexturedModel(ResourceCache.loadOBJ("shipMapped", Game.loader),
-										new ModelTexture(ResourceCache.loadTexture("ship", Game.loader))),
-								new Vector3f(dataObject.getPlayer().getPosition().x + generator.nextInt(5000),
-										dataObject.getPlayer().getPosition().y + generator.nextInt(5000),
-										dataObject.getPlayer().getPosition().y + generator.nextInt(9000)),
-								0, 0, 0, 1000f, new Vector3f(), 800f + (float) generator.nextInt(500),
-								generator.nextInt(2) + generator.nextFloat(), 1, (float) generator.nextInt(500)));
-			}
-		}
 
 		if (isAboutEnd == 0) {
 
-			for (Planet p : dataObject.getPlanets()) {
-				double check = (float) Math.pow(Math.pow((dataObject.getPlayer().getPosition().x - p.getPosition().x), 2)
-						+ Math.pow((dataObject.getPlayer().getPosition().y - p.getPosition().y), 2)
-						+ Math.pow((dataObject.getPlayer().getPosition().z - p.getPosition().z), 2), 1.5);
-				if (check<2E13) dataObject.getPlayer().setHealth (dataObject.getPlayer().getHealth() + 5);
-				
-			}
-
 			dataObject.getPlayer().move();
 			dataObject.getPlayer().getWeapon().refreshBullets();
+			
+			
 			force.calculateDeltas();
 			if (!dataObject.getPlayer().isAlive()) {
 				isAboutEnd = 1; // set dead
 			}
 		}
-
+		
+		
 		camera.move();
+		
+		system.generateParticles(dataObject.getPlayer().getPosition());
+		
+		ParticleMaster.update();
+		
 		for (Planet planet : dataObject.getPlanets()) {
 			planet.move();
 			planet.rotateAround();
@@ -238,10 +201,12 @@ public class Scene {
 		}
 		Game.renderer.render(dataObject.getLights(), camera);
 
+		ParticleMaster.render(camera);
 		if (isUiVisible) {
 			updateUI();
 			ui.render();
 		}
+		
 
 		checkEnd();
 		try {
@@ -251,6 +216,8 @@ public class Scene {
 		}
 
 	}
+	
+
 
 	private void checkEnd() {
 		if (isAboutEnd == 1) {
