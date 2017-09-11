@@ -42,7 +42,7 @@ public class Camera3D extends Camera {
 		super.position.x = player.getPosition().x + xOffset;
 		super.position.z = player.getPosition().z + zOffset;
 		super.position.y = player.getPosition().y - yOffset;
-		super.yaw = 180 - (player.getRotationY() + angleAroundPlayer);
+		super.yaw = 180 - (player.getRotationY() - angleAroundPlayer);
 		super.pitch = 0 - (player.getRotationX());
 	}
 

@@ -17,7 +17,8 @@ public class Keyboard extends GLFWKeyCallback{
 	
 	@Override
 	public void invoke(long windows, int key, int scancode, int action, int mode) {
-		keys[key] = (action != GLFW.GLFW_RELEASE);
+		if(key != -1) // some keyboard buttons give key code = -1, that's not a problem, because they are used rather by system than game.
+			keys[key] = (action != GLFW.GLFW_RELEASE);
 		
 	}
 	

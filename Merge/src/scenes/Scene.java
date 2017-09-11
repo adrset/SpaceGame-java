@@ -119,8 +119,8 @@ public class Scene {
 		// Camera stuff
 		camera = new Camera3D(dataObject.getPlayer());
 
-		ParticleTexture tex = new ParticleTexture(Game.loader.loadTexture("star"), 1);
-		system = new ParticleSystem(tex, 500, 30, 0.1f, 5);
+		ParticleTexture tex = new ParticleTexture(Game.loader.loadTexture("image"), 4);
+		system = new ParticleSystem(tex, 300, 20, 1f, 4, 4); // max 10000 instances!!
 		
 		
 		// Audio stuff
@@ -181,7 +181,7 @@ public class Scene {
 		
 		system.generateParticles(dataObject.getPlayer().getPosition());
 		
-		ParticleMaster.update();
+		ParticleMaster.update(camera);
 		
 		for (Planet planet : dataObject.getPlanets()) {
 			planet.move();
