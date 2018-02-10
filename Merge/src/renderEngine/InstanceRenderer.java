@@ -71,7 +71,6 @@ public class InstanceRenderer {
 		loader.updateVBO(vbo, data, buffer);
 		GL31.glDrawElementsInstanced(GL11.GL_TRIANGLES, quad.getVertexCount(), GL11.GL_UNSIGNED_INT, 0,
 				entities.size());
-
 		end();
 	}
 

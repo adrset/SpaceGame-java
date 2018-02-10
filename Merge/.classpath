@@ -29,6 +29,6 @@
 	<classpathentry kind="lib" path="javalib/lwjgl-openal.jar"/>
 	<classpathentry kind="lib" path="javalib/lwjgl-openal-natives-windows.jar"/>
 	<classpathentry kind="lib" path="javalib/lwjgl-openal-natives-linux.jar"/>
-	<classpathentry kind="lib" path="C:/Users/pc/git/SpaceGame-java/Merge/javalib/joml-1.9.3.jar"/>
+	<classpathentry kind="lib" path="javalib/joml-1.9.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

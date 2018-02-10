@@ -29,13 +29,11 @@ import textures.ModelTexture;
  */
 
 public class SceneLoader {
-	private List<Planet> planets;
 	private List<Light> lights;
 	private Player player;
 	private static String[] TEXTURES;
 
 	public SceneLoader() {
-		planets = Collections.synchronizedList(new ArrayList<Planet>());
 		lights =  Collections.synchronizedList(new ArrayList<Light>());
 		TEXTURES = new String[6];
 	}
@@ -56,36 +54,10 @@ public class SceneLoader {
 				throw new Exception("Level format unsupported!");
 			}
 
-			// load planets
-			JSONObject planets = (JSONObject) ((JSONObject) jsonObject.get("entities")).get("planet");
-
-			Iterator<?> iterator = planets.values().iterator();
-
-			while (iterator.hasNext()) {
-
-				JSONObject jsonChildObject = (JSONObject) iterator.next();
-
-				// using ResourceCache (blazing speed)
-				RawModel model = ResourceCache.loadOBJ((String) (jsonChildObject.get("model")), Game.loader);
-				TexturedModel texturedModel = new TexturedModel(model, new ModelTexture(
-						ResourceCache.loadTexture((String) (jsonChildObject.get("texture")), Game.loader)));
-
-				// dirty conversions -> to be fixed
-				this.planets.add(new Planet(texturedModel, new Vector3f(0,0,0),
-						((Long) ((JSONObject) jsonChildObject.get("position")).get("angle")).floatValue(),
-						((Number) jsonChildObject.get("mass")).floatValue(),
-						((Number) jsonChildObject.get("radius")).floatValue(),
-						((Long) ((JSONObject) jsonChildObject.get("orbit")).get("a")).floatValue(),
-						((Long) ((JSONObject) jsonChildObject.get("orbit")).get("b")).floatValue(),
-						((Number) ((JSONObject) jsonChildObject.get("position")).get("angularVelocity")).floatValue(),
-						((Number) jsonChildObject.get("rotation")).floatValue()));
-
-			}
-
 			// load lights
 			JSONObject lights = (JSONObject) ((JSONObject) jsonObject.get("entities")).get("lights");
 
-			iterator = lights.values().iterator();
+			Iterator<?> iterator = lights.values().iterator();
 
 			while (iterator.hasNext()) {
 
@@ -137,7 +109,6 @@ public class SceneLoader {
 			TEXTURES[4] = (String) skybox.get("back");
 			TEXTURES[5] = (String) skybox.get("front");
 			
-			dataObject.setPlanets(this.planets);
 			dataObject.setLights(this.lights);
 			dataObject.setPlayer(this.player);
 			

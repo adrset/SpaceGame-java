@@ -1,15 +1,31 @@
 package game;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
-import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.system.MemoryUtil.*;
+import static org.lwjgl.glfw.GLFW.GLFW_CURSOR;
+import static org.lwjgl.glfw.GLFW.GLFW_CURSOR_NORMAL;
+import static org.lwjgl.glfw.GLFW.GLFW_RESIZABLE;
+import static org.lwjgl.glfw.GLFW.GLFW_SAMPLES;
+import static org.lwjgl.glfw.GLFW.glfwCreateWindow;
+import static org.lwjgl.glfw.GLFW.glfwDestroyWindow;
+import static org.lwjgl.glfw.GLFW.glfwGetPrimaryMonitor;
+import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
+import static org.lwjgl.glfw.GLFW.glfwInit;
+import static org.lwjgl.glfw.GLFW.glfwMakeContextCurrent;
+import static org.lwjgl.glfw.GLFW.glfwSetCursorPosCallback;
+import static org.lwjgl.glfw.GLFW.glfwSetInputMode;
+import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
+import static org.lwjgl.glfw.GLFW.glfwSetMouseButtonCallback;
+import static org.lwjgl.glfw.GLFW.glfwSetScrollCallback;
+import static org.lwjgl.glfw.GLFW.glfwSetWindowPos;
+import static org.lwjgl.glfw.GLFW.glfwShowWindow;
+import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
+import static org.lwjgl.glfw.GLFW.glfwSwapInterval;
+import static org.lwjgl.glfw.GLFW.glfwTerminate;
+import static org.lwjgl.glfw.GLFW.glfwWindowHint;
+import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
+import static org.lwjgl.system.MemoryUtil.NULL;
 
-import renderEngine.Loader;
-import renderEngine.MasterRenderer;
-import scenes.Scene;
-import scenes.SceneLoader;
-import utils.Logs;
-import utils.Timer;
+import java.awt.Menu;
 
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
@@ -17,13 +33,17 @@ import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
-import audio.AudioManager;
 import celestial.DataObject;
-import gui.Menu;
 import input.Keyboard;
 import input.Mouse;
 import language.Language;
 import particles.ParticleMaster;
+import renderEngine.Loader;
+import renderEngine.MasterRenderer;
+import scenes.Scene;
+import scenes.SceneLoader;
+import utils.Logs;
+import utils.Timer;
 
 /**
  * Game class. Starts a new thread and handles scenes and menus.
@@ -37,20 +57,20 @@ public class Game implements Runnable {
 	private long window;
 	private Thread thread;
 	private String title;
-	
+
 	public static int width;
 	public static int height;
 	public static boolean windowShouldClose = false;
 	public static Loader loader;
 	public static MasterRenderer renderer;
-	
+
 	private static boolean vSync;
 	private static int multiSampling;
-	
+
 	private boolean mode;
 	private Scene scene;
 	private SceneLoader sceneLoader;
-	
+
 	private DataObject dataObject = new DataObject();
 
 	public Game(String name, int desiredWidth, int desiredHeight, boolean mode) {
@@ -110,8 +130,7 @@ public class Game implements Runnable {
 		glfwSetScrollCallback(window, Mouse.mouseScroll);
 		glfwSetMouseButtonCallback(window, Mouse.mouseButtons);
 		// SceneLoader sceneLoader = new SceneLoader();
-		
-		AudioManager.init();
+
 	}
 
 	public static void setMultiSampling(int amount) {
@@ -158,7 +177,7 @@ public class Game implements Runnable {
 
 		// loads stuff
 		loader = new Loader();
-		
+
 		renderer = new MasterRenderer(loader);
 		// loads levels
 		sceneLoader = new SceneLoader();
@@ -167,27 +186,20 @@ public class Game implements Runnable {
 		// A master that grabs all its renderers and rules them
 		ParticleMaster.init(loader, renderer.getProjectionMatrix());
 		// Main menu
-		Menu menu = new Menu();
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		// game loop
 		while (!glfwWindowShouldClose(window) && !windowShouldClose) {
 
-			if (!Menu.play) {
-			
-				menu.loop();
+			if (!Scene.isFinished) {
+				scene.loop();
 			} else {
-				// 3d scene loop
-				if (!Scene.isFinished) {
-					scene.loop();
-				}else {
-					windowShouldClose = true;
-				}
+				windowShouldClose = true;
 			}
 
 			glfwSwapBuffers(window);
 
 		}
-		
+
 		cleanUp();
 	}
 
@@ -196,7 +208,6 @@ public class Game implements Runnable {
 		renderer.cleanUp();
 		loader.cleanUp();
 		ParticleMaster.cleanUp();
-		AudioManager.cleanUp();
 	}
 
 	private void close() {

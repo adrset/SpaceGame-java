@@ -39,8 +39,6 @@ public class MasterRenderer {
 	private Loader loader;
 	private Matrix4f projectionMatrix;
 
-	private boolean instanceRendererPrepared = false;
-
 	// main shader
 	private StaticShader shader = new StaticShader();
 
@@ -49,9 +47,7 @@ public class MasterRenderer {
 
 	// renderer for all entities
 	private EntityRenderer renderer;
-
-	private BulletRenderer bulletRenderer;
-
+	
 	private InstanceRenderer instanceRenderer;
 
 	// Map of all entities of all kindMap<TexturedModel, List<Entity>> entities
@@ -62,7 +58,6 @@ public class MasterRenderer {
 		createProjectionMatrix();
 		enableCulling();
 		renderer = new EntityRenderer(shader, projectionMatrix);
-		bulletRenderer = new BulletRenderer(shader, projectionMatrix);
 		instanceRenderer = new InstanceRenderer(loader, projectionMatrix);
 
 	}
@@ -92,8 +87,7 @@ public class MasterRenderer {
 		shader.loadViewMatrix(camera);
 		shader.loadTime();
 		renderer.render(entities);
-		// bulletRenderer shares shader with EntityRenderer
-		bulletRenderer.render(player.getWeapon().getBullets());
+
 		shader.stop();
 		entities.clear();
 
@@ -128,10 +122,9 @@ public class MasterRenderer {
 	}
 
 	public void setInstanceEntities(List<Entity> entities) {
-		if (!instanceRendererPrepared) {
-			instanceRenderer.setEntityList(entities);
-			instanceRendererPrepared = true;
-		}
+	
+		instanceRenderer.setEntityList(entities);
+		
 	}
 
 	public void prepare() {
