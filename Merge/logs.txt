@@ -19047,3 +19047,112 @@ Compiling /skybox/skyboxShader.vert
 Compiling /skybox/skyboxShader.frag
 Compiling /particles/particle.vert
 Compiling /particles/particle.frag
+Logging started: Sat Feb 10 22:45:34 CET 2018
+V-sync enabled
+Compiling /shaders/mainShader.vert
+Compiling /shaders/mainShader.frag
+Logging started: Sat Feb 10 22:45:34 CET 2018
+V-sync enabled
+Compiling /shaders/mainShader.vert
+Compiling /shaders/mainShader.frag
+Compiling /shaders/instanceShader.vert
+Compiling /shaders/instanceShader.frag
+New model: (planet.obj) loaded!
+Compiling /shaders/instanceShader.vert
+Compiling /shaders/instanceShader.frag
+New model: (planet.obj) loaded!
+New texture: (sun.png) loaded!
+Cached model: (planet.obj) loaded!
+New texture: (2.png) loaded!
+New texture: (image.png) loaded!
+New model: (untitled.obj) loaded!
+Cached texture: (2.png) loaded!
+New texture: (sun.png) loaded!
+Cached model: (planet.obj) loaded!
+New texture: (2.png) loaded!
+New texture: (image.png) loaded!
+New model: (untitled.obj) loaded!
+Cached texture: (2.png) loaded!
+Compiling /skybox/skyboxShader.vert
+Compiling /skybox/skyboxShader.frag
+Compiling /particles/particle.vert
+Compiling /particles/particle.frag
+Compiling /skybox/skyboxShader.vert
+Compiling /skybox/skyboxShader.frag
+Compiling /particles/particle.vert
+Compiling /particles/particle.frag
+Logging started: Sat Feb 10 22:47:41 CET 2018
+V-sync enabled
+Compiling /shaders/mainShader.vert
+Compiling /shaders/mainShader.frag
+Compiling /shaders/instanceShader.vert
+Compiling /shaders/instanceShader.frag
+New model: (planet.obj) loaded!
+New texture: (sun.png) loaded!
+Logging started: Sat Feb 10 22:47:58 CET 2018
+V-sync enabled
+Compiling /shaders/mainShader.vert
+Compiling /shaders/mainShader.frag
+Compiling /shaders/instanceShader.vert
+Compiling /shaders/instanceShader.frag
+New model: (planet.obj) loaded!
+Logging started: Sat Feb 10 22:47:58 CET 2018
+V-sync enabled
+Compiling /shaders/mainShader.vert
+Compiling /shaders/mainShader.frag
+New texture: (sun.png) loaded!
+Compiling /shaders/instanceShader.vert
+Compiling /shaders/instanceShader.frag
+New model: (planet.obj) loaded!
+New texture: (sun.png) loaded!
+Logging started: Sat Feb 10 22:48:54 CET 2018
+V-sync enabled
+Compiling /shaders/mainShader.vert
+Compiling /shaders/mainShader.frag
+Compiling /shaders/instanceShader.vert
+Compiling /shaders/instanceShader.frag
+New model: (planet.obj) loaded!
+New texture: (2.png) loaded!
+Cached model: (planet.obj) loaded!
+Cached texture: (2.png) loaded!
+New texture: (image.png) loaded!
+New model: (untitled.obj) loaded!
+Cached texture: (2.png) loaded!
+Compiling /skybox/skyboxShader.vert
+Compiling /skybox/skyboxShader.frag
+Compiling /particles/particle.vert
+Compiling /particles/particle.frag
+Logging started: Sat Feb 10 22:51:00 CET 2018
+V-sync enabled
+Compiling /shaders/mainShader.vert
+Compiling /shaders/mainShader.frag
+Compiling /shaders/instanceShader.vert
+Compiling /shaders/instanceShader.frag
+New model: (planet.obj) loaded!
+New texture: (2.png) loaded!
+Cached model: (planet.obj) loaded!
+Cached texture: (2.png) loaded!
+New texture: (image.png) loaded!
+New model: (untitled.obj) loaded!
+Cached texture: (2.png) loaded!
+Compiling /skybox/skyboxShader.vert
+Compiling /skybox/skyboxShader.frag
+Compiling /particles/particle.vert
+Compiling /particles/particle.frag
+Logging started: Sat Feb 10 22:51:54 CET 2018
+V-sync enabled
+Compiling /shaders/mainShader.vert
+Compiling /shaders/mainShader.frag
+Compiling /shaders/instanceShader.vert
+Compiling /shaders/instanceShader.frag
+New model: (planet.obj) loaded!
+New texture: (2.png) loaded!
+Cached model: (planet.obj) loaded!
+Cached texture: (2.png) loaded!
+New texture: (smoky.png) loaded!
+New model: (untitled.obj) loaded!
+Cached texture: (2.png) loaded!
+Compiling /skybox/skyboxShader.vert
+Compiling /skybox/skyboxShader.frag
+Compiling /particles/particle.vert
+Compiling /particles/particle.frag

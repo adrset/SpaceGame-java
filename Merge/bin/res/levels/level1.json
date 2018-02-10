@@ -31,7 +31,7 @@
            "d3" : 0.0
          },
          "model" : "planet",
-         "texture" : "sun",
+         "texture" : "2",
          "radius" : 25000,
          "density" : 10000000000000.0
       }

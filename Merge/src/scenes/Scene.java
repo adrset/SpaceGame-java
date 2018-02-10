@@ -61,7 +61,7 @@ public class Scene {
 		// Camera stuff
 		camera = new Camera3D(dataObject.getPlayer());
 
-		ParticleTexture tex = new ParticleTexture(ResourceCache.loadTexture("image", Game.loader), 4);
+		ParticleTexture tex = new ParticleTexture(ResourceCache.loadTexture("smoky", Game.loader), 4);
 		system = new ParticleSystem(tex, 300, 20, 1f, 4, 4); // max 10000 instances!!
 		Random generator = new Random();
 		TexturedModel model = new TexturedModel(ResourceCache.loadOBJ("untitled", Game.loader),
