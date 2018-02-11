@@ -1,6 +1,8 @@
 package entities;
 
-import org.joml.*;
+import java.util.Random;
+
+import org.joml.Vector3f;
 
 import models.TexturedModel;
 
@@ -13,11 +15,22 @@ import models.TexturedModel;
  */
 
 public class Entity {
+	private Vector3f max = new Vector3f();
+	private Vector3f min = new Vector3f();
+
+	private static Vector3f maxS1 = new Vector3f();
+	private static Vector3f minS1 = new Vector3f();
+	private static Vector3f maxS2 = new Vector3f();
+	private static Vector3f minS2 = new Vector3f();
 	protected Vector3f position;
 	private Vector3f velocity;
 	private float rotationX, rotationY, rotationZ;
 	private float scale;
 	private TexturedModel model;
+	private static Random generator = new Random();
+	private float timeElapsed = 0f;
+	private float timeChanged = 0f;
+	private int period;
 
 	public Entity(Entity a) {
 		this.position = new Vector3f(a.getPosition());
@@ -39,6 +52,29 @@ public class Entity {
 		this.rotationZ = rotationZ;
 		this.scale = scale;
 		this.velocity = velocity;
+		period = 5 + generator.nextInt(10);
+	}
+	
+	public boolean checkCollision(Entity e) {
+		maxS1.set(model.getRawModel().getMax());
+		maxS2.set(e.getModel().getRawModel().getMax());
+		
+		minS1.set(model.getRawModel().getMin());
+		minS2.set(e.getModel().getRawModel().getMin());
+	
+		maxS1.mul(scale).add(position);
+		maxS2.mul(e.getScale()).add(e.getPosition());
+		
+		minS1.mul(scale).add(position);
+		minS2.mul(e.getScale()).add(e.getPosition());
+		
+		 return(maxS1.x > minS2.x &&
+				 minS1.x < maxS2.x &&
+				    maxS1.y > minS2.y &&
+				    minS1.y < maxS2.y &&
+				    maxS1.z > minS2.z &&
+				    minS1.z < maxS2.z);
+		
 	}
 
 	// setters
@@ -89,6 +125,17 @@ public class Entity {
 
 	public float getRotationX() {
 		return rotationX;
+	}
+
+	public void move() {
+		increasePosition(velocity);
+		/*if (timeElapsed > period * Math.pow(10, 9)) {
+			setVelocity(-0.5f + generator.nextFloat(), -0.5f + generator.nextFloat(), -0.5f + generator.nextFloat());
+			timeChanged = (float) (System.nanoTime());
+			timeElapsed = 0f;
+		} else {
+			timeElapsed = (float) (System.nanoTime() - timeChanged);
+		}*/
 	}
 
 	public void setPosition(float dx, float dy, float dz) {

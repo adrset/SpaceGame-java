@@ -100,6 +100,27 @@ public class Player extends CelestialBody {
 			}
 		}
 		
+		if (Keyboard.isKeyDown(GLFW.GLFW_KEY_SPACE)) {
+			if (Math.abs(this.currentForceUp) < MAX_SPEED) {
+				this.currentForceUp += 0.1f;
+			}
+		}
+		if (Keyboard.isKeyDown(GLFW.GLFW_KEY_C)) {
+			if (Math.abs(this.currentForceUp) < MAX_SPEED) {
+				this.currentForceUp -= 0.1f;
+			}
+		}
+		if(!Keyboard.isKeyDown(GLFW.GLFW_KEY_SPACE) && !Keyboard.isKeyDown(GLFW.GLFW_KEY_C)) {
+			if(Math.abs(this.currentForceUp) < 0.07f) {
+				this.currentForceUp =0f;
+			}
+			if(this.currentForceUp >0) {
+				this.currentForceUp-=0.05f;
+			}else if(this.currentForceUp <0){
+				this.currentForceUp+=0.05f;
+			}
+		}
+		
 		if (Keyboard.isKeyDown(GLFW.GLFW_KEY_Q)) {
 			this.currentSpeedRotateSpeed = ROTATE_SPEED;
 		} else if (Keyboard.isKeyDown(GLFW.GLFW_KEY_E)) {
@@ -107,6 +128,9 @@ public class Player extends CelestialBody {
 		} else {
 			this.currentSpeedRotateSpeed = 0;
 		}
+		
+		
+		
 
 	}
 

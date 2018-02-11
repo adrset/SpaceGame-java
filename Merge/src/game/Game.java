@@ -80,7 +80,7 @@ public class Game implements Runnable {
 		Game.height = desiredHeight;
 		thread = new Thread(this, "Game");
 		thread.start();
-		vSync = true;
+		vSync = false;
 	}
 
 	public void init() {

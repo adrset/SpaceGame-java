@@ -94,8 +94,7 @@ public class OBJLoader {
 			}
 			
 			
-			System.out.println("Setting the radius to : 50");
-			radius = 100;
+			
 			reader.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -115,9 +114,31 @@ public class OBJLoader {
 		for (int i = 0; i < indices.size(); i++) {
 			indicesArray[i] = indices.get(i);
 		}
-		
+		System.out.println(radius + "-name:" + fileName);
 		//load to Vertex array object
-		return loader.loadToVAO(verticesArray, textureArray, normalsArray, indicesArray, radius);
+		Vector3f min = new Vector3f();
+		Vector3f max = new Vector3f();
+		
+		min.x = vertices.get(0).x;
+		max.x = vertices.get(0).x;
+		
+		min.y = vertices.get(0).y;
+		max.y = vertices.get(0).y;
+		
+		min.z = vertices.get(0).z;
+		max.z = vertices.get(0).z;
+		
+		for(int i=1;i<vertices.size();i++) {
+			min.x = Math.min(min.x, vertices.get(i).x);
+			min.y = Math.min(min.y, vertices.get(i).y);
+			min.z = Math.min(min.z, vertices.get(i).z);
+			
+			max.x = Math.max(max.x, vertices.get(i).x);
+			max.y = Math.max(max.y, vertices.get(i).y);
+			max.z = Math.max(max.z, vertices.get(i).z);
+		}
+		
+		return loader.loadToVAO(verticesArray, textureArray, normalsArray, indicesArray, min, max);
 	}
 
 	private static void processVertex(String[] vertexData, List<Integer> indices, List<Vector2f> textures,

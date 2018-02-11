@@ -7,6 +7,7 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -46,14 +47,14 @@ public class Loader {
 		return vaoID;
 	}
 	
-	public RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices, double max) {
+	public RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices, Vector3f min, Vector3f max) {
 		int vaoID = createVAO();
 		bindIndicesBuffer(indices);
 		storeDataInAttribList(0, 3, positions);
 		storeDataInAttribList(1, 2, textureCoords);
 		storeDataInAttribList(2, 3, normals);
 		unbindVAO();
-		return new RawModel(vaoID, indices.length, max);
+		return new RawModel(vaoID, indices.length, min, max);
 	}
 
 	public int createInstanceVBO(int size) {
@@ -88,7 +89,7 @@ public class Loader {
 		int vaoID = createVAO();
 		this.storeDataInAttribList(0, dim, positions);
 		unbindVAO();
-		return new RawModel(vaoID, positions.length / dim, 0);
+		return new RawModel(vaoID, positions.length / dim, null, null);
 	}
 
 	public int loadTexture(String fileName) {
