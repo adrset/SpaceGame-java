@@ -98,7 +98,8 @@ public class Game implements Runnable {
 		System.out.println(Language.getLanguageData("glfw_version") + Version.getVersion() + "!");
 
 		// Set window to not resizable
-		glfwWindowHint(GLFW_RESIZABLE, GL11.GL_FALSE);
+		glfwWindowHint(GLFW_RESIZABLE, GL11.GL_FALSE); // TODO: after resizing the window, apply changes to renderer in
+														// order to render into entire window
 
 		// Create window
 		if (mode) {
@@ -113,15 +114,14 @@ public class Game implements Runnable {
 		GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 		glfwSetWindowPos(window, (int) ((vidmode.width() - width) * 0.5), (int) ((vidmode.height() - height) * 0.5));
 
+		// openGL calls now available only for this thread
 		glfwMakeContextCurrent(window);
+		
 		// very important
 		GL.createCapabilities();
 
 		// disable v-sync
 		toggleVideoSync(vSync);
-
-		// antialiasing + multisampling
-		setMultiSampling(8);
 
 		// Set input callbacks
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
@@ -180,9 +180,8 @@ public class Game implements Runnable {
 
 		renderer = new MasterRenderer(loader);
 		// loads levels
-		sceneLoader = new SceneLoader();
-		scene = new Scene(sceneLoader, "level1", dataObject);
-		renderer.setSkybox(sceneLoader);
+		scene = new Scene("level1", dataObject);
+		
 		// A master that grabs all its renderers and rules them
 		ParticleMaster.init(loader, renderer.getProjectionMatrix());
 		// Main menu

@@ -3,7 +3,7 @@
   "levelName": "Level1",
   "entities": {
     "player":{
-      "size" : 5,
+      "size" : 1,
       "position": {
         "x" : 0.0,
         "y" : 0.0,

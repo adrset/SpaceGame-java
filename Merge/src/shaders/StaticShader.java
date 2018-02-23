@@ -28,8 +28,6 @@ public class StaticShader extends ShaderProgram{
 	private int location_attenuation[];
 	private int location_shineDamper;
 	private int location_reflectivity;
-	private int location_useFakeLight;
-	private int location_time;
 	
 	private static final String VERTEX_FILE = "/shaders/mainShader.vert";
 	private static final String FRAGMENT_FILE = "/shaders/mainShader.frag";
@@ -52,8 +50,6 @@ public class StaticShader extends ShaderProgram{
 	  location_viewMatrix = super.getUniformLocation("viewMatrix");
 	  location_shineDamper = super.getUniformLocation("shineDamper");
 	  location_reflectivity = super.getUniformLocation("reflectivity");
-	  location_useFakeLight = super.getUniformLocation("useFakeLight");
-	  location_time = super.getUniformLocation("time");
 
 	  location_lightPosition = new int[MAX_LIGHTS];
 	  location_lightColor = new int[MAX_LIGHTS];
@@ -71,14 +67,6 @@ public class StaticShader extends ShaderProgram{
         super.loadMatrix(location_transformationMatrix, matrix);
         
     }
-	
-	public void loadTime(){
-		super.loadFloat(location_time, (float)Timer.getCurrentTimeUniform());
-	}
-	
-	public void loadFakeLight(boolean use){
-		super.loadBoolean(location_useFakeLight, use);
-	}
 	
 	public void loadShineVariables(float damper, float reflectivity){
 		super.loadFloat(location_shineDamper, damper);

@@ -19,7 +19,7 @@ import skybox.SkyboxShader;
 
 public class SkyboxRenderer {
 
-private static final float SIZE = 1000000f;
+private static final float SIZE = 10000000f;
 	
 	//Just a box without indices
 	private static final float[] VERTICES = {        

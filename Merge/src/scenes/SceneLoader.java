@@ -13,10 +13,8 @@ import org.json.simple.parser.JSONParser;
 
 import celestial.DataObject;
 import celestial.Light;
-import celestial.Planet;
 import entities.Player;
 import game.Game;
-import models.RawModel;
 import models.TexturedModel;
 import renderEngine.ResourceCache;
 import textures.ModelTexture;
@@ -29,20 +27,14 @@ import textures.ModelTexture;
  */
 
 public class SceneLoader {
-	private List<Light> lights;
-	private Player player;
-	private static String[] TEXTURES;
 
-	public SceneLoader() {
-		lights =  Collections.synchronizedList(new ArrayList<Light>());
-		TEXTURES = new String[6];
-	}
+	private static String[] TEXTURES = new String[6];
 
-	public void load(String fileName, DataObject dataObject) {
+	public static void load(String fileName, DataObject dataObject) {
 		JSONParser parser = new JSONParser();
-
 		try {
-			InputStreamReader in = new InputStreamReader(Class.class.getResourceAsStream("/res/levels/" + fileName + ".json"));
+			InputStreamReader in = new InputStreamReader(
+					Class.class.getResourceAsStream("/res/levels/" + fileName + ".json"));
 			BufferedReader reader = new BufferedReader(in);
 
 			Object obj = parser.parse(reader);
@@ -55,6 +47,8 @@ public class SceneLoader {
 			}
 
 			// load lights
+			List<Light> lightList = Collections.synchronizedList(new ArrayList<Light>());
+			
 			JSONObject lights = (JSONObject) ((JSONObject) jsonObject.get("entities")).get("lights");
 
 			Iterator<?> iterator = lights.values().iterator();
@@ -63,45 +57,45 @@ public class SceneLoader {
 
 				JSONObject jsonChildObject = (JSONObject) iterator.next();
 
-				TexturedModel model2 = new TexturedModel(ResourceCache.loadOBJ((String) (jsonChildObject.get("model")), Game.loader), new ModelTexture(
-						ResourceCache.loadTexture((String) (jsonChildObject.get("texture")), Game.loader)));
-				this.lights.add(new Light(model2,
-						new Vector3f(
-								((Number) ((JSONObject) jsonChildObject.get("position")).get("x")).floatValue(),
+				TexturedModel model2 = new TexturedModel(
+						ResourceCache.loadOBJ((String) (jsonChildObject.get("model")), Game.loader), new ModelTexture(
+								ResourceCache.loadTexture((String) (jsonChildObject.get("texture")), Game.loader)));
+				lightList.add(new Light(model2,
+						new Vector3f(((Number) ((JSONObject) jsonChildObject.get("position")).get("x")).floatValue(),
 								((Number) ((JSONObject) jsonChildObject.get("position")).get("y")).floatValue(),
 								((Number) ((JSONObject) jsonChildObject.get("position")).get("z")).floatValue()),
-						new Vector3f( //remember to normalise!!!
-								((Number) ((JSONObject) jsonChildObject.get("color")).get("r")).floatValue()/255,
-								((Number) ((JSONObject) jsonChildObject.get("color")).get("g")).floatValue()/255,
-								((Number) ((JSONObject) jsonChildObject.get("color")).get("b")).floatValue()/255),
+						new Vector3f( // remember to normalise!!!
+								((Number) ((JSONObject) jsonChildObject.get("color")).get("r")).floatValue() / 255,
+								((Number) ((JSONObject) jsonChildObject.get("color")).get("g")).floatValue() / 255,
+								((Number) ((JSONObject) jsonChildObject.get("color")).get("b")).floatValue() / 255),
 						new Vector3f(
 								((Number) ((JSONObject) jsonChildObject.get("attentuation")).get("d1")).floatValue(),
 								((Number) ((JSONObject) jsonChildObject.get("attentuation")).get("d2")).floatValue(),
-								((Number) ((JSONObject) jsonChildObject.get("attentuation")).get("d3")).floatValue()), 
-						((Number) jsonChildObject.get("radius")).floatValue(), ((Number) jsonChildObject.get("density")).floatValue()));
+								((Number) ((JSONObject) jsonChildObject.get("attentuation")).get("d3")).floatValue()),
+						((Number) jsonChildObject.get("radius")).floatValue(),
+						((Number) jsonChildObject.get("density")).floatValue()));
 
 			}
-			this.lights.get(this.lights.size() - 1).getModel().getModelTexture().setFakeLight(true);
+			lightList.get(lightList.size() - 1).getModel().getModelTexture().setFakeLight(true);
+			
+			dataObject.setLights(lightList);
+			
 			// player
 			JSONObject player = (JSONObject) ((JSONObject) jsonObject.get("entities")).get("player");
 
 			TexturedModel texturedModel = new TexturedModel(
-					ResourceCache.loadOBJ((String) (player.get("model")), Game.loader), new ModelTexture(
-							ResourceCache.loadTexture((String) (player.get("texture")), Game.loader)));
+					ResourceCache.loadOBJ((String) (player.get("model")), Game.loader),
+					new ModelTexture(ResourceCache.loadTexture((String) (player.get("texture")), Game.loader)));
 
+			dataObject.setPlayer(new Player(texturedModel,
+					new Vector3f(((Number) ((JSONObject) player.get("position")).get("x")).floatValue(),
+							((Number) ((JSONObject) player.get("position")).get("y")).floatValue(),
+							((Number) ((JSONObject) player.get("position")).get("z")).floatValue()),
+					0, 0, 0, new Vector3f(), ((Number) (player.get("speed"))).floatValue(),
+					((Number) (player.get("size"))).floatValue(), 0));
 
-			this.player = new Player(texturedModel,
-			new Vector3f(
-					((Number) ((JSONObject) player.get("position")).get("x")).floatValue(),
-					((Number) ((JSONObject) player.get("position")).get("y")).floatValue(),
-					((Number) ((JSONObject) player.get("position")).get("z")).floatValue()),
-					0,0,0, new Vector3f(), ((Number) (player.get("speed"))).floatValue() ,((Number) (player.get("size"))).floatValue(), 0);
-
-			
-			
-			//skybox  {"skybox_right", "skybox_left", "skybox_top", "skybox_bottom", "skybox_back", "skybox_front"};
 			JSONObject skybox = ((JSONObject) jsonObject.get("skybox"));
-			
+
 			TEXTURES[0] = (String) skybox.get("right");
 			TEXTURES[1] = (String) skybox.get("left");
 			TEXTURES[2] = (String) skybox.get("top");
@@ -109,18 +103,14 @@ public class SceneLoader {
 			TEXTURES[4] = (String) skybox.get("back");
 			TEXTURES[5] = (String) skybox.get("front");
 			
-			dataObject.setLights(this.lights);
-			dataObject.setPlayer(this.player);
-			
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
 	}
 
-	public String[] getSkyboxTextureNames(){
+	public static String[] getSkyboxTextureNames() {
 		return TEXTURES;
 	}
-	
+
 }

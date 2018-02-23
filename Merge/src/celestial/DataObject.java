@@ -4,6 +4,7 @@ import java.util.List;
 
 import entities.Entity;
 import entities.Player;
+import models.GameItem;
 
 /**
  * Data object class. It holds all the data needed for various threads.
@@ -19,9 +20,7 @@ public class DataObject {
 	}
 	
 	private List<Entity> entities;
-	private List<Planet> planets;
-	private List<Asteroid> asteroids;
-	private List<HostileShip> hostileShips;
+	private List<GameItem> gameItems;
 	private List<Light> lights;
 	private Player player;
 	
@@ -31,24 +30,13 @@ public class DataObject {
 	public void setEntities(List<Entity> entities) {
 		this.entities = entities;
 	}
-	public List<Planet> getPlanets() {
-		return planets;
+	public List<GameItem> getGameItems() {
+		return gameItems;
 	}
-	public void setPlanets(List<Planet> planets) {
-		this.planets = planets;
+	public void setGameItems(List<GameItem> gameItems) {
+		this.gameItems = gameItems;
 	}
-	public List<Asteroid> getAsteroids() {
-		return asteroids;
-	}
-	public void setAsteroids(List<Asteroid> asteroids) {
-		this.asteroids = asteroids;
-	}
-	public List<HostileShip> getHostileShips() {
-		return hostileShips;
-	}
-	public void setHostileShips(List<HostileShip> hostileShips) {
-		this.hostileShips = hostileShips;
-	}
+	
 	public List<Light> getLights() {
 		return lights;
 	}

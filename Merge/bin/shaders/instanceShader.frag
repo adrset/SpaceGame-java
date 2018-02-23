@@ -4,16 +4,13 @@ in vec2 pass_textureCoords;
 in vec3 surfaceNormal;
 in vec3 toLightVector[3];
 in vec3 toCameraVector;
-in float visibility;
-in float useFakeLightPass;
+
 out vec4 out_Color;
 
 uniform sampler2D textureSampler;
 uniform vec3 lightColor[3];
-uniform float useFakeLight;
 uniform float shineDamper;
 uniform float reflectivity;
-uniform vec3 skyColor;
 uniform vec3 attenuation[3];
 
 void main(void){
@@ -40,16 +37,8 @@ void main(void){
 	totalDiffuse = max(totalDiffuse, 0.03);
 	
 	vec4 textureColor = texture(textureSampler, pass_textureCoords);
+
+	out_Color =  textureColor + vec4(totalSpecular, 0.0) + vec4(0.0,0.0,0.0,0.0);
 	
-	if(textureColor.a < 0.5){
-		discard;
-	}
-	
-	
-	if(useFakeLight > 0.0){ // actually means that it is a star
-		out_Color = vec4(totalSpecular, 0.0) +  vec4(1,1,0.15,0.0);
-	}else{
-		out_Color = vec4(totalDiffuse, 0.0) * textureColor + vec4(totalSpecular, 0.0) + vec4(0.0,0.0,0.0,0.0);
-	}
 
 }

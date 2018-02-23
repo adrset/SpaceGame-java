@@ -11,15 +11,19 @@ import java.util.Map;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 
+import celestial.DataObject;
 import celestial.Light;
 import entities.Camera;
 import entities.Camera3D;
 import entities.Entity;
 import entities.Player;
 import game.Game;
+import models.GameItem;
+import models.Mesh;
 import models.TexturedModel;
 import scenes.SceneLoader;
 import shaders.StaticShader;
+import utils.Maths;
 
 /**
  * MasterRenderer class. Takes control over every renderer in the game. Creates
@@ -34,36 +38,29 @@ public class MasterRenderer {
 	private static final float FOV = 60; // I see a great potential here :D
 	private static final float NEAR_PLANE = 1f;
 	private static final float FAR_PLANE = 100000000f; // sorry :(
-	private Player player;
 
 	private Loader loader;
 	private Matrix4f projectionMatrix;
 
 	// main shader
-	private StaticShader shader = new StaticShader();
+	private StaticShader shader;
 
-	// skybox shader - gets cube texture and produces sky (or stars)
+	// skybox shader - gets cube texture and produces sky
 	private SkyboxRenderer skyboxRenderer;
 
-	// renderer for all entities
-	private EntityRenderer renderer;
-	
 	private InstanceRenderer instanceRenderer;
-
-	// Map of all entities of all kindMap<TexturedModel, List<Entity>> entities
-	private Map<TexturedModel, List<Entity>> entities = new HashMap<TexturedModel, List<Entity>>();
 
 	public MasterRenderer(Loader loader) {
 		this.loader = loader;
 		createProjectionMatrix();
 		enableCulling();
-		renderer = new EntityRenderer(shader, projectionMatrix);
+		shader = new StaticShader();
 		instanceRenderer = new InstanceRenderer(loader, projectionMatrix);
-
+		shader.loadProjectionMatrix(projectionMatrix);
 	}
 
-	public void setSkybox(SceneLoader sceneLoader) {
-		skyboxRenderer = new SkyboxRenderer(loader, projectionMatrix, sceneLoader.getSkyboxTextureNames());
+	public void setSkybox(String[] textures) {
+		skyboxRenderer = new SkyboxRenderer(loader, projectionMatrix, textures);
 	}
 
 	public static void enableCulling() {
@@ -76,56 +73,37 @@ public class MasterRenderer {
 		GL11.glDisable(GL11.GL_CULL_FACE);
 	}
 
-	public void render(List<Light> lights, Camera3D camera) {
+	public void render(DataObject dataObject, Camera3D camera) {
 		prepare();
-
+		
+		List<Light> lights = dataObject.getLights();
 		// use this shader
 		shader.start();
 		// load data into shader
 		shader.loadLights(lights);
 		// send updated view matrixs
 		shader.loadViewMatrix(camera);
-		shader.loadTime();
-		renderer.render(entities);
+		shader.loadProjectionMatrix(projectionMatrix);
+		
+		for (GameItem g : dataObject.getGameItems()) {
+			Matrix4f transformationMatrix = Maths.createTransformationMatrix(g.getPosition(), 0, 0, 0, g.getScale());
+			shader.loadTransformationMatrix(transformationMatrix);
+			for (Mesh m : g.getMeshes()) {
+				m.render();
+			}
+		}
 
 		shader.stop();
-		entities.clear();
 
 		// InstanceRenderer has inbuilt shader
-		instanceRenderer.render(camera, lights);
+		instanceRenderer.render(camera, dataObject);
 		// So has SkyboxRenderer
-		skyboxRenderer.render(camera);
-
-	}
-
-	public void render(Camera camera) {
-		prepare();
-	}
-
-	public void setPlayer(Player p) {
-		this.player = p;
-	}
-
-	public void proccessEntity(Entity entity) {
-		TexturedModel entityModel = entity.getModel();
-		// List <Entity> fellowEntites = entities.get(entityModel);
-		if (entities.get(entityModel) != null) {
-			System.out.println("add");
-			// fellowEntites.add(entity); if the upper comment is a reference
-			// then it was ok
-			entities.get(entityModel).add(entity);
-		} else {
-			List<Entity> newFellowEntites = new ArrayList<Entity>();
-			newFellowEntites.add(entity);
-			entities.put(entityModel, newFellowEntites);
-		}
-	}
-
-	public void setInstanceEntities(List<Entity> entities) {
-	
-		instanceRenderer.setEntityList(entities);
 		
+		if(skyboxRenderer != null)
+			skyboxRenderer.render(camera);
+
 	}
+
 
 	public void prepare() {
 		glfwPollEvents();
@@ -142,7 +120,7 @@ public class MasterRenderer {
 
 	private void createProjectionMatrix() {
 		// projection matrix - weird but it works - thanks wikipedia
-		float aspectRatio = Game.width / Game.height;
+		float aspectRatio = (float) Game.width / (float) Game.height;
 		float y_scale = (float) ((1f / Math.tan(Math.toRadians(FOV / 2f))) * aspectRatio);
 		float x_scale = y_scale / aspectRatio;
 		float frustum_length = FAR_PLANE - NEAR_PLANE;

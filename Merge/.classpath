@@ -3,32 +3,36 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="resource"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="lib" path="javalib/joml-1.9.8.jar"/>
 	<classpathentry kind="lib" path="javalib/json-simple-1.1.jar"/>
+	<classpathentry kind="lib" path="javalib/lwjgl-assimp-natives-linux.jar"/>
+	<classpathentry kind="lib" path="javalib/lwjgl-assimp-natives-macos.jar"/>
+	<classpathentry kind="lib" path="javalib/lwjgl-assimp-natives-windows.jar"/>
+	<classpathentry kind="lib" path="javalib/lwjgl-assimp.jar"/>
 	<classpathentry kind="lib" path="javalib/lwjgl-glfw-natives-linux.jar"/>
+	<classpathentry kind="lib" path="javalib/lwjgl-glfw-natives-macos.jar"/>
 	<classpathentry kind="lib" path="javalib/lwjgl-glfw-natives-windows.jar"/>
-	<classpathentry kind="lib" path="javalib/lwjgl-glfw.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/gga/javalib/lwjgl-glfw-javadoc.jar!/"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="javalib/lwjgl-glfw.jar"/>
+	<classpathentry kind="lib" path="javalib/lwjgl-nanovg-natives-linux.jar"/>
+	<classpathentry kind="lib" path="javalib/lwjgl-nanovg-natives-macos.jar"/>
+	<classpathentry kind="lib" path="javalib/lwjgl-nanovg-natives-windows.jar"/>
+	<classpathentry kind="lib" path="javalib/lwjgl-nanovg.jar"/>
 	<classpathentry kind="lib" path="javalib/lwjgl-natives-linux.jar"/>
+	<classpathentry kind="lib" path="javalib/lwjgl-natives-macos.jar"/>
 	<classpathentry kind="lib" path="javalib/lwjgl-natives-windows.jar"/>
-	<classpathentry kind="lib" path="javalib/lwjgl-opengl-natives-linux.jar"/>
-	<classpathentry kind="lib" path="javalib/lwjgl-opengl-natives-windows.jar"/>
-	<classpathentry kind="lib" path="javalib/lwjgl-opengl.jar" sourcepath="javalib/lwjgl-opengl-javadoc.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/gga/javalib/lwjgl-opengl-javadoc.jar!/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="javalib/lwjgl.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/gga/javalib/lwjgl-javadoc.jar!/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="javalib/PNGDecoder.jar"/>
-	<classpathentry kind="lib" path="javalib/lwjgl-openal.jar"/>
-	<classpathentry kind="lib" path="javalib/lwjgl-openal-natives-windows.jar"/>
 	<classpathentry kind="lib" path="javalib/lwjgl-openal-natives-linux.jar"/>
-	<classpathentry kind="lib" path="javalib/joml-1.9.3.jar"/>
+	<classpathentry kind="lib" path="javalib/lwjgl-openal-natives-macos.jar"/>
+	<classpathentry kind="lib" path="javalib/lwjgl-openal-natives-windows.jar"/>
+	<classpathentry kind="lib" path="javalib/lwjgl-openal.jar"/>
+	<classpathentry kind="lib" path="javalib/lwjgl-opengl-natives-linux.jar"/>
+	<classpathentry kind="lib" path="javalib/lwjgl-opengl-natives-macos.jar"/>
+	<classpathentry kind="lib" path="javalib/lwjgl-opengl-natives-windows.jar"/>
+	<classpathentry kind="lib" path="javalib/lwjgl-opengl.jar"/>
+	<classpathentry kind="lib" path="javalib/lwjgl-stb-natives-linux.jar"/>
+	<classpathentry kind="lib" path="javalib/lwjgl-stb-natives-macos.jar"/>
+	<classpathentry kind="lib" path="javalib/lwjgl-stb-natives-windows.jar"/>
+	<classpathentry kind="lib" path="javalib/lwjgl-stb.jar"/>
+	<classpathentry kind="lib" path="javalib/lwjgl.jar"/>
+	<classpathentry kind="lib" path="javalib/PNGDecoder.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

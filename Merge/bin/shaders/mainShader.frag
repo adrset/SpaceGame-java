@@ -1,4 +1,4 @@
-#version 130
+#version 150
 
 in vec2 pass_textureCoords;
 in vec3 surfaceNormal;
@@ -10,12 +10,10 @@ out vec4 out_Color;
 
 uniform sampler2D textureSampler;
 uniform vec3 lightColor[3];
-uniform float useFakeLight;
 uniform float shineDamper;
 uniform float reflectivity;
 uniform vec3 skyColor;
 uniform vec3 attenuation[3];
-uniform float time;
 
 void main(void){
 	vec3 unitNormal = normalize(surfaceNormal);
@@ -38,22 +36,12 @@ void main(void){
 		totalSpecular = totalSpecular + (dampedFactor * lightColor[i] * reflectivity)/attenuationFactor;
 	
 	}
+	
 	totalDiffuse = max(totalDiffuse, 0.03);
 	
 	vec4 textureColor = texture(textureSampler, pass_textureCoords);
 	
-	if(textureColor.a < 0.5){
-		discard;
-	}
+	out_Color = vec4(totalDiffuse, 0.0) * textureColor + vec4(totalSpecular, 0.0) + vec4(0.0,0.0,0.0,0.0);
 	
-	
-	if(useFakeLight > 0.0){ // actually means that it is a star
-		out_Color = vec4(totalSpecular, 0.0) +  vec4(1,1,0.15,0.0);
-	}else{
-		out_Color = vec4(totalDiffuse, 0.0) * textureColor + vec4(totalSpecular, 0.0) + vec4(0.0,0.0,0.0,0.0);
-	}
-	if(time != -1){
-		out_Color = vec4(out_Color.x * cos(time * 0.01), out_Color.y * sin(time), out_Color.z, 1);
-	}
 
 }

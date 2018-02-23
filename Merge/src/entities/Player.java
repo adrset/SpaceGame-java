@@ -73,6 +73,7 @@ public class Player extends CelestialBody {
 		float Fz = (float) (currentForce * Math.cos(Math.toRadians(super.getRotationY()))
 				* Math.cos(Math.toRadians(super.getRotationX())));
 		float Fy = (float) (currentForceUp + currentForce * Math.sin(Math.toRadians(super.getRotationX())));
+		setVelocity(Fx, Fy, Fz);
 		increasePosition(Fx, Fy, Fz);
 
 	}

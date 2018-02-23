@@ -15,8 +15,6 @@ import models.TexturedModel;
  */
 
 public class Entity {
-	private Vector3f max = new Vector3f();
-	private Vector3f min = new Vector3f();
 
 	private static Vector3f maxS1 = new Vector3f();
 	private static Vector3f minS1 = new Vector3f();
@@ -67,7 +65,7 @@ public class Entity {
 		
 		minS1.mul(scale).add(position);
 		minS2.mul(e.getScale()).add(e.getPosition());
-		
+	        
 		 return(maxS1.x > minS2.x &&
 				 minS1.x < maxS2.x &&
 				    maxS1.y > minS2.y &&

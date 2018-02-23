@@ -26,8 +26,6 @@ public class InstanceShader extends ShaderProgram {
 	private int location_attenuation[];
 	private int location_shineDamper;
 	private int location_reflectivity;
-	private int location_useFakeLight;
-	private int location_skyColor;
 
 	private static final String VERTEX_FILE = "/shaders/instanceShader.vert";
 	private static final String FRAGMENT_FILE = "/shaders/instanceShader.frag";
@@ -51,8 +49,6 @@ public class InstanceShader extends ShaderProgram {
 		location_viewMatrix = super.getUniformLocation("viewMatrix");
 		location_shineDamper = super.getUniformLocation("shineDamper");
 		location_reflectivity = super.getUniformLocation("reflectivity");
-		location_useFakeLight = super.getUniformLocation("useFakeLight");
-		location_skyColor = super.getUniformLocation("skyColor");
 
 		location_lightPosition = new int[MAX_LIGHTS];
 		location_lightColor = new int[MAX_LIGHTS];
@@ -64,14 +60,6 @@ public class InstanceShader extends ShaderProgram {
 			location_attenuation[i] = super.getUniformLocation("attenuation[" + i + "]");
 		}
 
-	}
-
-	public void loadSkyColor(float r, float g, float b) {
-		super.loadVector(location_skyColor, new Vector3f(r, g, b));
-	}
-
-	public void loadFakeLight(boolean use) {
-		super.loadBoolean(location_useFakeLight, use);
 	}
 
 	public void loadShineVariables(float damper, float reflectivity) {

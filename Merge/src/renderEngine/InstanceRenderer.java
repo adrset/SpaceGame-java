@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GL31;
 
+import celestial.DataObject;
 import celestial.Light;
 import entities.Camera3D;
 import entities.Entity;
@@ -20,14 +21,15 @@ import textures.ModelTexture;
 import utils.Maths;
 
 /**
- * InstanceRenderer class. Renders all entities that are meant to be rendered using instanced rendering.
+ * InstanceRenderer class. Renders all entities that are meant to be rendered
+ * using instanced rendering. Currently supports only one kind of entity.
  *
  * @author Adrian Setniewski
  *
  */
 
 public class InstanceRenderer {
-	private static final int BUFFER_INSTANCES = 10000;
+	private static final int BUFFER_INSTANCES = 1000000;
 	private static final int FLOATS_PER_INSTANCE = 16;
 	private static final FloatBuffer buffer = BufferUtils.createFloatBuffer(BUFFER_INSTANCES * FLOATS_PER_INSTANCE);
 	List<Entity> entities;
@@ -35,6 +37,7 @@ public class InstanceRenderer {
 	public InstanceShader shader;
 	private Loader loader;
 	private int vbo;
+	private boolean loaded = false;
 	private int index = 0;
 
 	public InstanceRenderer(Loader loader, Matrix4f projectionMatrix) {
@@ -46,17 +49,21 @@ public class InstanceRenderer {
 		shader.loadProjectionMatrix(projectionMatrix);
 		shader.stop();
 	}
-	
-	public void setEntityList(List<Entity> entities){
+
+	private void loadQuad(List<Entity> entities) {
 		this.entities = entities;
 		quad = entities.get(0).getModel().getRawModel();
 		loader.addInstanceAttribute(quad.getVaoID(), vbo, 3, 4, FLOATS_PER_INSTANCE, 0);
 		loader.addInstanceAttribute(quad.getVaoID(), vbo, 4, 4, FLOATS_PER_INSTANCE, 4);
 		loader.addInstanceAttribute(quad.getVaoID(), vbo, 5, 4, FLOATS_PER_INSTANCE, 8);
 		loader.addInstanceAttribute(quad.getVaoID(), vbo, 6, 4, FLOATS_PER_INSTANCE, 12);
+		loaded = true;
 	}
 
-	public void render(Camera3D camera, List<Light> lights) {
+	public void render(Camera3D camera, DataObject dataObject) {
+		if (!loaded)
+			loadQuad(dataObject.getEntities());
+		List<Light> lights = dataObject.getLights();
 		prepare();
 		shader.loadViewMatrix(camera);
 		shader.loadLights(lights);
@@ -109,7 +116,6 @@ public class InstanceRenderer {
 	}
 
 	private void bindTexture(ModelTexture texture) {
-		shader.loadFakeLight(texture.isFakeLight());
 		// load texture info to shader
 		shader.loadShineVariables(texture.getShineDamper(), texture.getReflect());
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);

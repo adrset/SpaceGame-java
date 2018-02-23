@@ -18,7 +18,7 @@ public class Main {
 		}else if(args.length == 1){
 			new Game("SpaceGame", 800, 600, Integer.parseInt(args[2]) == 1 ? true : false);
 		}else{
-			new Game("SpaceGame", 1366, 768, true	);
+			new Game("SpaceGame", 800, 600, false );
 		}
 		
 
