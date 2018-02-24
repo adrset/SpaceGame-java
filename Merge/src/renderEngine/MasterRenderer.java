@@ -3,25 +3,18 @@ package renderEngine;
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.opengl.GL11.glClear;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
 
 import celestial.DataObject;
 import celestial.Light;
-import entities.Camera;
 import entities.Camera3D;
 import entities.Entity;
-import entities.Player;
 import game.Game;
 import models.GameItem;
 import models.Mesh;
-import models.TexturedModel;
-import scenes.SceneLoader;
 import shaders.StaticShader;
 import utils.Maths;
 
@@ -38,8 +31,8 @@ public class MasterRenderer {
 	private static final float FOV = 60; // I see a great potential here :D
 	private static final float NEAR_PLANE = 1f;
 	private static final float FAR_PLANE = 100000000f; // sorry :(
+	private final Matrix4f transformationMatrix = new Matrix4f();
 
-	private Loader loader;
 	private Matrix4f projectionMatrix;
 
 	// main shader
@@ -48,19 +41,15 @@ public class MasterRenderer {
 	// skybox shader - gets cube texture and produces sky
 	private SkyboxRenderer skyboxRenderer;
 
-	private InstanceRenderer instanceRenderer;
-
-	public MasterRenderer(Loader loader) {
-		this.loader = loader;
+	public MasterRenderer() {
 		createProjectionMatrix();
 		enableCulling();
 		shader = new StaticShader();
-		instanceRenderer = new InstanceRenderer(loader, projectionMatrix);
 		shader.loadProjectionMatrix(projectionMatrix);
 	}
 
 	public void setSkybox(String[] textures) {
-		skyboxRenderer = new SkyboxRenderer(loader, projectionMatrix, textures);
+		skyboxRenderer = new SkyboxRenderer(projectionMatrix, textures);
 	}
 
 	public static void enableCulling() {
@@ -86,18 +75,22 @@ public class MasterRenderer {
 		shader.loadProjectionMatrix(projectionMatrix);
 		
 		for (GameItem g : dataObject.getGameItems()) {
-			Matrix4f transformationMatrix = Maths.createTransformationMatrix(g.getPosition(), 0, 0, 0, g.getScale());
+			transformationMatrix.set(Maths.createTransformationMatrix(g.getPosition(), 0, 0, 0, g.getScale()));
 			shader.loadTransformationMatrix(transformationMatrix);
 			for (Mesh m : g.getMeshes()) {
 				m.render();
 			}
 		}
+		
+		for (Entity e : dataObject.getEntities()) {
+			transformationMatrix.set(Maths.createTransformationMatrix(e.getPosition(), 0, 0, 0, e.getScale()));
+			shader.loadTransformationMatrix(transformationMatrix);
+			for (Mesh m : e.getMeshes()) {
+				m.render();
+			}
+		}
 
 		shader.stop();
-
-		// InstanceRenderer has inbuilt shader
-		instanceRenderer.render(camera, dataObject);
-		// So has SkyboxRenderer
 		
 		if(skyboxRenderer != null)
 			skyboxRenderer.render(camera);
@@ -106,10 +99,17 @@ public class MasterRenderer {
 
 
 	public void prepare() {
+		
+		// tell glfw to check for events
 		glfwPollEvents();
-		// defines which vertices are on top and only these will be shown
+		
+		// enable inbuilt depth test
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		// disable this if you are high
+		
+		// set the background colour
+		GL11.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
+		
+		// clear buffers
 		glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
 	}
@@ -119,7 +119,6 @@ public class MasterRenderer {
 	}
 
 	private void createProjectionMatrix() {
-		// projection matrix - weird but it works - thanks wikipedia
 		float aspectRatio = (float) Game.width / (float) Game.height;
 		float y_scale = (float) ((1f / Math.tan(Math.toRadians(FOV / 2f))) * aspectRatio);
 		float x_scale = y_scale / aspectRatio;

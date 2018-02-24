@@ -1,14 +1,11 @@
 package entities;
 
-import java.awt.Menu;
-
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
 import celestial.CelestialBody;
 import input.Keyboard;
-import models.TexturedModel;
-import scenes.Scene;
+import models.Mesh;
 import utils.Timer;
 
 /**
@@ -54,9 +51,9 @@ public class Player extends CelestialBody {
 		return new Vector3f(x, y, z);
 	}
 
-	public Player(TexturedModel model, Vector3f position, float rotationX, float rotationY, float rotationZ,
+	public Player(Mesh[] meshes, Vector3f position, float rotationX, float rotationY, float rotationZ,
 			Vector3f velocity, float speed, float radius, float density) {
-		super(model, position, rotationX, rotationY, rotationZ, velocity, radius, density, false, 10000);
+		super(meshes, position, rotationX, rotationY, rotationZ, velocity, radius, density, false, 10000);
 
 	}
 

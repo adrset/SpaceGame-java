@@ -25,8 +25,6 @@ import static org.lwjgl.glfw.GLFW.glfwWindowHint;
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-import java.awt.Menu;
-
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -37,16 +35,13 @@ import celestial.DataObject;
 import input.Keyboard;
 import input.Mouse;
 import language.Language;
-import particles.ParticleMaster;
-import renderEngine.Loader;
 import renderEngine.MasterRenderer;
 import scenes.Scene;
-import scenes.SceneLoader;
 import utils.Logs;
 import utils.Timer;
 
 /**
- * Game class. Starts a new thread and handles scenes and menus.
+ * Game class. Starts a new thread and handles scene
  *
  * @author Adrian Setniewski
  *
@@ -61,7 +56,6 @@ public class Game implements Runnable {
 	public static int width;
 	public static int height;
 	public static boolean windowShouldClose = false;
-	public static Loader loader;
 	public static MasterRenderer renderer;
 
 	private static boolean vSync;
@@ -69,7 +63,6 @@ public class Game implements Runnable {
 
 	private boolean mode;
 	private Scene scene;
-	private SceneLoader sceneLoader;
 
 	private DataObject dataObject = new DataObject();
 
@@ -78,8 +71,10 @@ public class Game implements Runnable {
 		this.title = name;
 		Game.width = desiredWidth;
 		Game.height = desiredHeight;
+		
 		thread = new Thread(this, "Game");
 		thread.start();
+		
 		vSync = false;
 	}
 
@@ -176,14 +171,11 @@ public class Game implements Runnable {
 	private void loop() {
 
 		// loads stuff
-		loader = new Loader();
 
-		renderer = new MasterRenderer(loader);
+		renderer = new MasterRenderer();
 		// loads levels
 		scene = new Scene("level1", dataObject);
 		
-		// A master that grabs all its renderers and rules them
-		ParticleMaster.init(loader, renderer.getProjectionMatrix());
 		// Main menu
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		// game loop
@@ -205,8 +197,6 @@ public class Game implements Runnable {
 	private void cleanUp() {
 		scene.cleanUp();
 		renderer.cleanUp();
-		loader.cleanUp();
-		ParticleMaster.cleanUp();
 	}
 
 	private void close() {

@@ -2,7 +2,7 @@ package celestial;
 
 import org.joml.Vector3f;
 
-import models.TexturedModel;
+import models.Mesh;
 
 /**
  * Light class. It is passed to shaders to affect all objects in the world by the light.
@@ -15,21 +15,20 @@ public class Light extends CelestialBody {
 	private Vector3f color;
 	private Vector3f attenuation = new Vector3f(1, 0, 0);// infinite distance
 
-	public Light(TexturedModel model, Vector3f position, Vector3f color, Vector3f attenuation, float radius,
+	public Light(Mesh[] meshes, Vector3f position, Vector3f color, Vector3f attenuation, float radius,
 			float density) {
 
-		super(model, position, 0, 0, 0, new Vector3f(), radius, density, true, 100000);
+		super(meshes, position, 0, 0, 0, new Vector3f(), radius, density, true, 100000);
 		this.color = color;
 		this.attenuation = attenuation;
-		super.getModel().getModelTexture().setFakeLight(true);
 	}
 
 	public Vector3f getAttenuation() {
 		return this.attenuation;
 	}
 
-	public Light(TexturedModel model, Vector3f position, Vector3f color, float radius, float density) {
-		super(model, position, 0, 0, 0, new Vector3f(), radius, density, true, 10000);
+	public Light(Mesh[] meshes, Vector3f position, Vector3f color, float radius, float density) {
+		super(meshes, position, 0, 0, 0, new Vector3f(), radius, density, true, 10000);
 
 		this.color = color;
 	}

@@ -12,6 +12,7 @@ import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 
+import org.joml.Vector3f;
 import org.lwjgl.system.MemoryUtil;
 
 import models.Texture;
@@ -27,16 +28,23 @@ public class Mesh {
 		private final int vertexCount;
 
 		private Material material;
-
+		
+		private Vector3f max;
+		
+		private Vector3f min;
+		
 		private float boundingRadius;
 
-		public Mesh(float[] positions, float[] textCoords, float[] normals, int[] indices) {
+		public Mesh(float[] positions, float[] textCoords, float[] normals, int[] indices, Vector3f min, Vector3f max) {
 			this(positions, textCoords, normals, indices, createEmptyIntArray(MAX_WEIGHTS * positions.length / 3, 0),
-					createEmptyFloatArray(MAX_WEIGHTS * positions.length / 3, 0));
+					createEmptyFloatArray(MAX_WEIGHTS * positions.length / 3, 0), min, max);
 		}
 
 		public Mesh(float[] positions, float[] textCoords, float[] normals, int[] indices, int[] jointIndices,
-				float[] weights) {
+				float[] weights, Vector3f min, Vector3f max) {
+			
+			this.min = min;
+			this.max = max;
 			FloatBuffer posBuffer = null;
 			FloatBuffer textCoordsBuffer = null;
 			FloatBuffer vecNormalsBuffer = null;

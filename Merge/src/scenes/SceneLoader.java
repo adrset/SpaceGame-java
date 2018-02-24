@@ -15,10 +15,8 @@ import celestial.DataObject;
 import celestial.Light;
 import entities.Player;
 import game.Game;
-import models.TexturedModel;
-import renderEngine.ResourceCache;
-import textures.ModelTexture;
-
+import models.MeshCache;
+import models.MeshLoader;
 /**
  * SceneLoader class. Loads scene from json file.
  *
@@ -33,6 +31,7 @@ public class SceneLoader {
 	public static void load(String fileName, DataObject dataObject) {
 		JSONParser parser = new JSONParser();
 		try {
+			MeshCache meshCache = MeshCache.getInstance();
 			InputStreamReader in = new InputStreamReader(
 					Class.class.getResourceAsStream("/res/levels/" + fileName + ".json"));
 			BufferedReader reader = new BufferedReader(in);
@@ -57,10 +56,7 @@ public class SceneLoader {
 
 				JSONObject jsonChildObject = (JSONObject) iterator.next();
 
-				TexturedModel model2 = new TexturedModel(
-						ResourceCache.loadOBJ((String) (jsonChildObject.get("model")), Game.loader), new ModelTexture(
-								ResourceCache.loadTexture((String) (jsonChildObject.get("texture")), Game.loader)));
-				lightList.add(new Light(model2,
+				lightList.add(new Light(meshCache.load((String) (jsonChildObject.get("model"))),
 						new Vector3f(((Number) ((JSONObject) jsonChildObject.get("position")).get("x")).floatValue(),
 								((Number) ((JSONObject) jsonChildObject.get("position")).get("y")).floatValue(),
 								((Number) ((JSONObject) jsonChildObject.get("position")).get("z")).floatValue()),
@@ -76,18 +72,13 @@ public class SceneLoader {
 						((Number) jsonChildObject.get("density")).floatValue()));
 
 			}
-			lightList.get(lightList.size() - 1).getModel().getModelTexture().setFakeLight(true);
 			
 			dataObject.setLights(lightList);
 			
 			// player
 			JSONObject player = (JSONObject) ((JSONObject) jsonObject.get("entities")).get("player");
 
-			TexturedModel texturedModel = new TexturedModel(
-					ResourceCache.loadOBJ((String) (player.get("model")), Game.loader),
-					new ModelTexture(ResourceCache.loadTexture((String) (player.get("texture")), Game.loader)));
-
-			dataObject.setPlayer(new Player(texturedModel,
+			dataObject.setPlayer(new Player(meshCache.load((String) (player.get("model"))),
 					new Vector3f(((Number) ((JSONObject) player.get("position")).get("x")).floatValue(),
 							((Number) ((JSONObject) player.get("position")).get("y")).floatValue(),
 							((Number) ((JSONObject) player.get("position")).get("z")).floatValue()),

@@ -9,11 +9,11 @@ public class GameItem {
 
     private Mesh[] meshes;
 
-    private final Vector3f position;
+    protected Vector3f position;
 
-    private float scale;
+    protected float scale;
 
-    private final Quaternionf rotation;
+    protected final Vector3f rotation;
 
     private int textPos;
     
@@ -23,12 +23,32 @@ public class GameItem {
 
     public GameItem() {
         selected = false;
-        position = new Vector3f(0, 0, 0);
+        position = new Vector3f();
         scale = 10;
-        rotation = new Quaternionf();
+        rotation = new Vector3f();
         textPos = 0;
         insideFrustum = true;
         disableFrustumCulling = false;
+    }
+    
+    public void increaseRotation(Vector3f rot) {
+    	rotation.add(rot);
+    }
+    
+    public void increaseRotation(float x, float y, float z) {
+    	rotation.add(x,y,z);
+    }
+    
+    public float getRotationX() {
+    	return rotation.x;
+    }
+    
+    public float getRotationY() {
+    	return rotation.y;
+    }
+    
+    public float getRotationZ() {
+    	return rotation.z;
     }
 
     public GameItem(Mesh mesh) {
@@ -53,26 +73,41 @@ public class GameItem {
         return selected;
     }
 
-    public final void setPosition(float x, float y, float z) {
-        this.position.x = x;
-        this.position.y = y;
-        this.position.z = z;
-    }
+	public void setPosition(float dx, float dy, float dz) {
+		this.position.x = dx;
+		this.position.y = dy;
+		this.position.z = dz;
+	}
+	public void increasePosition(float dx, float dy, float dz) {
+		this.position.x += dx;
+		this.position.y += dy;
+		this.position.z += dz;
+	}
+
+	public void increasePosition(Vector3f dr) {
+		this.position.x += dr.x;
+		this.position.y += dr.y;
+		this.position.z += dr.z;
+	}
+
+	public void increasePosition(float dx, float dy, float dz, double time) {
+		this.position.x += (dx * time);
+		this.position.y += (dy * time);
+		this.position.z += (dz * time);
+	}
+
+	public void increasePosition(Vector3f dr, double time) {
+		this.position.x += (dr.x * time);
+		this.position.y += (dr.y * time);
+		this.position.z += (dr.z * time);
+	}
 
     public float getScale() {
         return scale;
     }
 
-    public final void setScale(float scale) {
+    public void setScale(float scale) {
         this.scale = scale;
-    }
-
-    public Quaternionf getRotation() {
-        return rotation;
-    }
-
-    public final void setRotation(Quaternionf q) {
-        this.rotation.set(q);
     }
 
     public Mesh getMesh() {

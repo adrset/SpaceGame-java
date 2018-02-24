@@ -1,13 +1,8 @@
 package renderEngine;
 
 import org.joml.Matrix4f;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
 
 import entities.Camera3D;
-import models.RawModel;
 import skybox.SkyboxShader;
 
 /**
@@ -66,14 +61,12 @@ private static final float SIZE = 10000000f;
 	     SIZE, -SIZE,  SIZE
 	};
 	
-	
-	private RawModel model;
 	private int texID;
 	private SkyboxShader shader;
 	
-	public SkyboxRenderer(Loader loader, Matrix4f projMatrix, String[] textures){
-		model = loader.loadToVAO(VERTICES, 3);
-		texID = loader.loadCubeMap(textures);
+	public SkyboxRenderer(Matrix4f projMatrix, String[] textures){
+		//model = loader.loadToVAO(VERTICES, 3);
+		//texID = loader.loadCubeMap(textures);
 		shader = new SkyboxShader();
 		shader.start();
 		shader.loadProjectionMatrix(projMatrix);
@@ -81,7 +74,7 @@ private static final float SIZE = 10000000f;
 	}
 	
 	public void render(Camera3D camera){
-		shader.start();
+		/*shader.start();
 		shader.loadViewMatrix(camera);
 		GL30.glBindVertexArray(model.getVaoID());
 		GL20.glEnableVertexAttribArray(0);
@@ -90,7 +83,7 @@ private static final float SIZE = 10000000f;
 		GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, model.getVertexCount());
 		GL20.glDisableVertexAttribArray(0);
 		GL30.glBindVertexArray(0);
-		shader.stop();
+		shader.stop();*/
 		
 	}
 	

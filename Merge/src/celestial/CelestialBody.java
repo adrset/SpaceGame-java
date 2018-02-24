@@ -3,7 +3,7 @@ package celestial;
 import org.joml.Vector3f;
 
 import entities.Entity;
-import models.TexturedModel;
+import models.Mesh;
 
 /**
  * Celestial body class. Every celestial body has a mass and is intended to be affected by gravity.
@@ -42,10 +42,10 @@ public class CelestialBody extends Entity {
 		this.radius = r;
 	}
 	
-	public CelestialBody(TexturedModel model, Vector3f position, float rotationX, float rotationY, float rotationZ,Vector3f velocity,
+	public CelestialBody(Mesh[] meshes, Vector3f position, float rotationX, float rotationY, float rotationZ,Vector3f velocity,
 			float radius, float density, boolean isSun, float health) {
 		
-		super(model, position, rotationX, rotationY, rotationZ, (float) (radius/model.getRawModel().getDistance()), velocity);//xD
+		super(meshes, position, rotationX, rotationY, rotationZ, 1f, velocity);
 		this.health = health;
 		this.radius = radius;
 		mass = (float) (density *4/3 * Math.PI * Math.pow(radius,3));

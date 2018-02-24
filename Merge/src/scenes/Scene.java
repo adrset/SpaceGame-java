@@ -2,26 +2,19 @@ package scenes;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
 import celestial.DataObject;
-import celestial.Light;
 import entities.Camera3D;
 import entities.Entity;
 import game.Game;
 import input.Keyboard;
 import models.GameItem;
-import models.Mesh;
+import models.MeshCache;
 import models.MeshLoader;
-import models.TexturedModel;
-import particles.ParticleMaster;
-import particles.ParticleSystem;
-import particles.ParticleTexture;
-import renderEngine.ResourceCache;
-import textures.ModelTexture;
+import models.TextureCache;
 import utils.Timer;
 
 /**
@@ -45,7 +38,6 @@ public class Scene {
 
 	private float timeElapsed = 0f;
 	private float timeChanged = 0f;
-	ParticleSystem system;
 
 	private int numCollisions = 0;
 	// Finish booleans
@@ -68,18 +60,20 @@ public class Scene {
 		// Camera stuff
 		camera = new Camera3D(dataObject.getPlayer());
 
-		ParticleTexture tex = new ParticleTexture(ResourceCache.loadTexture("smoky", Game.loader), 4);
-		system = new ParticleSystem(tex, 300, 20, 1f, 4, 4); // max 10000 instances!!
 		//Random generator = new Random();
-		TexturedModel model = new TexturedModel(ResourceCache.loadOBJ("untitled", Game.loader),
-				new ModelTexture(ResourceCache.loadTexture("2", Game.loader)));
 
 		List<Entity> allEntities = new ArrayList<Entity>();
 
+		MeshCache meshCache = MeshCache.getInstance();
 		for (int i = 0; i < 100; i++) {
-		
-					allEntities.add(new Entity(model,
-							new Vector3f((float) i * 0.5f), 0, 0, 0, 1f, null));
+			
+					try {
+						allEntities.add(new Entity(meshCache.load("untitled"),
+								new Vector3f((float) i * 0.5f), 0, 0, 0, 1f, null));
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 		
 
 		}
@@ -92,7 +86,7 @@ public class Scene {
 		dataObject.setGameItems(new ArrayList<GameItem>());
 		
 		try {
-			dataObject.getGameItems().add(new GameItem(MeshLoader.load("maya")));
+			dataObject.getGameItems().add(new GameItem(meshCache.load("maya")));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -115,11 +109,6 @@ public class Scene {
 		dataObject.getPlayer().move();
 
 		camera.move();
-
-		if (Keyboard.isKeyDown(GLFW.GLFW_KEY_1))
-			system.generateParticles(dataObject.getPlayer().getPosition());
-
-		ParticleMaster.update(camera);
 
 		for (int i = 0; i < dataObject.getEntities().size(); i++) {
 			if (dataObject.getEntities().get(i).checkCollision(dataObject.getPlayer())) {
@@ -162,7 +151,6 @@ public class Scene {
 
 		Game.renderer.render(dataObject, camera);
 
-		ParticleMaster.render(camera);
 	}
 
 	private void checkEnd() {
